@@ -1,0 +1,49 @@
+{
+  "name": "todolistcreator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "webpack": "webpack",
+    "start": "react-scripts start",
+    "build": "webpack --config webpack.config.js",
+    "watch": "webpack serve --open"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.19.1",
+    "@babel/preset-env": "^7.19.1",
+    "@babel/preset-react": "^7.14.5",
+    "@ocdla/salesforce": "~0.3.0",
+    "@ocdla/view": "~2.3.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.1",
+    "dotenv": "^16.4.5",
+    "html-webpack-plugin": "^5.5.0",
+    "jsdoc": "^4.0.2",
+    "json-server": "^0.17.4",
+    "mini-css-extract-plugin": "^2.6.1",
+    "purgecss-webpack-plugin": "^5.0.0",
+    "sass": "^1.54.9",
+    "sass-loader": "^13.0.2",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.74.0",
+    "webpack-bundle-analyzer": "^4.6.1",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1",
+    "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "@ocdla/salesforce": "~0.3.0",
+    "@ocdla/view": "~2.3.3",
+    "axios": "^1.6.8",
+    "babel-loader": "^8.2.5",
+    "bootstrap": "^5.2.1",
+    "bootstrap-less": "^3.3.8",
+    "chart.js": "^3.9.1",
+    "less": "^4.1.1",
+    "regenerator-runtime": "^0.13.9",
+    "toastr": "^2.1.4"
+  }
+}
