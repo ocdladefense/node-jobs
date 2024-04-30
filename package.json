@@ -37,6 +37,7 @@
   "dependencies": {
     "@ocdla/salesforce": "~0.4.0",
     "@ocdla/view": "~2.3.3",
+    "@ocdla/employment": "file:./dev_modules/@ocdla/employment",
     "axios": "^1.6.8",
     "babel-loader": "^8.2.5",
     "bootstrap": "^5.2.1",

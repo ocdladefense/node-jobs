@@ -2,27 +2,6 @@
 
 import {vNode, View} from "@ocdla/view";
 
-
-class Job {
-    constructor(jobTitle, salary, datePosted, fileUrl="", employer) {
-        this.jobTitle = jobTitle;
-        this.salary = salary;
-        this.datePosted = datePosted;
-        this.fileUrl = fileUrl;
-        this.employer = employer;
-    }
-
-    static newFromJSON(data) {
-        return new Job(
-            data.jobTitle,
-            data.salary,
-            data.datePosted,
-            data.fileUrl,
-            data.employer
-        );
-    }
-}
-
 //we need three jobs to work with, prolly gon store in array
 
 let fileUrl = "https://mydomain.com/catpic";
