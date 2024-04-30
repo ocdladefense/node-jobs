@@ -76,6 +76,12 @@ module.exports = {
         inject: "body",
         filename: "index.html",
       }),
+      new htmlWebpackPlugin({
+        template: path.resolve(__dirname, "./src/job-posting.html"),
+        chunks: ["index"],
+        inject: "body",
+        filename: "job-posting.html",
+      }),
       // new copyPlugin({
       //   patterns: [
       //     {
