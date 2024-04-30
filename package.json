@@ -14,7 +14,7 @@
     "@babel/core": "^7.19.1",
     "@babel/preset-env": "^7.19.1",
     "@babel/preset-react": "^7.14.5",
-    "@ocdla/salesforce": "~0.3.0",
+    "@ocdla/salesforce": "~0.4.0",
     "@ocdla/view": "~2.3.3",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
@@ -35,8 +35,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@ocdla/salesforce": "~0.3.0",
-    "@ocdla/salesforcerestapi": "^0.2.0",
+    "@ocdla/salesforce": "~0.4.0",
     "@ocdla/view": "~2.3.3",
     "axios": "^1.6.8",
     "babel-loader": "^8.2.5",
