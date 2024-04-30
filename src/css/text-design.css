@@ -1,18 +1,22 @@
-/*
-For mobile phones:
-*/
+a {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.alert {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
 @media only screen and (max-width: 600px) {
     body {
         font-size: 18px;
     }
     #button {
-        font-size:xx-large;
+        font-size: xx-large;
     }
 }
-
-/*
-For desktop:
-*/
 
 @media only screen and (min-width: 601px) {
     body {
@@ -25,6 +29,5 @@ h1 {
 }
 
 #jobposting {
-    text-align:center;
+    text-align: center;
 }
-
