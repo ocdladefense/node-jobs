@@ -1,6 +1,6 @@
 /** @jsx vNode */
 
-import {vNode, View} from "../../node_modules/@ocdla/view/view.js";
+import {vNode, View} from "@ocdla/view";
 
 
 class Job {
@@ -100,3 +100,5 @@ window.onload = () => {
     console.log(theJob);
     view.render(<JobPostingForm job={theJob}/>);
 }
+
+export {JobPostingForm};
