@@ -1,0 +1,33 @@
+a {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.alert {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        font-size: 18px;
+    }
+    #button {
+        font-size: xx-large;
+    }
+}
+
+@media only screen and (min-width: 601px) {
+    body {
+        font-size: 22px;
+    }
+}
+
+h1 {
+    text-align: center;
+}
+
+#jobposting {
+    text-align: center;
+}
