@@ -9,7 +9,7 @@ class Controller {
         //this.createapi();
         //this.deleteapi("a01bm000007JfZiAAK");
         //this.updateApi();
-        this.getapi();
+        //this.getapi();
     }
     async getapi() {
         let request = await this.api.query("SELECT name, id,datePosted__c,employer__c,fileURL__c, salary__c  from jobs__c");
