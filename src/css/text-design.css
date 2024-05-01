@@ -12,15 +12,17 @@ a {
 @media only screen and (max-width: 600px) {
     body {
         font-size: 18px;
+        margin:0;
+        padding: 20px;
     }
-    #button {
-        font-size: xx-large;
-    }
+    
 }
 
 @media only screen and (min-width: 601px) {
     body {
         font-size: 22px;
+        margin:0;
+        padding: 20px;
     }
 }
 
@@ -31,3 +33,4 @@ h1 {
 #jobposting {
     text-align: center;
 }
+
