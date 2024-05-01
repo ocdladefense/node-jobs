@@ -174,3 +174,10 @@ Note:
 * He will add us to the OCDLA intern slack channel 
 
 
+### Charlese
+* finish the other components
+* work with Kelsie to determine best css class names for basic styling 
+* work with the static data first
+* make sure there is at least 3 mock data jobs, hardcode them wherever appropriate
+* get programs installed on my own machine 
+* Link is: https://developer.salesforce.com/tools/vscode/en/vscode-desktop/java-setup
