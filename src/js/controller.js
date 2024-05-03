@@ -6,26 +6,20 @@ import { vNode, View } from "@ocdla/view";
 
 
 class Controller {
+    records;
 
     constructor(selector) {
 
         this.api = new API(INSTANCE_URL, ACCESS_TOKEN);
         this.selector = selector;
-        //this.view = View.createRoot(this.selector);
+        this.view = View.createRoot(this.selector);
         //this.view.render(<JobPostingForm job={theJob[i]} />)
-        this.view.render(<JobPostinglist jobs={theJobs} />)
+        //this.view.render(<JobPostinglist jobs={theJobs} />)
+        this.getJobs();
     }
 
 
-    async render(elem) {
-        let theJob = await this.getJobs();
-        console.log(theJob);
-        for (let i = 0; i < theJob.length; i++) {
-            let html = View.createElement(<JobPostingForm job={theJob[i]} />);
-            document.getElementById(elem).appendChild(html);
-        }
-        this.addEventHandlers(elem)
-    }
+    
 
 
     getUserInput(id) {
@@ -66,7 +60,7 @@ class Controller {
 
 
         if (action == "save") {
-            if (job.Id != null) {
+            if (!!job.Id) {
                 this.updateJob(job);
             }
             else {
@@ -75,13 +69,15 @@ class Controller {
         }
 
         if(action == "edit"){
-            this.view.update(<JobPostingForm job={theJob[i]} />)
+            let id = target.dataset.id;
+            let selectedJob = "search through recrods for the job";
+            this.view.update(<JobPostingForm job={selectedJob} />)
         }
 
         if (action == "delete") {
             this.deleteJob(job.Id);
             
-            this.view.update(<JobPostingList jobs={theJobs} message="your posing was succesfully " />);
+            this.view.update(<JobPostingList jobs={theJobs} message="your posing was succesfully deleted" />);
         }
 
         if(action == "cancel"){
@@ -89,12 +85,15 @@ class Controller {
         }
 
     }
-
+    
     async getJobs() {
         let request = await this.api.query("SELECT name, id,datePosted__c,employer__c,fileURL__c, salary__c  from jobs__c");
-        let records = request.records;
-        return records;
+        this.records = request.records;
 
+    }
+
+    render(){
+        //this.view.render(<JobPostingList jobs={this.records} />);
     }
 
 
@@ -106,9 +105,8 @@ class Controller {
 
     async updateJob(job) {
         let temp = await this.api.update("jobs__c", job);
-        console.log(temp)
         if (temp == true) {
-            window.alert("it worked!!!!")
+            this.view.update(<JobPostingList jobs={theJobs} message="your posing was succesfully updated" />);
         }
         //this.getapi();
     }
