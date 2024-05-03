@@ -11,6 +11,7 @@ import JobList from "../components/JobList.js";
 
 let controller = new Controller();
 
+/*
 let j1 = Job.newFromJSON({
     jobTitle: "Legal Maverick",
     salary: "$80,000",
@@ -52,9 +53,51 @@ let mockJobs = [];
 mockJobs.push(j1);
 mockJobs.push(j2);
 mockJobs.push(j3);
+*/
+
+let j1 = Job.newFromJSON({
+    ownerId: 0,
+    id: 0,
+    jobTitle: "Legal Maverick",
+    salary: "$80,000",
+    datePosted: "4/20/2024",
+    dateClosing: "5/29/2024",
+    fileUrl: "https://my-domain.com/document1",
+    employer: "Veritas Law Group",
+    location: "Rivertown Junction",
+    openUntilFilled: false
+})
+
+let j2 = Job.newFromJSON({
+    ownerId: 1,
+    id: 1,
+    jobTitle: "Trial Whisperer",
+    salary: "$110,000",
+    datePosted: "4/28/2024",
+    dateClosing: "5/10/2024",
+    fileUrl: "https:/this-domain.org/documents/requirements",
+    employer: "JusticeShield Attorneys",
+    location: "Cedarwood Heights",
+    openUntilFilled: true
+})
+
+let j3 = Job.newFromJSON({
+    ownerId: 2,
+    id: 2,
+    jobTitle: "Justice Architect",
+    salary: "$96,000",
+    datePosted: "4/17/2024",
+    dateClosing: "6/1/2024",
+    fileUrl: "https://a-domain.law/justice-architect",
+    employer: "Liberty Legal Associates",
+    location: "Haborview Bay",
+    openUntilFilled: false
+})
+
+let mockJobs = [j1, j2, j3];
 
 window.onload = () => {
     const view = View.createRoot("#job-list");
     //view.render(<JobPostingForm job={mockJobs[2]}/>);
-    view.render(<JobList jobs={mockJobs} />);
+    view.render(<JobList jobs={mockJobs} ownerId={USER_ID} />);
 }
