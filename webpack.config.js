@@ -22,6 +22,7 @@ module.exports = {
     mode: !isProduction ? 'development': 'production',
     entry: {
       index: './src/js/index.js',
+      form: './src/js/form.js',
     },
     output: {
       path: path.resolve(__dirname, "dist"),
@@ -78,7 +79,7 @@ module.exports = {
       }),
       new htmlWebpackPlugin({
         template: path.resolve(__dirname, "./src/job-posting.html"),
-        chunks: ["index"],
+        chunks: ["form"],
         inject: "body",
         filename: "job-posting.html",
       }),

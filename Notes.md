@@ -132,7 +132,6 @@ let jobPostingCard = (props) {
 * basic list maybe?
 * hide "create a job posting" if user is not able to follow the link 
 * make links more noticeable when needed
-* Job posting component
 
 ### Job Posting Form - Charlese
 * add an explicit "cancel" button (redirect to the job postings page)
