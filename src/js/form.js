@@ -5,8 +5,6 @@ import Controller from "./controller.js";
 import JobPostingForm from "../components/JobPostingForm.js";
 import "../css/text-design.css";
 import Job from "../../dev_modules/@ocdla/employment/Job.js";
-import JobList from "../components/JobList.js";
-
 
 
 let controller = new Controller();
@@ -54,7 +52,6 @@ mockJobs.push(j2);
 mockJobs.push(j3);
 
 window.onload = () => {
-    const view = View.createRoot("#job-list");
-    //view.render(<JobPostingForm job={mockJobs[2]}/>);
-    view.render(<JobList jobs={mockJobs} />);
+    const view = View.createRoot("#job-form");
+    view.render(<JobPostingForm job={mockJobs[2]}/>);
 }
