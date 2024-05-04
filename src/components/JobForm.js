@@ -8,20 +8,18 @@ let fileUrl = "https://mydomain.com/catpic";
 
 
 const FileUpload = function(props) {
-    let file;
-    if (props != null) {
-        file = props.file;
-    }
+    let multipleFilesEnabled = false;
+    let fileUrl = props.url;
 
     return (
         <div class="form-group">
-            <label for="fileUpload">Upload Files:</label><br />
-                
-            <input type="file" class="form-control-file" id="fileUpload" />
+          <label for="fileUpload" class="form-label">Upload Files</label>
+          <div class="input-group">
+            <input type="file" class="form-control-file" id="fileUpload" value={fileUrl}/>
             <input type="button" value="Remove File" />
-            <input type="button" value="Add File" /><br />
-
-        </div>
+            {multipleFilesEnabled ? (<input type="button" value="Add File" />) : ("")}
+          </div>
+        </div>    
     );
 };
 
@@ -29,45 +27,62 @@ const FileUpload = function(props) {
 
 const JobForm = function(props) {
     let job = props.job;
-    let update = !!job.id;
 
-    
     return (
       <form>
-        <label for="title">Job Title:</label>
-        <input id="title" placeholder="Enter Job Title" value={job.title} />
+        <div class="mb-3">
+          <label for="title" class="form-label">Job Title</label>
+          <input id="title"  class="form-control"
+            placeholder="Enter Job Title" 
+            value={job.jobTitle} />
+        </div>
 
-        <label for="employer">Employer:</label>
-        <input
-          id="title"
-          placeholder="Enter the employer"
-          value={job.employer}
-        />
+        <div class="mb-3">
+          <label for="employer" class="form-label">Employer</label>
+          <input id="employer"  class="form-control"
+            placeholder="Enter the employer"
+            value={job.employer} />
+        </div>
 
-        <label for="salary">Salary:</label>
-        <input id="salary" placeholder="Enter the Salary" value={job.salary} />
+        <div class="mb-3">
+          <label for="salary" class="form-label">Salary</label>
+          <input id="salary"  class="form-control"
+            placeholder="Enter the Salary" 
+            value={job.salary} />
+        </div>
 
-        <label>Location:</label>
-        <input id="location" placeholder="Enter the Location" />
+        <div class="mb-3">
+          <label for="location" class="form-label">Location</label>
+          <input id="location"  class="form-control"
+            placeholder="Enter the Location"
+            value={job.location} />
+        </div>
 
-        <label for="datePosted">Date Posted:</label>
-        <input
-          id="datePosted"
+        <div class="mb-3">
+        <label for="date-posted" class="form-label">Date Posted</label>
+        <input id="date-posted"  class="form-control" type="date"
           placeholder={job.datePosted}
-          value={job.employer}
-        />
+          value={job.datePosted} />
+        </div>
 
-        <label for="dateClosing">Date Closing:</label>
-        <input
-          id="dateClosing"
-          placeholder={job.dateClosing}
-          value={job.employer}
-        />
+        <div class="mb-3">
+          <label for="date-closing" class="form-label">Date Closing</label>
+          <input id="date-closing"  class="form-control" type="date"
+            placeholder={job.dateClosing}
+            value={job.dateClosing}/>
+        </div>
 
-        <FileUpload url={fileUrl} />
+        <FileUpload url={job.fileUrl} />
 
-        <label>Open until filled?</label>
-        <input id="openUntilFilled" type="checkbox" checked />
+        <div class="mb-3 ">
+          <label for="open-until-filled" class="form-label">Open until filled?</label>
+          {job.openUntilFilled ? (
+            <input id="open-until-filled"  class="form-input" type="checkbox" checked/>
+          ) : (
+            <input id="open-until-filled"  class="form-input" type="checkbox" />
+          )}
+        </div>
+
 
         <input type="submit" data-action="save" value="Save" />
         <input type="submit" data-action="delete" value="Delete" />
