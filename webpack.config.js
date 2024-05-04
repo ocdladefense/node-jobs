@@ -21,7 +21,10 @@ const fileNamePrefix = isProduction? '[chunkhash].' : '';
 module.exports = {
     mode: !isProduction ? 'development': 'production',
     entry: {
-      index: './src/js/index.js',
+      index: './src/js/index.js'
+    },
+    resolve: {
+      symlinks: false,
     },
     output: {
       path: path.resolve(__dirname, "dist"),
@@ -76,26 +79,13 @@ module.exports = {
         inject: "body",
         filename: "index.html",
       }),
-      new htmlWebpackPlugin({
-        template: path.resolve(__dirname, "./src/job-posting.html"),
-        chunks: ["index"],
-        inject: "body",
-        filename: "job-posting.html",
-      }),
-      // new copyPlugin({
-      //   patterns: [
-      //     {
-      //       from: path.resolve(__dirname, "src/assets/images"),
-      //       to: path.resolve(__dirname, "dist/assets/images"),
-      //     },
-      //   ],
-      // }),
 
       /* app uses global SERVER_URL rather than process.env.SERVER_URL */
       new webpack.DefinePlugin({
         ACCESS_TOKEN: JSON.stringify(process.env.ACCESS_TOKEN),
         INSTANCE_URL: JSON.stringify(process.env.INSTANCE_URL),
         USER_ID: JSON.stringify(process.env.USER_ID),
+        USE_MOCK_RECORDS: JSON.stringify(process.env.USE_MOCK_RECORDS),
       }),
     ],
     /* separates js (and css) that is shared between bundles - allows browser to cache */
