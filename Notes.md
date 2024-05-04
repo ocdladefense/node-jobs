@@ -116,6 +116,8 @@ let jobPostingCard = (props) {
 
 ### Data - Alex
 * add new fields (description, employee) to the object manager in salesforce
+    * connect the form to controller
+    * allow users to CRUD data to API
 * introduce those fields to the sql query (description, employee, days since posted)
 * be able to upload files to the node server 
 * normalize the data using the Job class

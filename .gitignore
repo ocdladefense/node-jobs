@@ -1,6 +1,13 @@
 
 # Created by https://www.gitignore.io/api/node,macos
 
+# Salesforce cache
+.sfdx/
+.sf
+.localdevserver/
+
+
+
 ### macOS ###
 *.DS_Store
 .AppleDouble

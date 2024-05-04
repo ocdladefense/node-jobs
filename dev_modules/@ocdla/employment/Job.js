@@ -15,7 +15,9 @@ class Job {
      * @param {string} location - The location of the position.
      * @param {bool} openUntilFilled - A boolean representing if the job should close when filled or not.
      */
-    constructor(jobTitle, salary, datePosted, dateClosing="", fileUrl="", employer, location, openUntilFilled) {
+    constructor(id="", ownerId="", jobTitle="", salary="", datePosted="", dateClosing="", fileUrl="", employer="", location="", openUntilFilled="") {
+        this.id = id;
+        this.ownerId = ownerId,
         this.jobTitle = jobTitle;
         this.salary = salary;
         this.datePosted = datePosted;
@@ -33,6 +35,8 @@ class Job {
      */
     static newFromJSON(data) {
         return new Job(
+            data.id,
+            data.ownerId,
             data.jobTitle,
             data.salary,
             data.datePosted,
@@ -42,6 +46,10 @@ class Job {
             data.location,
             data.openUntilFilled
         );
+    }
+
+    isOwner(id) {
+        return true;
     }
 }
 
