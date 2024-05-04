@@ -15,7 +15,9 @@ const FileUpload = function(props) {
         <div class="form-group">
           <label for="fileUpload" class="form-label">Upload Files</label>
           <div class="input-group">
-            <input type="file" class="form-control-file" id="fileUpload" value={fileUrl}/>
+            {fileUrl != "" ? (
+              <span>{fileUrl}</span>
+            ) : (<input type="file" class="form-control-file" id="fileUpload" value={fileUrl}/>)}
             <input type="button" value="Remove File" />
             {multipleFilesEnabled ? (<input type="button" value="Add File" />) : ("")}
           </div>
