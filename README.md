@@ -1,18 +1,185 @@
-# Salesforce DX Project: Next Steps
+# How To Do This
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+### Setup (done)
+* create a git repository 
+* create a project in that repository
+* add webpack and npm to the project 
+* add the @ocdla library to the project. We need:
+    * /view
+    * /salesforce
 
-## How Do You Plan to Deploy Your Changes?
+```javascript 
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+class Job {
+    constructor(jobTitle, salary, datePosted, fileUrl="", employer) {
+        this.jobTitle = jobTitle;
+        this.salary = salary;
+        this.datePosted = datePosted;
+        this.fileUrl = fileUrl;
+        this.employer = employer;
+    }
 
-## Configure Your Salesforce DX Project
+    static newFromJSON(data) {
+        return new Job(
+            jobTitle: data.jobTitle,
+            salary: data.salary,
+            datePosted: data.datePosted,
+            fileUrl: data.fileUrl,
+            employer: data.employer
+        );
+    }
+}
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+//we need three jobs to work with, prolly gon store in array
 
-## Read All About It
+let theData = {
+    jobTitle: "Attorney",
+    salary: "$1,000,000,000",
+    datePosted: "4/3/2024",
+    fileUrl: "https://mydomain.com/catpic",
+    employer: "ACME Lawyers Inc."
+}
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+let job = new Job();
+let theJob = Job.newFromJSON(theData);
+
+
+<jobPostingForm job={theData}/>
+
+let jobPostingForm = (props) => {
+    let job = props.job;
+    let update = job.Id != null;
+    return 
+    <form>
+        <label for="jobTitle">Job Title</label>
+        <input id="jobTitle" value={job.jobTitle}>
+        <label for="salary">Salary</label>
+        <input id="salary">
+        <label for="datePosted">Date Posted</label>
+        <input id="datePosted">
+        <label for="employer">Employer</label>
+        <input id="employer">
+    </form>
+}
+```
+
+
+
+```javascript 
+
+let fileUrl = "https://mydomain.com/catpic";
+
+let fileUpload = (props) => {
+    let file = props.file;
+    let enableMultipleFiles = false;
+
+    return 
+    <div class="form-group">
+        <label for="fileUploadController">Example file input</label>
+            
+        <input type="file" class="form-control-file" id="fileUploadController">
+        if (enableMultipleFiles == true) 
+            <input type="btn" class="" name="removeFile"/> 
+        <input type="btn" class="" name="addFile"/>
+    </div>
+}
+
+```
+
+
+
+```javascript
+let theData = {
+    jobTitle: "Attorney",
+    salary: "$1,000,000,000",
+    datePosted: "4/3/2024",
+    fileUrl: "https://mydomain.com/catpic",
+    employer: "ACME Lawyers Inc."
+}
+
+<jobPostingCard job={theData}/>
+
+let jobPostingCard = (props) {
+    let job = props.job;
+    return 
+<div class="card">
+    <div>{job.jobTitle}</div>
+    <div>{job.salary}</div>
+</div>
+}
+
+```
+### View/Components
+* Job Posting Form - Charlese
+* File Upload - Charlese
+* Job Posting Card - Kelsie
+
+### Data - Alex
+* add new fields (description, employee) to the object manager in salesforce
+    * connect the form to controller
+    * allow users to CRUD data to API
+* introduce those fields to the sql query (description, employee, days since posted)
+* be able to upload files to the node server 
+* normalize the data using the Job class
+
+### File Upload - Charlese
+* add remove file option
+* make sure field is nullable if the user doesn't want to upload any documents
+* resolve issue where file upload input field dissapears when "cancel" is clicked
+
+### UI Design - Kelsie
+* Note: Gotta be responsive
+* make information more noticeable 
+* but keep the text size on the mobile views (bootstrap)
+* basic list maybe?
+* hide "create a job posting" if user is not able to follow the link 
+* make links more noticeable when needed
+
+### Job Posting Form - Charlese
+* add an explicit "cancel" button (redirect to the job postings page)
+
+
+### Aspirations for Tuesday 
+
+#### Alex
+Ideally:
+* get objects made and have them introduced to an sql query
+
+Promise to:
+* have the objects done
+
+#### Kelsie
+Ideally:
+* have job posting cards done
+* make information more noticeable
+* make links more noticeable when needed
+
+Promise to:
+* keep the text size on mobile views using bootstrap or some other design
+* make information more noticeable
+
+### Charlese
+Ideally:
+* Implement my JSX (with "cancel" button on the form)
+* File upload stuff 
+
+Promise:
+* Implement my JSX stuff
+
+
+Note:
+* We each will create feature branches
+* Naming convention ex: `my-good-feature`
+* Tuesday we will look at merging
+* Give your branch a name that reflects what you are gonna do, Ex: `fetch-job-data`
+* He will be giving us all access to the new repository
+* He will add us to the OCDLA intern slack channel 
+
+
+### Charlese
+* finish the other components
+* work with Kelsie to determine best css class names for basic styling 
+* work with the static data first
+* make sure there is at least 3 mock data jobs, hardcode them wherever appropriate
+* get programs installed on my own machine 
+* Link is: https://developer.salesforce.com/tools/vscode/en/vscode-desktop/java-setup

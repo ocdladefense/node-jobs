@@ -9,6 +9,10 @@ a {
     border-color: #f5c6cb;
 }
 
+label {
+    display:block;
+}
+
 @media only screen and (max-width: 600px) {
     body {
         font-size: 18px;

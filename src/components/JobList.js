@@ -1,7 +1,7 @@
 /** @jsx vNode */
 
 import {vNode, View} from "@ocdla/view";
-import JobCard from './JobPostingCard.js';
+import JobCard from './JobCard.js';
 
 const JobList = function(props) {
     let jobs = props.jobs;
