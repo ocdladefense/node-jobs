@@ -143,23 +143,28 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <enableActivities>false</enableActivities>
-    <enableBulkApi>true</enableBulkApi>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>false</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableLicensing>false</enableLicensing>
-    <enableReports>false</enableReports>
-    <enableSearch>false</enableSearch>
-    <enableSharing>true</enableSharing>
-    <enableStreamingApi>true</enableStreamingApi>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>false</enableSharing>
+    <enableStreamingApi>false</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>jobs</label>
+    <label>Job</label>
     <nameField>
-        <label>jobs Name</label>
+        <label>Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>jobs</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <pluralLabel>Jobs</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>IsActive__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>PostingDate__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Location__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Salary__c</customTabListAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

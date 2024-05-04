@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsActive__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates that the record is active and should be displayed on relevant pages.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Check to indicate the record is active and should be displayed on relevant pages.</inlineHelpText>
+    <label>Is Active</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

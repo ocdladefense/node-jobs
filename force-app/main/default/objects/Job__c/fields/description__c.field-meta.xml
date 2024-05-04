@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>fileURL__c</fullName>
+    <fullName>description__c</fullName>
     <externalId>false</externalId>
-    <label>fileURL</label>
+    <label>description</label>
+    <length>80</length>
     <required>false</required>
     <trackTrending>false</trackTrending>
-    <type>Url</type>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>

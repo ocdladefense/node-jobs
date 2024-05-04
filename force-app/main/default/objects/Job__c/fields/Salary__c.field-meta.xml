@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Location__c</fullName>
+    <fullName>Salary__c</fullName>
+    <description>The salary an applicant is to be paid.</description>
     <externalId>false</externalId>
-    <label>Location</label>
+    <inlineHelpText>Indicate the salary an applicant can expect to be paid.</inlineHelpText>
+    <label>Salary</label>
     <length>80</length>
     <required>false</required>
     <trackTrending>false</trackTrending>

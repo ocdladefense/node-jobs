@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OpenUntilFilled__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates that applications will be accepted until the position has been filled.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Check to indicate that applications will be accepted until the position has been filled.</inlineHelpText>
+    <label>Open Until Filled</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

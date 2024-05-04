@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AttachmentUrl__c</fullName>
+    <description>The alternate URL where the attachment can be downloaded.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Enter an alternate URL where the attachment can be downloaded.</inlineHelpText>
+    <label>Attachment URL</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Url</type>
+</CustomField>
