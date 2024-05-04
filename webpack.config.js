@@ -86,6 +86,7 @@ module.exports = {
         INSTANCE_URL: JSON.stringify(process.env.INSTANCE_URL),
         USER_ID: JSON.stringify(process.env.USER_ID),
         USE_MOCK_RECORDS: JSON.stringify(process.env.USE_MOCK_RECORDS),
+        QUERY: JSON.stringify(process.env.QUERY),
       }),
     ],
     /* separates js (and css) that is shared between bundles - allows browser to cache */

@@ -147,9 +147,7 @@ export default class Controller {
     if (this.useMock) {
       this.records = await this.getMockData();
     } else {
-      let request = await this.api.query(
-        "SELECT Name, Id, DatePosted__c, Employer__c, FileURL__c, Salary__c  FROM Jobs__c"
-      );
+      let request = await this.api.query(QUERY);
       this.records = request.records;
     }
   }
