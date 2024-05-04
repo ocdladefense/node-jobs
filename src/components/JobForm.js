@@ -51,7 +51,11 @@ const JobForm = function(props) {
         <input id="location" placeholder="Enter the Location" />
 
         <label for="datePosted">Date Posted:</label>
-        <input id="datePosted" placeholder={job.datePosted} value={job.employer} />
+        <input
+          id="datePosted"
+          placeholder={job.datePosted}
+          value={job.employer}
+        />
 
         <label for="dateClosing">Date Closing:</label>
         <input
@@ -65,9 +69,9 @@ const JobForm = function(props) {
         <label>Open until filled?</label>
         <input id="openUntilFilled" type="checkbox" checked />
 
-        <input type="submit" value="Save" />
-        <input type="submit" value="Delete" />
-        <input type="button" value="Cancel" />
+        <input type="submit" data-action="save" value="Save" />
+        <input type="submit" data-action="delete" value="Delete" />
+        <input type="button" data-action="cancel" value="Cancel" />
       </form>
     );
 };

@@ -129,7 +129,7 @@ export default class Controller {
 
       this.view.update(
         <JobList
-          jobs={theJobs}
+          jobs={this.records}
           message="your posing was succesfully deleted"
           ownerId={USER_ID}
         />
@@ -137,7 +137,7 @@ export default class Controller {
     }
 
     if (action == "cancel") {
-      this.view.update(<JobList jobs={theJobs} ownerId={USER_ID} />);
+      this.view.update(<JobList jobs={this.records} ownerId={USER_ID} />);
     }
   }
 
@@ -172,7 +172,7 @@ export default class Controller {
     if (temp == true) {
       this.view.update(
         <JobList
-          jobs={theJobs}
+          jobs={this.records}
           message="your posting was succesfully updated"
           ownerId={USER_ID}
         />
