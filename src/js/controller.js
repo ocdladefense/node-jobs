@@ -142,16 +142,39 @@ export default class Controller {
   }
 
 
-
+  
   async getJobs() {
     if (this.useMock) {
       this.records = await this.getMockData();
     } else {
       let request = await this.api.query(
-        "SELECT Name, Id, DatePosted__c, Employer__c, FileURL__c, Salary__c  FROM Jobs__c"
+        "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c,ClosingDate__c, AttachmentUrl__c, Employer__c,Location__c,OpenUntilFilled__c FROM Job__c"
       );
-      this.records = request.records;
+      let jobs = [];
+      let i = 0;
+      while(i < request.records.length){
+        let normalizedJob = this.jobsNormalizer(request.records[i]);
+        jobs.push(normalizedJob); 
+      i++;
+      }
+      this.records = jobs;
     }
+  }
+
+  jobsNormalizer(job){
+    let normalizedJob = Job.newFromJSON({
+      ownerId: job.OwnerId,
+      id: job.Id,
+      jobTitle: job.Name,
+      salary: job.Salary__c,
+      datePosted: job.PostingDate__c,
+      dateClosing: job.ClosingDate__c,
+      fileUrl: job.AttachmentUrl__c,
+      employer: job.Employer__c,
+      location: job.Location__c,
+      openUntilFilled: job.OpenUntilFilled__c,
+    });
+    return normalizedJob;
   }
 
 
