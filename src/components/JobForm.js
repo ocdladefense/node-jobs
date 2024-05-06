@@ -26,54 +26,54 @@ const FileUpload = function(props) {
 };
 
 
-
 const JobForm = function(props) {
-    let job = props.job;
-    let update = !!job.id;
+  let job = props.job;
+  let update = !!job.id;
 
-    
-    return (
+  return (
       <form>
-        <label for="title">Job Title:</label>
-        <input id="title" placeholder="Enter Job Title" value={job.title} />
+          <div class="form-group">
+              <label for="title">Job Title:</label>
+              <input id="title" class="form-control" placeholder="Enter Job Title" value={job.title} />
+          </div>
 
-        <label for="employer">Employer:</label>
-        <input
-          id="title"
-          placeholder="Enter the employer"
-          value={job.employer}
-        />
+          <div class="form-group">
+              <label for="employer">Employer:</label>
+              <input id="employer" class="form-control" placeholder="Enter the employer" value={job.employer} />
+          </div>
 
-        <label for="salary">Salary:</label>
-        <input id="salary" placeholder="Enter the Salary" value={job.salary} />
+          <div class="form-group">
+              <label for="salary">Salary:</label>
+              <input id="salary" class="form-control" placeholder="Enter the Salary" value={job.salary} />
+          </div>
 
-        <label>Location:</label>
-        <input id="location" placeholder="Enter the Location" />
+          <div class="form-group">
+              <label for="location">Location:</label>
+              <input id="location" class="form-control" placeholder="Enter the Location" />
+          </div>
 
-        <label for="datePosted">Date Posted:</label>
-        <input
-          id="datePosted"
-          placeholder={job.datePosted}
-          value={job.employer}
-        />
+          <div class="form-group">
+              <label for="datePosted">Date Posted:</label>
+              <input id="datePosted" class="form-control" placeholder={job.datePosted} value={job.employer} />
+          </div>
 
-        <label for="dateClosing">Date Closing:</label>
-        <input
-          id="dateClosing"
-          placeholder={job.dateClosing}
-          value={job.employer}
-        />
+          <div class="form-group">
+              <label for="dateClosing">Date Closing:</label>
+              <input id="dateClosing" class="form-control" placeholder={job.dateClosing} value={job.employer} />
+          </div>
 
-        <FileUpload url={fileUrl} />
+          <FileUpload url={fileUrl} />
 
-        <label>Open until filled?</label>
-        <input id="openUntilFilled" type="checkbox" checked />
+          <div class="form-check">
+              <input id="openUntilFilled" class="form-check-input" type="checkbox" checked />
+              <label class="form-check-label" for="openUntilFilled">Open until filled?</label>
+          </div>
 
-        <input type="submit" data-action="save" value="Save" />
-        <input type="submit" data-action="delete" value="Delete" />
-        <input type="button" data-action="cancel" value="Cancel" />
+          <button type="submit" class="btn btn-primary" data-action="save">Save</button>
+          <button type="submit" class="btn btn-danger" data-action="delete">Delete</button>
+          <button type="button" class="btn btn-secondary" data-action="cancel">Cancel</button>
       </form>
-    );
+  );
 };
 
 export default JobForm;
