@@ -35,7 +35,7 @@ const JobForm = function (props) {
   return (
     <form>
       <label for="title">Job Title:</label>
-      <input id="title" placeholder="Enter Job Title" value={job.title} />
+      <input id="title" placeholder="Enter Job Title" value={job.jobTitle} />
 
       <label for="employer">Employer:</label>
       <input
@@ -48,7 +48,7 @@ const JobForm = function (props) {
       <input id="salary" placeholder="Enter the Salary" value={job.salary} />
 
       <label>Location:</label>
-      <input id="location" placeholder="Enter the Location" />
+      <input id="location" placeholder="Enter the Location" value={job.location}/>
 
       <label for="datePosted">Date Posted:</label>
       <input

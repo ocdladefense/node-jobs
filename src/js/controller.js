@@ -10,7 +10,7 @@ import Job from "../../node_modules/@ocdla/employment/Job.js";
 export default class Controller {
   records;
   useMock = USE_MOCK_RECORDS;
-
+  
   constructor(selector) {
     this.selector = selector;
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
@@ -126,6 +126,10 @@ export default class Controller {
       let selectedJob = this.searchJobs(id)
       this.view.update(<JobForm job={selectedJob} />);
     }
+    if(action == "new"){
+      let j1 = new Job;
+      this.view.update(<JobForm job={j1}/>);
+    }
 
     if (action == "delete") {
       this.deleteJob(job.Id);
@@ -142,6 +146,7 @@ export default class Controller {
     if (action == "cancel") {
       this.view.update(<JobList jobs={this.records} ownerId={USER_ID} />);
     }
+    this.listenTo("click");
   }
 
   searchJobs(Jobid){

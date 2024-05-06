@@ -7,7 +7,7 @@ const JobCard = function(props) {
 
    return (
     <div class="job-card">
-        <div class="card-header">{job.jobTitle}</div>
+        <div class="card-header">{job.Name}</div>
         <div class="card-body text-dark">
             <p class="card-text">
                 <strong>Employer:</strong> {job.employer} <br />
