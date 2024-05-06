@@ -74,9 +74,12 @@ export default class Controller {
 
 
   listenTo(event) {
-    let elem = document.querySelector(this.selector);
-    elem.addEventListener(event, this);
-  }
+    let buttons = document.querySelectorAll('.button'); 
+
+    buttons.forEach((button) => {
+        button.addEventListener(event, this.handleEvent.bind(this)); 
+    });
+}
 
 
 
@@ -120,7 +123,7 @@ export default class Controller {
 
     if (action == "edit") {
       let id = target.dataset.id;
-      let selectedJob = this.records[0];
+      let selectedJob = this.searchJobs(id)
       this.view.update(<JobForm job={selectedJob} />);
     }
 
@@ -141,8 +144,18 @@ export default class Controller {
     }
   }
 
+  searchJobs(Jobid){
+    let i = 0;
+    let found = false;
+    while(i > this.records.length || found == false){
+    if(this.records[i].id == Jobid){
+      found = true;
+      return this.records[i];
+    }
+    i++;
+    }
+  }
 
-  
   async getJobs() {
     if (this.useMock) {
       this.records = await this.getMockData();
@@ -152,16 +165,16 @@ export default class Controller {
       );
       let jobs = [];
       let i = 0;
-      while(i < request.records.length){
+      while (i < request.records.length) {
         let normalizedJob = this.jobsNormalizer(request.records[i]);
-        jobs.push(normalizedJob); 
-      i++;
+        jobs.push(normalizedJob);
+        i++;
       }
       this.records = jobs;
     }
   }
 
-  jobsNormalizer(job){
+  jobsNormalizer(job) {
     let normalizedJob = Job.newFromJSON({
       ownerId: job.OwnerId,
       id: job.Id,
@@ -181,6 +194,7 @@ export default class Controller {
 
   render() {
     this.view.render(<JobList jobs={this.records} ownerId={USER_ID} />);
+    this.listenTo("click");
   }
 
 

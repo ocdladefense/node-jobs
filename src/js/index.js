@@ -3,7 +3,7 @@ import Controller from "./controller";
 
 
 let controller = new Controller("#job-container");
-controller.listenTo("click");
+//controller.listenTo("click");
 await controller.getJobs();
 controller.render();
 

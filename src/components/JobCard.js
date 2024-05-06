@@ -18,8 +18,8 @@ const JobCard = function(props) {
                 <strong>Open until filled:</strong> {job.openUntilFilled ? 'Yes' : 'No'}<br />
             </p>
             <div class="card-footer">
-                <a href="#" data-id={job.id} data-action="edit">Edit</a>
-                <a href="#" data-id={job.id} data-action="delete">Delete</a>
+                <a class="button" href="#" data-id={job.id} data-action="edit">Edit</a>
+                <a class="button" href="#" data-id={job.id} data-action="delete">Delete</a>
             </div>
         </div>
     </div>
