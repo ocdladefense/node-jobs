@@ -124,7 +124,7 @@ export default class Controller {
       if (!!job.Id) {
         this.updateJob(job);
       } else {
-        this.createJob(job);
+        await this.createJob(job);
       }
       await this.getJobs();
       this.view.update(<JobList jobs={this.records}/>)

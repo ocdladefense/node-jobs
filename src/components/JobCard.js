@@ -19,7 +19,6 @@ const JobCard = function(props) {
             </p>
             <div class="card-footer">
                 <a class="button" href="#" data-id={job.id} data-action="edit">Edit</a>
-                <a class="button" href="#" data-id={job.id} data-action="delete">Delete</a>
             </div>
         </div>
     </div>
