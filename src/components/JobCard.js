@@ -6,7 +6,7 @@ const JobCard = function(props) {
     let job = props.job;
 
     return (
-        <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col">
                 <div class="card mb-3">
                     <div class="card-header text-white bg-dark mb-3">{job.jobTitle}</div>
