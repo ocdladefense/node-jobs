@@ -80,7 +80,7 @@ export default class Controller {
   }
 
 
-
+  
   getFormData() {
     let openValue = this.getUserInput("openUntilFilled")
     let isOpen = openValue == "on" ? true : false;
@@ -117,9 +117,22 @@ export default class Controller {
       return;
     }
 
+    
+      
+
+    let job = this.getFormData();
+
     if (action == "new") {
-      let job = new Job;
+      let job = new Job();
       this.view.update(<JobForm job={job} />);
+    }
+
+    if (action == "save") {
+      if (!!job.Id) {
+        this.updateJob(job);
+      } else {
+        this.createJob(job);
+      }
     }
 
     if (action == "edit") {
@@ -157,54 +170,36 @@ export default class Controller {
       await this.getJobs();
       this.view.update(<JobList jobs={this.records} message="your posting was succesfully deleted" ownerId={USER_ID} />);
     }
-
-    
-
-
-
-    
   }
 
-  searchJobs(jobId) {
 
-    
+
+
+  searchJobs(jobId) {
     let result = this.records.filter((record) => record.id == jobId);
     return result.length > 0 ? result[0] : undefined; 
   }
+
+
+
 
   async getJobs() {
     if (this.useMock) {
       this.records = await this.getMockData();
     } else {
-      let request = await this.api.query(
-        "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c,ClosingDate__c, AttachmentUrl__c, Employer__c,Location__c,OpenUntilFilled__c FROM Job__c"
-      );
-      let jobs = [];
-      let i = 0;
-      while (i < request.records.length) {
-        let normalizedJob = this.jobsNormalizer(request.records[i]);
-        jobs.push(normalizedJob);
-        i++;
-      }
-      this.records = jobs;
+
+      let resp = await this.api.query(
+        "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c,ClosingDate__c, AttachmentUrl__c, Employer__c,Location__c,OpenUntilFilled__c FROM Job__c");
+
+      this.records = resp.records.map((record) => Job.fromSObject(record));
+
+      //let request = await this.api.query(QUERY);
+      // this.records = request.records;
+
     }
   }
 
-  jobsNormalizer(job) {
-    let normalizedJob = {
-      ownerId: job.OwnerId,
-      id: job.Id,
-      jobTitle: job.Name,
-      salary: job.Salary__c,
-      datePosted: job.PostingDate__c,
-      dateClosing: job.ClosingDate__c,
-      fileUrl: job.AttachmentUrl__c,
-      employer: job.Employer__c,
-      location: job.Location__c,
-      openUntilFilled: job.OpenUntilFilled__c,
-    };
-    return normalizedJob;
-  }
+
 
 
 
@@ -213,6 +208,9 @@ export default class Controller {
     this.listenTo("click");
   }
 
+  renderForm(j) {
+    this.view.update(<JobForm job={j} />);
+  }
 
   async createJob(job) {
     await this.api.create("Job__c", job);

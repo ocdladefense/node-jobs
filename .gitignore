@@ -1,6 +1,8 @@
 
 # Created by https://www.gitignore.io/api/node,macos
 
+
+.Notes.md
 # Salesforce cache
 .sfdx/
 .sf
