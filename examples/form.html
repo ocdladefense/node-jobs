@@ -1,36 +1,12 @@
-/** @jsx vNode */
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Example Forum Styling</title>
+        <meta charset="UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    </head>
 
-import { vNode, View } from "@ocdla/view";
-
-
-
-let fileUrl = "https://mydomain.com/catpic";
-
-
-const FileUpload = function (props) {
-  let file;
-  if (props != null) {
-    file = props.file;
-  }
-
-  return (
-    <div class="form-group">
-      <label for="fileUpload">Upload Files:</label><br />
-
-      <input type="file" class="form-control-file" id="fileUpload" />
-      <input type="button" value="Remove File" />
-      <input type="button" value="Add File" /><br />
-
-    </div>
-  );
-};
-
-
-const JobForm = function(props) {
-  let job = props.job;
-  let update = !!job.id;
-
-  return (
+    <body>
         <form>
             <div class="form-group">
                 <label for="title">Job Title:</label>
@@ -73,7 +49,5 @@ const JobForm = function(props) {
             <button type="submit" class="btn btn-secondary" data-action="delete">Delete</button>
             <button type="button" class="btn btn-secondary" data-action="cancel">Cancel</button>
         </form>
-    );
-};
-
-export default JobForm;
+    </body>
+</html>

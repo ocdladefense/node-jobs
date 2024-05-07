@@ -11,8 +11,8 @@ const JobList = function(props) {
     let ownerId = props.ownerId;
 
     return (
-        <div class="job-list">
-            {jobs.map(job => <JobCard job={job} isOwner={true} />)} 
+        <div class="list-group">
+            {jobs.map(job => <JobCard job={job} isOwner={job.isOwner(ownerId)} />)} 
         </div>
     );
 };
