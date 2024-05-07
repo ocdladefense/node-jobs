@@ -47,6 +47,22 @@ class Job {
             data.openUntilFilled
         );
     }
+    static toSObject(data){
+        
+        let Job = {
+                //"Id": jobId,
+                "Name": data.jobTitle,
+                "Salary__c": data.salary,
+                "PostingDate__c": data.datePosted,
+                "ClosingDate__c": data.dateClosing,
+                "AttachmentUrl__c": "https:/this-domain.org/documents/requirements",
+                "Employer__c": data.employer,
+                "Location__c": data.location,
+                "OpenUntilFilled__c": data.openUntilFilled,
+        };
+        return Job
+    }
+    
 
     isOwner(id) {
         return true;
