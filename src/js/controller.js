@@ -84,24 +84,24 @@ export default class Controller {
 
 
   getFormData() {
-    let jobName = this.getUserInput("name");
-    let employer = this.getUserInput("employer");
-    let id = this.getUserInput("id");
-    let salary = parseInt(this.getUserInput("salary"));
-    let date = "2024-04-29";
+    let userInput = {
+    jobId: this.getUserInput("id"),
+    jobtitle: this.getUserInput("title"),
+    employer: this.getUserInput("employer"),
+    salary: this.getUserInput("salary"),
+    location: this.getUserInput("location"),
+    datePosted: this.getUserInput("datePosted"),
+    dateClosing: this.getUserInput("dateClosing"),
+    open: this.getUserInput("openUntilFilled")
+    }
     // Convert to Job object first.
 
     // Then, needs to be converted from Job object to Salesforce "SObject", i.e., job.toSObject();
     // So this conversion, which you are doing manually here, should be done in the Job class.uh
-    let job = {
-      Name: jobName,
-      DatePosted__c: date,
-      Employer__c: employer,
-      Salary__c: salary,
-      Id: id,
-    };
+    
+    
 
-    return job;
+    return Job.toSObject(userInput);
   }
 
 
@@ -111,9 +111,13 @@ export default class Controller {
 
     let action = target.dataset.action;
 
-    //let job = this.getFormData();
+    if(action == "new"){
+      let job = new Job;
+      this.view.update(<JobForm job={job}/>);
+    }
 
     if (action == "save") {
+      let job = this.getFormData();
       if (!!job.Id) {
         this.updateJob(job);
       } else {
@@ -126,21 +130,13 @@ export default class Controller {
       let selectedJob = this.searchJobs(id)
       this.view.update(<JobForm job={selectedJob} />);
     }
-    if(action == "new"){
-      let j1 = new Job;
-      this.view.update(<JobForm job={j1}/>);
-    }
+
 
     if (action == "delete") {
-      this.deleteJob(job.Id);
-
-      this.view.update(
-        <JobList
-          jobs={this.records}
-          message="your posing was succesfully deleted"
-          ownerId={USER_ID}
-        />
-      );
+      let id = this.getUserInput("id")
+      this.deleteJob(id);
+      this.getJobs();
+      this.view.update(<JobList jobs={this.records} message="your posing was succesfully deleted" ownerId={USER_ID}/>);
     }
 
     if (action == "cancel") {
@@ -180,7 +176,7 @@ export default class Controller {
   }
 
   jobsNormalizer(job) {
-    let normalizedJob = Job.newFromJSON({
+    let normalizedJob ={
       ownerId: job.OwnerId,
       id: job.Id,
       jobTitle: job.Name,
@@ -191,7 +187,7 @@ export default class Controller {
       employer: job.Employer__c,
       location: job.Location__c,
       openUntilFilled: job.OpenUntilFilled__c,
-    });
+    };
     return normalizedJob;
   }
 
@@ -204,13 +200,15 @@ export default class Controller {
 
 
   async createJob(job) {
-    await this.api.create("Jobs__c", job);
+    await this.api.create("Job__c", job);
+    await this.getJobs();
+    this.view.update(<JobList jobs={this.records}/>)
   }
 
 
 
   async updateJob(job) {
-    let temp = await this.api.update("Jobs__c", job);
+    let temp = await this.api.update("Job__c", job);
     if (temp == true) {
       this.view.update(
         <JobList
@@ -222,9 +220,8 @@ export default class Controller {
     }
   }
 
-
-
   async deleteJob(id) {
-    await this.api.delete("Jobs__c", id);
+    await this.api.delete("Job__c", id);
+
   }
 }

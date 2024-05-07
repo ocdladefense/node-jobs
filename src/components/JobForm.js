@@ -36,13 +36,11 @@ const JobForm = function (props) {
     <form>
       <label for="title">Job Title:</label>
       <input id="title" placeholder="Enter Job Title" value={job.jobTitle} />
+      <input  id="id"  value={job.id} type="hidden"/>
 
       <label for="employer">Employer:</label>
       <input
-        id="title"
-        placeholder="Enter the employer"
-        value={job.employer}
-      />
+        id="employer" placeholder="Enter the employer" value={job.employer}/>
 
       <label for="salary">Salary:</label>
       <input id="salary" placeholder="Enter the Salary" value={job.salary} />
@@ -53,16 +51,12 @@ const JobForm = function (props) {
       <label for="datePosted">Date Posted:</label>
       <input
         id="datePosted"
-        placeholder={job.datePosted}
-        value={job.employer}
+        placeholder=""
+        value={job.datePosted}
       />
 
       <label for="dateClosing">Date Closing:</label>
-      <input
-        id="dateClosing"
-        placeholder={job.dateClosing}
-        value={job.employer}
-      />
+      <input id="dateClosing" placeholder={job.dateClosing} value={job.dateClosing}/>
 
       <FileUpload url={fileUrl} />
 
