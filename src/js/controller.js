@@ -85,11 +85,13 @@ export default class Controller {
 
   getFormData() {
     let open = this.getUserInput("openUntilFilled")
-    let isopen = open = "on" ? true : false;
+    let isopen = open == "on" ? true : false;
+    let id = this.getUserInput("id");
+    let isIdNull = id == "" ? null :  id;
     // Convert to Job object first.
     let job = Job.newFromJSON({
       ownerId: USER_ID,
-      id: this.getUserInput("id"),
+      id: isIdNull,
       jobTitle: this.getUserInput("title"),
       salary: this.getUserInput("salary"),
       datePosted: this.getUserInput("datePosted"),

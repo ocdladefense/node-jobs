@@ -50,7 +50,7 @@ class Job {
     static toSObject(data){
         
         let Job = {
-                //"Id": jobId,
+                "Id": data.id,
                 "Name": data.jobTitle,
                 "Salary__c": data.salary,
                 "PostingDate__c": data.datePosted,
