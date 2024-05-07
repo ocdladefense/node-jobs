@@ -80,7 +80,7 @@ class SalesforceRestApi {
     */
     delete(objectName, record) {
         this.method = 'DELETE';
-        this.path = SalesforceRestApi.BASE_URL + 'sobjects/' + objectName + `/${record.Id}`;
+        this.path = SalesforceRestApi.BASE_URL + 'sobjects/' + objectName + `/${record}`;
         
         return this.send();
     }
