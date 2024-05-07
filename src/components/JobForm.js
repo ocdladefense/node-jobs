@@ -34,44 +34,50 @@ const JobForm = function(props) {
       <form>
         <div class="mb-3">
           <label for="title" class="form-label">Job Title</label>
-          <input id="title"  class="form-control"
+          <input id="title"  class="form-control" aria-describedby="title-help"
             placeholder="Enter Job Title" 
             value={job.jobTitle} />
+          <div id="title-help" class="form-text fs-6">The title of the job position (insert data constraints here).</div>
         </div>
 
         <div class="mb-3">
           <label for="employer" class="form-label">Employer</label>
-          <input id="employer"  class="form-control"
-            placeholder="Enter the employer"
+          <input id="employer"  class="form-control" aria-describedby="employer-help"
+            placeholder="Enter the Employer"
             value={job.employer} />
+          <div id="employer-help" class="form-text fs-6">The name of the Employer (insert data constraints here).</div>
         </div>
 
         <div class="mb-3">
           <label for="salary" class="form-label">Salary</label>
-          <input id="salary"  class="form-control"
+          <input id="salary"  class="form-control" aria-describedby="salary-help"
             placeholder="Enter the Salary" 
             value={job.salary} />
+          <div id="salary-help" class="form-text fs-6">The compensation information for the position (insert data constraints here).</div>
         </div>
 
         <div class="mb-3">
           <label for="location" class="form-label">Location</label>
-          <input id="location"  class="form-control"
+          <input id="location"  class="form-control" aria-describedby="location-help"
             placeholder="Enter the Location"
             value={job.location} />
+          <div id="location-help" class="form-text fs-6">The location where the job will take place (insert data constraints here).</div>
         </div>
 
         <div class="mb-3">
         <label for="date-posted" class="form-label">Date Posted</label>
-        <input id="date-posted"  class="form-control" type="date"
+        <input id="date-posted"  class="form-control" type="date" aria-describedby="date-posted-help"
           placeholder={job.datePosted}
           value={job.datePosted} />
+        <div id="date-posted-help" class="form-text fs-6">The date job was posted (this will be automatic eventually).</div>
         </div>
 
         <div class="mb-3">
           <label for="date-closing" class="form-label">Date Closing</label>
-          <input id="date-closing"  class="form-control" type="date"
+          <input id="date-closing"  class="form-control" type="date" aria-describedby="date-closing-help"
             placeholder={job.dateClosing}
             value={job.dateClosing}/>
+          <div id="date-closing-help" class="form-text fs-6">The date that the job posting will close, if any (enter data constraints here).</div>
         </div>
 
         <FileUpload url={job.fileUrl} />
