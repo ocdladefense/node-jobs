@@ -12,15 +12,16 @@ const FileUpload = function(props) {
     let fileUrl = props.url;
 
     return (
-        <div class="form-group">
-          <label for="fileUpload" class="form-label">Upload Files</label>
+        <div class="mb-3">
+          <label for="file-upload" class="form-label">Upload Files</label>
           <div class="input-group">
             {fileUrl != "" ? (
               <span>{fileUrl}</span>
-            ) : (<input type="file" class="form-control-file" id="fileUpload" value={fileUrl}/>)}
+            ) : (<input type="file" class="form-control-file" id="file-upload" value={fileUrl} aria-describedby="file-upload-help" />)}
             <input type="button" value="Remove File" />
-            {multipleFilesEnabled ? (<input type="button" value="Add File" />) : ("")}
+            {multipleFilesEnabled ? (<input type="button" value="Add File" />) : ("")} 
           </div>
+          <div id="file-upload-help" class="form-text fs-6">Any files relevant to the position (insert data constraints here).</div>
         </div>    
     );
 };
@@ -75,20 +76,23 @@ const JobForm = function(props) {
         <div class="mb-3">
           <label for="date-closing" class="form-label">Date Closing</label>
           <input id="date-closing"  class="form-control" type="date" aria-describedby="date-closing-help"
-            placeholder={job.dateClosing}
+            placeholder={job.dateClosing}  
             value={job.dateClosing}/>
           <div id="date-closing-help" class="form-text fs-6">The date that the job posting will close, if any (enter data constraints here).</div>
         </div>
 
         <FileUpload url={job.fileUrl} />
 
-        <div class="mb-3 ">
-          <label for="open-until-filled" class="form-label">Open until filled?</label>
-          {job.openUntilFilled ? (
-            <input id="open-until-filled"  class="form-input" type="checkbox" checked/>
-          ) : (
-            <input id="open-until-filled"  class="form-input" type="checkbox" />
-          )}
+        <div class="mb-3">
+          <div class="input-group">
+            <label for="open-until-filled" class="form-label">Open until filled?</label>
+            {job.openUntilFilled ? (
+              <input id="open-until-filled"  class="form-input m-2" type="checkbox" checked aria-describedby="checkbox-help" />
+            ) : (
+              <input id="open-until-filled"  class="form-input m-2" type="checkbox" aria-describedby="checkbox-help" />
+            )}
+          </div>
+          <div id="checkbox-help" class="form-text fs-6">Whether or not the job posting closes once it is filled.</div>
         </div>
 
 
