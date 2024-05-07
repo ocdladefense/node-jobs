@@ -9,7 +9,6 @@
     <columns>ClosingDate__c</columns>
     <columns>Location__c</columns>
     <columns>OpenUntilFilled__c</columns>
-    <columns>MemberId__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>IsActive__c</field>
