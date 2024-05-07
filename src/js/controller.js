@@ -10,7 +10,8 @@ import Job from "../../node_modules/@ocdla/employment/Job.js";
 export default class Controller {
   records;
   useMock = USE_MOCK_RECORDS;
-  
+  validActions = ["new", "save", "edit", "delete",  "cancel"];
+
   constructor(selector) {
     this.selector = selector;
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
@@ -74,12 +75,9 @@ export default class Controller {
 
 
   listenTo(event) {
-    let buttons = document.querySelectorAll('.button'); 
-
-    buttons.forEach((button) => {
-        button.addEventListener(event, this.handleEvent.bind(this)); 
-    });
-}
+    let elem = document.querySelector(this.selector);
+    elem.addEventListener(event, this);
+  }
 
 
 
@@ -87,7 +85,7 @@ export default class Controller {
     let openValue = this.getUserInput("openUntilFilled")
     let isOpen = openValue == "on" ? true : false;
     let idvalue = this.getUserInput("id");
-    let id = idvalue == "" ? null :  id;
+    let id = idvalue == "" ? null : id;
     // Convert to Job object first.
     let job = Job.newFromJSON({
       ownerId: USER_ID,
@@ -103,8 +101,8 @@ export default class Controller {
     });
     // Then, needs to be converted from Job object to Salesforce "SObject", i.e., job.toSObject();
     // So this conversion, which you are doing manually here, should be done in the Job class.uh
-    
-    
+
+
 
     return Job.toSObject(job);
   }
@@ -113,55 +111,65 @@ export default class Controller {
 
   async handleEvent(e) {
     let target = e.target;
-
+    let dataset = target.dataset;
     let action = target.dataset.action;
-
-    if(action == "new"){
-      let job = new Job;
-      this.view.update(<JobForm job={job}/>);
+    if (dataset == null || action == null || !this.validActions.includes(action)){
+      return;
     }
 
+    if (action == "new") {
+      let job = new Job;
+      this.view.update(<JobForm job={job} />);
+    }
+
+    if (action == "edit") {
+      let id = target.dataset.id;
+      let selectedJob = this.searchJobs(id);
+      if (selectedJob == undefined){
+        this.view.update(<JobList jobs={this.records} message="You can't edit this at this time." ownerId={USER_ID} />);
+        return;
+      }
+      else{
+        this.view.update(<JobForm job={selectedJob} />);
+        return;
+      }
+    }
+    if (action == "cancel") {
+      this.view.update(<JobList jobs={this.records} ownerId={USER_ID} />);
+    }
+
+
+    let job = this.getFormData();
+
     if (action == "save") {
-      let job = this.getFormData();
+      
       if (!!job.Id) {
         this.updateJob(job);
       } else {
         await this.createJob(job);
       }
       await this.getJobs();
-      this.view.update(<JobList jobs={this.records}/>)
+      this.view.update(<JobList jobs={this.records} />)
     }
-
-    if (action == "edit") {
-      let id = target.dataset.id;
-      let selectedJob = this.searchJobs(id)
-      this.view.update(<JobForm job={selectedJob} />);
-    }
-
-
+    
     if (action == "delete") {
-      let id = this.getUserInput("id")
-      this.deleteJob(id);
+      this.deleteJob(job.id);
       await this.getJobs();
-      this.view.update(<JobList jobs={this.records} message="your posting was succesfully deleted" ownerId={USER_ID}/>);
+      this.view.update(<JobList jobs={this.records} message="your posting was succesfully deleted" ownerId={USER_ID} />);
     }
 
-    if (action == "cancel") {
-      this.view.update(<JobList jobs={this.records} ownerId={USER_ID} />);
-    }
-    this.listenTo("click");
+    
+
+
+
+    
   }
 
-  searchJobs(Jobid){
-    let i = 0;
-    let found = false;
-    while(i > this.records.length || found == false){
-    if(this.records[i].id == Jobid){
-      found = true;
-      return this.records[i];
-    }
-    i++;
-    }
+  searchJobs(jobId) {
+
+    
+    let result = this.records.filter((record) => record.id == jobId);
+    return result.length > 0 ? result[0] : undefined; 
   }
 
   async getJobs() {
@@ -183,7 +191,7 @@ export default class Controller {
   }
 
   jobsNormalizer(job) {
-    let normalizedJob ={
+    let normalizedJob = {
       ownerId: job.OwnerId,
       id: job.Id,
       jobTitle: job.Name,
