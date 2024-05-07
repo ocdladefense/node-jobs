@@ -84,29 +84,32 @@ export default class Controller {
 
 
   getFormData() {
-    let userInput = {
-    jobId: this.getUserInput("id"),
-    jobtitle: this.getUserInput("title"),
-    employer: this.getUserInput("employer"),
-    salary: this.getUserInput("salary"),
-    location: this.getUserInput("location"),
-    datePosted: this.getUserInput("datePosted"),
-    dateClosing: this.getUserInput("dateClosing"),
-    open: this.getUserInput("openUntilFilled")
-    }
+    let open = this.getUserInput("openUntilFilled")
+    let isopen = open = "on" ? true : false;
     // Convert to Job object first.
-
+    let job = Job.newFromJSON({
+      ownerId: USER_ID,
+      id: this.getUserInput("id"),
+      jobTitle: this.getUserInput("title"),
+      salary: this.getUserInput("salary"),
+      datePosted: this.getUserInput("datePosted"),
+      dateClosing: this.getUserInput("dateClosing"),
+      fileUrl: "https://a-domain.law/justice-architect",
+      employer: this.getUserInput("employer"),
+      location: this.getUserInput("location"),
+      openUntilFilled: isopen,
+    });
     // Then, needs to be converted from Job object to Salesforce "SObject", i.e., job.toSObject();
     // So this conversion, which you are doing manually here, should be done in the Job class.uh
     
     
 
-    return Job.toSObject(userInput);
+    return Job.toSObject(job);
   }
 
 
 
-  handleEvent(e) {
+  async handleEvent(e) {
     let target = e.target;
 
     let action = target.dataset.action;
@@ -123,6 +126,8 @@ export default class Controller {
       } else {
         this.createJob(job);
       }
+      await this.getJobs();
+      this.view.update(<JobList jobs={this.records}/>)
     }
 
     if (action == "edit") {
@@ -135,8 +140,8 @@ export default class Controller {
     if (action == "delete") {
       let id = this.getUserInput("id")
       this.deleteJob(id);
-      this.getJobs();
-      this.view.update(<JobList jobs={this.records} message="your posing was succesfully deleted" ownerId={USER_ID}/>);
+      await this.getJobs();
+      this.view.update(<JobList jobs={this.records} message="your posting was succesfully deleted" ownerId={USER_ID}/>);
     }
 
     if (action == "cancel") {
@@ -201,8 +206,6 @@ export default class Controller {
 
   async createJob(job) {
     await this.api.create("Job__c", job);
-    await this.getJobs();
-    this.view.update(<JobList jobs={this.records}/>)
   }
 
 
@@ -222,6 +225,5 @@ export default class Controller {
 
   async deleteJob(id) {
     await this.api.delete("Job__c", id);
-
   }
 }
