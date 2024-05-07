@@ -31,49 +31,49 @@ const JobForm = function(props) {
   let update = !!job.id;
 
   return (
-      <form>
-          <div class="form-group">
-              <label for="title">Job Title:</label>
-              <input id="title" class="form-control" placeholder="Enter Job Title" value={job.title} />
-          </div>
-
-          <div class="form-group">
-              <label for="employer">Employer:</label>
-              <input id="employer" class="form-control" placeholder="Enter the employer" value={job.employer} />
-          </div>
-
-          <div class="form-group">
-              <label for="salary">Salary:</label>
-              <input id="salary" class="form-control" placeholder="Enter the Salary" value={job.salary} />
-          </div>
-
-          <div class="form-group">
-              <label for="location">Location:</label>
-              <input id="location" class="form-control" placeholder="Enter the Location" />
-          </div>
-
-          <div class="form-group">
-              <label for="datePosted">Date Posted:</label>
-              <input id="datePosted" class="form-control" placeholder={job.datePosted} value={job.employer} />
-          </div>
-
-          <div class="form-group">
-              <label for="dateClosing">Date Closing:</label>
-              <input id="dateClosing" class="form-control" placeholder={job.dateClosing} value={job.employer} />
-          </div>
-
-          <FileUpload url={fileUrl} />
-
-          <div class="form-check">
-              <input id="openUntilFilled" class="form-check-input" type="checkbox" checked />
-              <label class="form-check-label" for="openUntilFilled">Open until filled?</label>
-          </div>
-
-          <button type="submit" class="btn btn-primary" data-action="save">Save</button>
-          <button type="submit" class="btn btn-danger" data-action="delete">Delete</button>
-          <button type="button" class="btn btn-secondary" data-action="cancel">Cancel</button>
-      </form>
-  );
+        <form>
+            <div class="form-group">
+                <label for="title">Job Title:</label>
+                <input id="title" class="form-control" placeholder="Enter Job Title" value={job.title} />
+            </div>
+        
+            <div class="form-group">
+                <label for="employer">Employer:</label>
+                <input id="employer" class="form-control" placeholder="Enter the employer" value={job.employer} />
+            </div>
+        
+            <div class="form-group">
+                <label for="salary">Salary:</label>
+                <input id="salary" class="form-control" placeholder="Enter the Salary" value={job.salary} />
+            </div>
+        
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input id="location" class="form-control" placeholder="Enter the Location" />
+            </div>
+        
+            <div class="form-group">
+                <label for="datePosted">Date Posted:</label>
+                <input id="datePosted" class="form-control" placeholder="MM/DD/YYYY" value={job.employer} />
+            </div>
+        
+            <div class="form-group">
+                <label for="dateClosing">Date Closing:</label>
+                <input id="dateClosing" class="form-control" placeholder="MM/DD/YYYY" value={job.employer} />
+            </div>
+        
+            <FileUpload url={fileUrl} />
+        
+            <div class="form-check">
+                <input id="openUntilFilled" class="form-check-input" type="checkbox" checked />
+                <label class="form-check-label" for="openUntilFilled">Open until filled?</label>
+            </div>
+        
+            <button type="submit" class="btn btn-secondary" data-action="save">Save</button>
+            <button type="submit" class="btn btn-secondary" data-action="delete">Delete</button>
+            <button type="button" class="btn btn-secondary" data-action="cancel">Cancel</button>
+        </form>
+    );
 };
 
 export default JobForm;
