@@ -14,7 +14,7 @@
     "@babel/core": "^7.19.1",
     "@babel/preset-env": "^7.19.1",
     "@babel/preset-react": "^7.14.5",
-    "@ocdla/salesforce":  "file:./dev_modules/@ocdla/salesforce",
+    
     "@ocdla/view": "~2.3.3",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
