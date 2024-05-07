@@ -84,14 +84,14 @@ export default class Controller {
 
 
   getFormData() {
-    let open = this.getUserInput("openUntilFilled")
-    let isopen = open == "on" ? true : false;
-    let id = this.getUserInput("id");
-    let isIdNull = id == "" ? null :  id;
+    let openValue = this.getUserInput("openUntilFilled")
+    let isOpen = openValue == "on" ? true : false;
+    let idvalue = this.getUserInput("id");
+    let id = idvalue == "" ? null :  id;
     // Convert to Job object first.
     let job = Job.newFromJSON({
       ownerId: USER_ID,
-      id: isIdNull,
+      id: id,
       jobTitle: this.getUserInput("title"),
       salary: this.getUserInput("salary"),
       datePosted: this.getUserInput("datePosted"),
@@ -99,7 +99,7 @@ export default class Controller {
       fileUrl: "https://a-domain.law/justice-architect",
       employer: this.getUserInput("employer"),
       location: this.getUserInput("location"),
-      openUntilFilled: isopen,
+      openUntilFilled: isOpen,
     });
     // Then, needs to be converted from Job object to Salesforce "SObject", i.e., job.toSObject();
     // So this conversion, which you are doing manually here, should be done in the Job class.uh
