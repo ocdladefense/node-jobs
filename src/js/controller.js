@@ -79,7 +79,7 @@ export default class Controller {
   }
 
 
-
+  
   getFormData() {
     let jobName = this.getUserInput("name");
     let employer = this.getUserInput("employer");
@@ -109,6 +109,11 @@ export default class Controller {
     let action = target.dataset.action;
 
     //let job = this.getFormData();
+
+    if (action == "new") {
+      const blankJob = new Job();
+      this.renderForm(blankJob);
+    }
 
     if (action == "save") {
       if (!!job.Id) {
@@ -158,6 +163,9 @@ export default class Controller {
     this.view.render(<JobList jobs={this.records} ownerId={USER_ID} />);
   }
 
+  renderForm(j) {
+    this.view.update(<JobForm job={j} />);
+  }
 
   async createJob(job) {
     await this.api.create("Jobs__c", job);
