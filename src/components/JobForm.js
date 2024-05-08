@@ -102,7 +102,7 @@ const JobForm = function(props) {
 
 
         <input type="submit" data-action="save" value="Save" />
-        <input type="submit" data-action="delete" value="Delete" />
+        {job.id == "" ? ("") :(<input type="submit" data-action="delete" value="Delete" />)}
         <input type="button" data-action="cancel" value="Cancel" />
       </form>
     );

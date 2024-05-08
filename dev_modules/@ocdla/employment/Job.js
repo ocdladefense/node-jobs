@@ -47,7 +47,6 @@ class Job {
         job.employer = formValues.get("employer");
         job.location = formValues.get("location");
         job.openUntilFilled = formValues.get("open-until-filled");
-        console.log(job);
         return job;
     }
 
