@@ -52,13 +52,30 @@ class Job {
     }
 
     static fromSObject(SObject) {
+        let job = new Job();
+        job.id = SObject.id; //
+        job.ownerId = SObject.userId, //
+        job.jobTitle = SObject.jobtitle; //
+        job.salary = SObject.Salary__c;
+        job.datePosted = SObject.PostingDate__c;
+        job.dateClosing = SObject.ClosingDate__c;
+        job.fileUrl = SObject.AttachmentUrl__c;
+        job.employer = SObject.Employer__c;
+        job.location = SObject.Location__c;
+        job.openUntilFilled = SObject.OpenUntilFilled__c;
 
     }
 
     toSObject() {
         return {
-            PostingDate__c: this.datePosted,
+            AttachementUrl__c: this.fileUrl,
             ClosingDate__c: this.dateClosing,
+            Employer__c: this.employer,
+            IsActive__c: "", //
+            Location__c: this.location,
+            OpenUntilFilled__c: this.openUntilFilled,
+            PostingDate__c: this.datePosted,
+            Salary__c: this.salary
         };
     }
 
