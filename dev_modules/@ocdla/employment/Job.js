@@ -39,7 +39,7 @@ class Job {
         let formValues = formData.values;
         let job = new Job();
         job.ownerId = USER_ID;
-        job.jobTitle = formValues.get("job-title");
+        job.jobTitle = formValues.get("title");
         job.salary = formValues.get("salary");
         job.datePosted = formValues.get("date-posted");
         job.dateClosing = formValues.get("date-closing");
