@@ -27,39 +27,43 @@ class Job {
      * @returns {Job} - A Job object
      */
     static fromJson(data) {
-        return new Job(
-            data.id,
-            data.ownerId,
-            data.jobTitle,
-            data.salary,
-            data.datePosted,
-            data.dateClosing,
-            data.fileUrl,
-            data.employer,
-            data.location,
-            data.openUntilFilled
-        );
+        let job = new Job(data.jobtitle);
+        for (let prop in data) {
+            job[prop] = data[prop];
+        }
+        return job;
     }
-    static toSObject(data){
-        
-        let Job = {
-                "Id": data.id,
-                "Name": data.jobTitle,
-                "Salary__c": data.salary,
-                "PostingDate__c": data.datePosted,
-                "ClosingDate__c": data.dateClosing,
-                "AttachmentUrl__c": "https:/this-domain.org/documents/requirements",
-                "Employer__c": data.employer,
-                "Location__c": data.location,
-                "OpenUntilFilled__c": data.openUntilFilled,
+
+    static fromFormData(formData) {
+        // set each relevant property on the job constructor
+        let formValues = formData.values;
+        let job = new Job();
+        job.ownerId = USER_ID;
+        job.jobTitle = formValues.get("job-title");
+        job.salary = formValues.get("salary");
+        job.datePosted = formValues.get("date-posted");
+        job.dateClosing = formValues.get("date-closing");
+        job.fileUrl = formValues.get("file-upload");
+        job.employer = formValues.get("employer");
+        job.location = formValues.get("location");
+        job.openUntilFilled = formValues.get("open-until-filled");
+        console.log(job);
+        return job;
+    }
+
+    static fromSObject(SObject) {
+
+    }
+
+    toSObject() {
+        return {
+            PostingDate__c: this.datePosted,
+            ClosingDate__c: this.dateClosing,
         };
-        return Job
     }
-    
 
     isOwner(id) {
         return id == this.ownerId;
     }
 }
-
 export default Job;
