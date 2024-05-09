@@ -8,7 +8,7 @@ import Job from "../../node_modules/@ocdla/employment/Job.js";
 
 
 export default class Controller {
-  records;
+  records; 
   useMock = USE_MOCK_RECORDS;
 
   static actions = ["new", "save", "edit", "delete", "cancel"];
