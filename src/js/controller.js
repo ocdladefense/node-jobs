@@ -101,7 +101,7 @@ export default class Controller {
   onedit(job) {
     let userID = USER_ID;
     if (job == null || job.ownerId != userID) {
-      return <JobList jobs={this.records} message="You can't edit this at this time." ownerId={USER_ID} />;
+      return <JobList jobs={this.records} message="You can't edit this at this time." ownerId={userID} />;
     } else {
       return <JobForm job={job} />;
     }
@@ -120,8 +120,9 @@ export default class Controller {
 
   async ondelete(job) {
     let message;
+    let userID = USER_ID;
     if (job.ownerId != userID) {
-      return <JobList jobs={this.records} message="You can't edit this at this time." ownerId={USER_ID} />;
+      return <JobList jobs={this.records} message="You can't edit this at this time." ownerId={userID} />;
     }
 
     try {
