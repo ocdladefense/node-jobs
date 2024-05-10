@@ -8,8 +8,9 @@ import Job from "../../node_modules/@ocdla/employment/Job.js";
 
 
 export default class Controller {
-  records; 
+  records;
   useMock = USE_MOCK_RECORDS;
+
 
   static actions = ["new", "save", "edit", "delete", "cancel"];
 
@@ -30,23 +31,24 @@ export default class Controller {
   }
 
   getFormData() {
-    let openValue = this.getUserInput("openUntilFilled");
+    let openValue = this.getUserInput("open-until-filled");
     let isOpen = openValue == "on" ? true : false;
     let idvalue = this.getUserInput("id");
     let id = idvalue == "" ? null : id;
     // Convert to Job object first.
-    let job = Job.newFromJSON({
+    let job = {
       ownerId: USER_ID,
       id: id,
       jobTitle: this.getUserInput("title"),
       salary: this.getUserInput("salary"),
-      datePosted: this.getUserInput("datePosted"),
-      dateClosing: this.getUserInput("dateClosing"),
+      datePosted: this.getUserInput("date-posted"),
+      dateClosing: this.getUserInput("date-closing"),
       fileUrl: "https://a-domain.law/justice-architect",
       employer: this.getUserInput("employer"),
       location: this.getUserInput("location"),
       openUntilFilled: isOpen,
-    });
+    };
+
     // Then, needs to be converted from Job object to Salesforce "SObject", i.e., job.toSObject();
     // So this conversion, which you are doing manually here, should be done in the Job class.uh
 
@@ -59,9 +61,8 @@ export default class Controller {
     let action = target.dataset.action;
     let id = target.dataset.id;
     let job;
-    let message = "";
     let nextRender;
-    let method = "on"+action;
+    let method = "on" + action;
 
     // Bail out if we're not interested in the user's interaction.
     if (
@@ -73,84 +74,70 @@ export default class Controller {
     }
 
     // Construct a Job object when necessary.
-    if (["save", "delete"].includes(action)) {
+    if (["save"].includes(action)) {
       job = this.getFormData();
     } else if (action == "new") {
       job = new Job();
-    } else if(action == "edit") {
+    } else if (action == "edit" || action == "delete") {
       job = this.getRecord(id);
     }
 
 
-/*
-  try {
-    nextRender = this[method](job);
-  } catch(e) {
-    console.log(e);
-    window.alert(e.message);
-  }
-
-*/
-
-// Everything below this line get replaced with individual methods.
-
-    if (action == "new") {
-      nextRender = <JobForm job={job} />;
+    try {
+      nextRender = await this[method](job);
+    } catch (e) {
+      console.log(e);
+      window.alert(e.message);
     }
-
-    if (action == "edit") {
-      
-
-      if (job == null) {
-        nextRender = (
-          <JobList
-            jobs={this.records}
-            message="You can't edit this at this time."
-            ownerId={USER_ID}
-          />
-        );
-      } else {
-        nextRender = <JobForm job={job} />;
-      }
-    }
-
-    if (action == "cancel") {
-      nextRender = <JobList jobs={this.records} ownerId={USER_ID} />;
-    }
-
-    if (action == "save") {
-      if (!!job.Id) {
-        this.updateJob(job);
-      } else {
-        await this.createJob(job);
-      }
-      await this.getJobs();
-      nextRender = (
-        <JobList jobs={this.records} message="Yay, you created a new job!" />
-      );
-    }
-
-    if (action == "delete") {
-      try {
-        this.deleteJob(job.id);
-        await this.getJobs();
-        message = "Everything good!";
-      } catch (e) {
-        message = e.message;
-      }
-
-      nextRender = (
-        <JobList jobs={this.records} message={message} ownerId={USER_ID} />
-      );
-    }
-
-
-    // Everything above this line gets nuked and replaced with individual methods.
-
 
 
     this.view.update(nextRender);
-    return false;
+  }
+
+  onnew(job) {
+    return <JobForm job={job} />;
+  }
+
+  onedit(job) {
+    let userID = USER_ID;
+    if (job == null || job.ownerId != userID) {
+      return <JobList jobs={this.records} message="You can't edit this at this time." ownerId={USER_ID} />;
+    } else {
+      return <JobForm job={job} />;
+    }
+  }
+
+  async onsave(job) {
+    if (!!job.Id) {
+      this.updateJob(job);
+    } else {
+      await this.createJob(job);
+    }
+    await this.getJobs();
+    return (<JobList jobs={this.records} message="Yay, you created a new job!" />);
+
+  }
+
+  async ondelete(job) {
+    let message;
+    if (job.ownerId != userID) {
+      return <JobList jobs={this.records} message="You can't edit this at this time." ownerId={USER_ID} />;
+    }
+
+    try {
+      await this.deleteJob(job.id);
+      message = "Everything good!";
+    } catch (e) {
+      message = e.message;
+    }
+    await this.getJobs();
+
+    return (<JobList jobs={this.records} message={message} ownerId={USER_ID} />);
+  }
+
+
+  oncancel() {
+    return <JobList jobs={this.records} ownerId={USER_ID} />;
   }
 
 
@@ -170,7 +157,7 @@ export default class Controller {
         "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c,ClosingDate__c, AttachmentUrl__c, Employer__c,Location__c,OpenUntilFilled__c FROM Job__c"
       );
 
-      this.records = resp.records.map((record) => Job.fromSObject(record));
+      this.records = resp.records.map((record) => Job.newFromJSON(record));
 
       //let request = await this.api.query(QUERY);
       // this.records = request.records;
