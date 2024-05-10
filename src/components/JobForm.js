@@ -39,7 +39,6 @@ const JobForm = function(props) {
             value={job.jobTitle} />
           <div id="title-help" class="form-text fs-6">The title of the job position (insert data constraints here).</div>
         </div>
-        <input value={job.ownerId} type="hidden"/>
 
         <input  id="id"  value={job.id} type="hidden"/>
 
