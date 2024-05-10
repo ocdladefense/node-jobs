@@ -34,7 +34,7 @@ const JobForm = function(props) {
       <form id="record-form">
         <div class="mb-3">
           <label for="title" class="form-label">Job Title</label>
-          <input id="title"  class="form-control" aria-describedby="title-help"
+          <input id="title"  class="form-control" type="text" aria-describedby="title-help"
             name="title"
             placeholder="Enter Job Title" 
             value={job.jobTitle} />
@@ -43,7 +43,7 @@ const JobForm = function(props) {
 
         <div class="mb-3">
           <label for="employer" class="form-label">Employer</label>
-          <input id="employer"  class="form-control" aria-describedby="employer-help"
+          <input id="employer"  class="form-control" type="text" aria-describedby="employer-help"
             name="employer"
             placeholder="Enter the Employer"
             value={job.employer} />
@@ -52,7 +52,7 @@ const JobForm = function(props) {
 
         <div class="mb-3">
           <label for="salary" class="form-label">Salary</label>
-          <input id="salary"  class="form-control" aria-describedby="salary-help"
+          <input id="salary"  class="form-control" type="text" aria-describedby="salary-help"
             salary="salary"
             placeholder="Enter the Salary" 
             value={job.salary} />
@@ -61,7 +61,7 @@ const JobForm = function(props) {
 
         <div class="mb-3">
           <label for="location" class="form-label">Location</label>
-          <input id="location"  class="form-control" aria-describedby="location-help"
+          <input id="location"  class="form-control" type="text" aria-describedby="location-help"
             name="location"
             placeholder="Enter the Location"
             value={job.location} />
