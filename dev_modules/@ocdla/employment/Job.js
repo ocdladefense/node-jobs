@@ -35,16 +35,17 @@ class Job {
      */
     static newFromJSON(data) {
         return new Job(
-            data.id,
-            data.ownerId,
-            data.jobTitle,
-            data.salary,
-            data.datePosted,
-            data.dateClosing,
-            data.fileUrl,
-            data.employer,
-            data.location,
-            data.openUntilFilled
+            data.Id,
+            data.OwnerId,
+            data.Name,
+            data.Salary__c,
+            data.PostingDate__c,
+            data.ClosingDate__c,
+            data.AttachmentUrl__c,
+            data.Employer__c,
+            data.Location__c,
+            data.OpenUntilFilled__c
+
         );
     }
     static toSObject(data){
