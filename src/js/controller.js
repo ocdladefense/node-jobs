@@ -34,7 +34,7 @@ export default class Controller {
     let openValue = this.getUserInput("open-until-filled");
     let isOpen = openValue == "on" ? true : false;
     let idvalue = this.getUserInput("id");
-    let id = idvalue == "" ? null : id;
+    let id = idvalue == "" ? null : idvalue;
     // Convert to Job object first.
     let job = {
       ownerId: USER_ID,
