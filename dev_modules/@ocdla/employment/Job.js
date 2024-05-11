@@ -15,17 +15,17 @@ class Job {
      * @param {string} location - The location of the position.
      * @param {bool} openUntilFilled - A boolean representing if the job should close when filled or not.
      */
-    constructor(id="", ownerId="", jobTitle="", salary="", datePosted="", dateClosing="", fileUrl="", employer="", location="", openUntilFilled="") {
-        this.id = id;
-        this.ownerId = ownerId,
-        this.jobTitle = jobTitle;
-        this.salary = salary;
-        this.datePosted = datePosted;
-        this.dateClosing = dateClosing;
-        this.fileUrl = fileUrl;
-        this.employer = employer;
-        this.location = location;
-        this.openUntilFilled = openUntilFilled;
+    constructor(title = "") {
+        this.id = "";
+        this.ownerId = "";
+        this.title = "";
+        this.salary = "";
+        this.datePosted = "";
+        this.dateClosing = "";
+        this.fileUrl = "";
+        this.employer = "";
+        this.location = "";
+        this.openUntilFilled = true;
     }
 
     /**
@@ -33,35 +33,37 @@ class Job {
      * @param {JSON} data - A JSON object
      * @returns {Job} - A Job object
      */
-    static newFromJSON(data) {
-        return new Job(
-            data.Id,
-            data.OwnerId,
-            data.Name,
-            data.Salary__c,
-            data.PostingDate__c,
-            data.ClosingDate__c,
-            data.AttachmentUrl__c,
-            data.Employer__c,
-            data.Location__c,
-            data.OpenUntilFilled__c
+    static newFromSObject(data) {
+        let job = new Job();
 
-        );
+        job.id = data.Id;
+        job.ownerId = data.OwnerId;
+        job.title = data.Name;
+        job.salary = data.Salary__c;
+        job.postingDate = data.PostingDate__c;
+        job.closingDate = data.ClosingDate__c;
+        job.attachmentUrl = data.AttachmentUrl__c;
+        job.employer = data.Employer__c;
+        job.location = data.Location__c;
+        job.openUntilFilled = data.OpenUntilFilled__c;
+
+        return job;
     }
+
+
     static toSObject(data){
         
-        let Job = {
-                "Id": data.id,
-                "Name": data.jobTitle,
-                "Salary__c": data.salary,
-                "PostingDate__c": data.datePosted,
-                "ClosingDate__c": data.dateClosing,
-                "AttachmentUrl__c": "https:/this-domain.org/documents/requirements",
-                "Employer__c": data.employer,
-                "Location__c": data.location,
-                "OpenUntilFilled__c": data.openUntilFilled,
+        return {
+            "Id": data.id,
+            "Name": data.jobTitle,
+            "Salary__c": data.salary,
+            "PostingDate__c": data.datePosted,
+            "ClosingDate__c": data.dateClosing,
+            "AttachmentUrl__c": "https:/this-domain.org/documents/requirements",
+            "Employer__c": data.employer,
+            "Location__c": data.location,
+            "OpenUntilFilled__c": data.openUntilFilled,
         };
-        return Job
     }
     
 

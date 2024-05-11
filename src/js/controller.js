@@ -99,9 +99,15 @@ export default class Controller {
   }
 
   onedit(job) {
-    let userID = USER_ID;
-    if (job == null || job.ownerId != userID) {
-      return <JobList jobs={this.records} message="You can't edit this at this time." ownerId={userID} />;
+    let userId = USER_ID;
+    if (job == null || job.ownerId != userId) {
+      return (
+        <JobList
+          jobs={this.records}
+          message="You don't have permission to perform this action."
+          ownerId={userId}
+        />
+      );
     } else {
       return <JobForm job={job} />;
     }
@@ -114,7 +120,7 @@ export default class Controller {
       await this.createJob(job);
     }
     await this.getJobs();
-    return (<JobList jobs={this.records} message="Yay, you created a new job!" />);
+    return (<JobList jobs={this.records} message="The record was created." />);
 
   }
 
@@ -122,7 +128,13 @@ export default class Controller {
     let message;
     let userID = USER_ID;
     if (job.ownerId != userID) {
-      return <JobList jobs={this.records} message="You can't edit this at this time." ownerId={userID} />;
+      return (
+        <JobList
+          jobs={this.records}
+          message="You don't have permission to perform this action."
+          ownerId={userID}
+        />
+      );
     }
 
     try {
@@ -209,46 +221,46 @@ export default class Controller {
 
 
   async getMockData() {
-    let j1 = Job.newFromJSON({
-      ownerId: "0",
-      id: "0",
-      jobTitle: "Legal Maverick",
-      salary: "$80,000",
-      datePosted: "4/20/2024",
-      dateClosing: "5/29/2024",
-      fileUrl: "https://my-domain.com/document1",
-      employer: "Veritas Law Group",
-      location: "Rivertown Junction",
-      openUntilFilled: false,
-    });
+    let j1 = {
+      OwnerId: "0",
+      Id: "0",
+      Name: "Legal Maverick",
+      Salary__c: "$80,000",
+      DatePosted__c: "4/20/2024",
+      DateClosing__c: "5/29/2024",
+      FileUrl__c: "https://my-domain.com/document1",
+      Employer__c: "Veritas Law Group",
+      Location__c: "Rivertown Junction",
+      OpneUntilFilled__c: false,
+    };
 
-    let j2 = Job.newFromJSON({
-      ownerId: "1",
-      id: "1",
-      jobTitle: "Trial Whisperer",
-      salary: "$110,000",
-      datePosted: "4/28/2024",
-      dateClosing: "5/10/2024",
-      fileUrl: "https:/this-domain.org/documents/requirements",
-      employer: "JusticeShield Attorneys",
-      location: "Cedarwood Heights",
-      openUntilFilled: true,
-    });
+    let j2 = {
+      OwnerId: "1",
+      Id: "1",
+      Name: "Trial Whisperer",
+      Salary__c: "$110,000",
+      DatePosted__c: "4/28/2024",
+      DateClosing__c: "5/10/2024",
+      FileUrl__c: "https:/this-domain.org/documents/requirements",
+      Employer__c: "JusticeShield Attorneys",
+      Location__c: "Cedarwood Heights",
+      OpenUntilFilled__c: true,
+    };
 
-    let j3 = Job.newFromJSON({
-      ownerId: "2",
-      id: "2",
-      jobTitle: "Justice Architect",
-      salary: "$96,000",
-      datePosted: "4/17/2024",
-      dateClosing: "6/1/2024",
-      fileUrl: "https://a-domain.law/justice-architect",
-      employer: "Liberty Legal Associates",
-      location: "Haborview Bay",
-      openUntilFilled: false,
-    });
+    let j3 = {
+      OwnerId: "2",
+      Id: "2",
+      Name: "Justice Architect",
+      Salary__c: "$96,000",
+      DatePosted__c: "4/17/2024",
+      DateClosing__c: "6/1/2024",
+      FileUrl__c: "https://a-domain.law/justice-architect",
+      Employer__c: "Liberty Legal Associates",
+      Location__c: "Haborview Bay",
+      OpenUntilFilled__c: false,
+    };
 
-    let mockJobs = [j1, j2, j3];
+    let mockJobs = [Job.newFromSObject(j1), Job.newFromSObject(j2), Job.newFromSObject(j3)];
 
     return Promise.resolve(mockJobs);
   }
