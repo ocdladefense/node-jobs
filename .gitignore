@@ -1,6 +1,7 @@
 
 # Created by https://www.gitignore.io/api/node,macos
 
+uploads
 
 .Notes.md
 # Salesforce cache
