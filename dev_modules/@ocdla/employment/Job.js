@@ -18,7 +18,7 @@ class Job {
     constructor(title = "") {
         this.id = "";
         this.ownerId = "";
-        this.title = "";
+        this.title = title;
         this.salary = "";
         this.datePosted = "";
         this.dateClosing = "";
@@ -33,7 +33,7 @@ class Job {
      * @param {JSON} data - A JSON object
      * @returns {Job} - A Job object
      */
-    static newFromSObject(data) {
+    static fromSObject(data) {
         let job = new Job();
 
         job.id = data.Id;
