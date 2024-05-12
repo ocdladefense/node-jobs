@@ -11,7 +11,6 @@ export default class Controller {
   records;
   useMock = USE_MOCK_RECORDS;
 
-
   static actions = ["new", "save", "edit", "delete", "cancel"];
 
   constructor(selector) {
@@ -52,7 +51,7 @@ export default class Controller {
     // Then, needs to be converted from Job object to Salesforce "SObject", i.e., job.toSObject();
     // So this conversion, which you are doing manually here, should be done in the Job class.uh
 
-    return Job.toSObject(job);
+    return job.toSObject();
   }
 
   async handleEvent(e) {
@@ -62,7 +61,7 @@ export default class Controller {
     let id = target.dataset.id;
     let job;
     let nextRender;
-    let method = "on" + action;
+    let method;
 
     // Bail out if we're not interested in the user's interaction.
     if (
@@ -83,24 +82,53 @@ export default class Controller {
     }
 
 
+  method = "onRequest" + this.toTitleCase(action);
+
     try {
       nextRender = await this[method](job);
     } catch (e) {
-      console.log(e);
+      console.log(e, method);
+
       window.alert(e.message);
     }
-
 
     this.view.update(nextRender);
   }
 
-  onnew(job) {
+  async onRequestDelete(job) {
+    let message;
+    let userId = USER_ID;
+
+    if (!job.isOwner(userId)) {
+      throw new Error("You don't have permission to perform this action.");
+    }
+
+    try {
+      await this.deleteJob(job.id);
+      message = "The record was deleted.";
+    } catch (e) {
+      message = e.message;
+    }
+
+    await this.getJobs(this.records);
+
+    return <JobList jobs={this.records} message={message} ownerId={userId} />;
+  }
+
+  async deleteJob(id) {
+    if (this.useMock) {
+      this.records = this.records.filter((record) => record.id != id);
+    }
+    else await this.api.delete("Job__c", id);
+  }
+
+  onRequestCreate(job) {
     return <JobForm job={job} />;
   }
 
-  onedit(job) {
+  onRequestEdit(job) {
     let userId = USER_ID;
-    if (job == null || job.ownerId != userId) {
+    if (job == null || !job.isOwner(userId)) {
       return (
         <JobList
           jobs={this.records}
@@ -113,71 +141,36 @@ export default class Controller {
     }
   }
 
-  async onsave(job) {
+  async onRequestSave(job) {
     if (!!job.Id) {
       this.updateJob(job);
     } else {
       await this.createJob(job);
     }
     await this.getJobs();
-    return (<JobList jobs={this.records} message="The record was created." />);
-
+    return <JobList jobs={this.records} message="The record was created." />;
   }
 
-  async ondelete(job) {
-    let message;
-    let userID = USER_ID;
-    if (job.ownerId != userID) {
-      return (
-        <JobList
-          jobs={this.records}
-          message="You don't have permission to perform this action."
-          ownerId={userID}
-        />
-      );
-    }
-
-    try {
-      await this.deleteJob(job.id);
-      message = "Everything good!";
-    } catch (e) {
-      message = e.message;
-    }
-    await this.getJobs();
-
-    return (<JobList jobs={this.records} message={message} ownerId={USER_ID} />);
-  }
-
-
-  oncancel() {
+  onRequestCancel() {
     return <JobList jobs={this.records} ownerId={USER_ID} />;
   }
-
-
 
   getRecord(recordId) {
     let result = this.records.filter((record) => record.id == recordId);
     return result.length > 0 ? result[0] : null;
   }
 
-
-
-  async getJobs() {
+  async getJobs(records) {
     if (this.useMock) {
-      this.records = await this.getMockData();
+      this.records = records || await this.getMockData();
     } else {
       let resp = await this.api.query(
-        "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c,ClosingDate__c, AttachmentUrl__c, Employer__c,Location__c,OpenUntilFilled__c FROM Job__c"
+        "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c FROM Job__c"
       );
 
-      this.records = resp.records.map((record) => Job.newFromJSON(record));
-
-      //let request = await this.api.query(QUERY);
-      // this.records = request.records;
+      this.records = resp.records.map((record) => Job.fromSObject(record));
     }
   }
-
-
 
   render() {
     let initialView = <JobList jobs={this.records} ownerId={USER_ID} />;
@@ -185,19 +178,13 @@ export default class Controller {
     this.view.render(this.currentView);
   }
 
-
-
   renderForm(j) {
     this.view.update(<JobForm job={j} />);
   }
 
-
-
   async createJob(job) {
     await this.api.create("Job__c", job);
   }
-
-
 
   async updateJob(job) {
     let temp = await this.api.update("Job__c", job);
@@ -211,14 +198,6 @@ export default class Controller {
       );
     }
   }
-
-
-
-  async deleteJob(id) {
-    await this.api.delete("Job__c", id);
-  }
-
-
 
   async getMockData() {
     let j1 = {
@@ -260,8 +239,18 @@ export default class Controller {
       OpenUntilFilled__c: false,
     };
 
-    let mockJobs = [Job.newFromSObject(j1), Job.newFromSObject(j2), Job.newFromSObject(j3)];
+    let mockJobs = [
+      Job.fromSObject(j1),
+      Job.fromSObject(j2),
+      Job.fromSObject(j3),
+    ];
 
     return Promise.resolve(mockJobs);
+  }
+
+  toTitleCase(str) {
+    return str.replace(/\w\S*/g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
   }
 }
