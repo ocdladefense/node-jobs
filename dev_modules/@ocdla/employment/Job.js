@@ -51,18 +51,18 @@ class Job {
     }
 
 
-    static toSObject(data){
+    toSObject(){
         
         return {
-            "Id": data.id,
-            "Name": data.jobTitle,
-            "Salary__c": data.salary,
-            "PostingDate__c": data.postingDate,
-            "ClosingDate__c": data.closingDate,
+            "Id": this.id,
+            "Name": this.title,
+            "Salary__c": this.salary,
+            "PostingDate__c": this.postingDate,
+            "ClosingDate__c": this.closingDate,
             "AttachmentUrl__c": "https:/this-domain.org/documents/requirements",
-            "Employer__c": data.employer,
-            "Location__c": data.location,
-            "OpenUntilFilled__c": data.openUntilFilled,
+            "Employer__c": this.employer,
+            "Location__c": this.location,
+            "OpenUntilFilled__c": this.openUntilFilled,
         };
     }
     
