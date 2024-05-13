@@ -47,14 +47,15 @@ class Job {
         job.employer = formValues.get("employer");
         job.location = formValues.get("location");
         job.openUntilFilled = formValues.get("open-until-filled");
+        job.isActive = ""; //finish this? a checkbox on the form, have some instructions
         return job;
     }
 
     static fromSObject(SObject) {
         let job = new Job();
-        job.id = SObject.id; //
-        job.ownerId = SObject.userId, //
-        job.jobTitle = SObject.jobtitle; //
+        job.id = SObject.Id; //
+        job.ownerId = SObject.OwnerId, //
+        job.jobTitle = SObject.Name; //
         job.salary = SObject.Salary__c;
         job.datePosted = SObject.PostingDate__c;
         job.dateClosing = SObject.ClosingDate__c;
@@ -62,7 +63,6 @@ class Job {
         job.employer = SObject.Employer__c;
         job.location = SObject.Location__c;
         job.openUntilFilled = SObject.OpenUntilFilled__c;
-
     }
 
     toSObject() {
@@ -70,7 +70,7 @@ class Job {
             AttachementUrl__c: this.fileUrl,
             ClosingDate__c: this.dateClosing,
             Employer__c: this.employer,
-            IsActive__c: "", //
+            IsActive__c: this.isActive, 
             Location__c: this.location,
             OpenUntilFilled__c: this.openUntilFilled,
             PostingDate__c: this.datePosted,
