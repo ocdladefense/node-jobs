@@ -54,15 +54,15 @@ class Job {
     toSObject(){
         
         return {
-            "Id": this.id,
-            "Name": this.title,
-            "Salary__c": this.salary,
-            "PostingDate__c": this.postingDate,
-            "ClosingDate__c": this.closingDate,
-            "AttachmentUrl__c": "https:/this-domain.org/documents/requirements",
-            "Employer__c": this.employer,
-            "Location__c": this.location,
-            "OpenUntilFilled__c": this.openUntilFilled,
+            Id: this.id,
+            Name: this.title,
+            Salary__c: this.salary,
+            PostingDate__c: this.postingDate,
+            ClosingDate__c: this.closingDate,
+            AttachmentUrl__c: "https:/this-domain.org/documents/requirements",
+            Employer__c: this.employer,
+            Location__c: this.location,
+            OpenUntilFilled__c: this.openUntilFilled,
         };
     }
     
