@@ -31,13 +31,14 @@ const JobForm = function(props) {
     let job = props.job;
 
     return (
-      <form>
+      <form id="record-form" class="needs-validation">
         <div class="mb-3">
           <label for="title" class="form-label">Job Title</label>
           <input id="title"  class="form-control" aria-describedby="title-help"
             placeholder="Enter Job Title" 
-            value={job.jobTitle} />
-          <div id="title-help" class="form-text fs-6">The title of the job position (insert data constraints here).</div>
+            value={job.jobTitle}
+            required/>
+          <div id="title-help" class="form-text fs-6 valid-feedback invalid-feedback">The title of the job position (insert data constraints here).</div>
         </div>
 
         <input  id="id"  value={job.id} type="hidden"/>
@@ -47,7 +48,7 @@ const JobForm = function(props) {
           <input id="employer"  class="form-control" aria-describedby="employer-help"
             placeholder="Enter the Employer"
             value={job.employer} />
-          <div id="employer-help" class="form-text fs-6">The name of the Employer (insert data constraints here).</div>
+          <div id="employer-help" class="form-text fs-6 valid-feedback invalid-feedback">The name of the Employer (insert data constraints here).</div>
         </div>
 
         <div class="mb-3">
@@ -55,7 +56,7 @@ const JobForm = function(props) {
           <input id="salary"  class="form-control" aria-describedby="salary-help"
             placeholder="Enter the Salary" 
             value={job.salary} />
-          <div id="salary-help" class="form-text fs-6">The compensation information for the position (insert data constraints here).</div>
+          <div id="salary-help" class="form-text fs-6 valid-feedback invalid-feedback">The compensation information for the position (insert data constraints here).</div>
         </div>
 
         <div class="mb-3">
@@ -63,7 +64,7 @@ const JobForm = function(props) {
           <input id="location"  class="form-control" aria-describedby="location-help"
             placeholder="Enter the Location"
             value={job.location} />
-          <div id="location-help" class="form-text fs-6">The location where the job will take place (insert data constraints here).</div>
+          <div id="location-help" class="form-text fs-6 valid-feedback invalid-feedback">The location where the job will take place (insert data constraints here).</div>
         </div>
 
         <div class="mb-3">
@@ -71,7 +72,7 @@ const JobForm = function(props) {
         <input id="date-posted"  class="form-control" type="date" aria-describedby="date-posted-help"
           placeholder={job.datePosted}
           value={job.datePosted} />
-        <div id="date-posted-help" class="form-text fs-6">The date job was posted (this will be automatic eventually).</div>
+        <div id="date-posted-help" class="form-text fs-6 valid-feedback invalid-feedback">The date job was posted (this will be automatic eventually).</div>
         </div>
 
         <div class="mb-3">
@@ -79,7 +80,7 @@ const JobForm = function(props) {
           <input id="date-closing"  class="form-control" type="date" aria-describedby="date-closing-help"
             placeholder={job.dateClosing}  
             value={job.dateClosing}/>
-          <div id="date-closing-help" class="form-text fs-6">The date that the job posting will close, if any (enter data constraints here).</div>
+          <div id="date-closing-help" class="form-text fs-6 valid-feedback invalid-feedback">The date that the job posting will close, if any (enter data constraints here).</div>
         </div>
 
         <FileUpload url={job.fileUrl} />
@@ -93,7 +94,7 @@ const JobForm = function(props) {
               <input id="open-until-filled"  class="form-input m-2" type="checkbox" aria-describedby="checkbox-help" />
             )}
           </div>
-          <div id="checkbox-help" class="form-text fs-6">Whether or not the job posting closes once it is filled.</div>
+          <div id="checkbox-help" class="form-text fs-6 valid-feedback invalid-feedback">Whether or not the job posting closes once it is filled.</div>
         </div>
 
 
