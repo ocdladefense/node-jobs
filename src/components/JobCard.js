@@ -9,14 +9,14 @@ const JobCard = function(props) {
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col">
                 <div class="card mb-3">
-                    <div class="card-header text-white bg-dark mb-3">{job.jobTitle}</div>
+                    <div class="card-header text-white bg-dark mb-3">{job.title}</div>
                         <div class="card-body text-dark">
                             <p class="card-text">
                                 <strong>Employer:</strong> {job.employer} <br />
                                 <strong>Salary:</strong> {job.salary} <br />
                                 <strong>Location:</strong> {job.location} <br />
-                                <strong>Date Posted:</strong> {job.datePosted} <br />
-                                <strong>Date Closing:</strong> {job.dateClosing} <br />
+                                <strong>Date Posted:</strong> {job.postingDate} <br />
+                                <strong>Date Closing:</strong> {job.closingDate} <br />
                                 <strong>Open until filled:</strong> {job.openUntilFilled ? 'Yes' : 'No'}<br />
                             </p>
                         </div>
