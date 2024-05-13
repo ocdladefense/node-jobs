@@ -167,7 +167,12 @@ Promise:
 * Implement my JSX stuff
 
 
-Note:
+## Relevant Links
+* [Serving static files in Express](https://expressjs.com/en/starter/static-files.html)
+* [Express app.get() Request Function](https://www.geeksforgeeks.org/express-js-app-get-request-function/)
+
+
+## Note:
 * We each will create feature branches
 * Naming convention ex: `my-good-feature`
 * Tuesday we will look at merging
