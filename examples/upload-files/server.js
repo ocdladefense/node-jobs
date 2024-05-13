@@ -26,7 +26,7 @@ app.get('/foobar', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
+    res.sendFile(__dirname + '/dist/index.html');
 });
 
 app.post("/uploads", uploads.array("files"), (req, res) => {

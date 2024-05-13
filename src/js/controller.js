@@ -147,7 +147,19 @@ export default class Controller {
 
     // Everything above this line gets nuked and replaced with individual methods.
 
+    // Lines 151-162 of code handles the file upload
+    const formData = new FormData();
 
+    for (let i=0; i < files.files.length; i++) {
+        formData.append("files", files.files[i]);
+    }
+
+    fetch('/uploads', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(res => res.json())
+    .then(data => console.log(data));
 
     this.view.update(nextRender);
     return false;

@@ -1,37 +1,5 @@
 # Notes
 
-## Keep
-* server.js
-* Add the following code to controller.js:
-```
-    const files = document.getElementById("files");
-
-    const formData = new FormData();
-    for (let i=0; i < files.files.length; i++) {
-        formData.append("files", files.files[i]);
-    }
-
-    fetch('/uploads', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(res => res.json())
-    .then(data => console.log(data));
-```
-
-## Remove
-* package.json
-* package-lock.json
-* index.js
-* index.html
-
-## Entry Points / Changes
-```
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/dist/index.html');
-});
-```
-
 ## To-Do
 * npm update
 * node server
@@ -41,6 +9,7 @@ app.get('/', (req, res) => {
 * Commit/Push
 
 ## Completed
+### Keep
 * index.html example:
 ```
 <body>
@@ -65,3 +34,33 @@ app.get('/', (req, res) => {
 
 * uploads folder - Completed
 * Add /uploads to .gitignore
+* Add the following code to controller.js:
+```
+    const files = document.getElementById("files");
+
+    const formData = new FormData();
+    for (let i=0; i < files.files.length; i++) {
+        formData.append("files", files.files[i]);
+    }
+
+    fetch('/uploads', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(res => res.json())
+    .then(data => console.log(data));
+```
+* server.js
+
+### Remove
+* package.json
+* package-lock.json
+* index.js
+* index.html
+
+### Entry Points / Changes
+```
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/dist/index.html');
+});
+```
