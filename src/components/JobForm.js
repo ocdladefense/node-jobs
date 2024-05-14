@@ -71,20 +71,20 @@ const JobForm = function(props) {
         </div>
 
         <div class="mb-3">
-        <label for="date-posted" class="form-label">Date Posted</label>
-        <input id="date-posted"  class="form-control" type="date" aria-describedby="date-posted-help"
-          name="date-posted"
-          placeholder={job.datePosted}
+        <label for="posting-date" class="form-label">Date Posted</label>
+        <input id="posting-date"  class="form-control" type="date" aria-describedby="posting-date-help"
+          name="posting-date"
+          placeholder=""
           value={job.postingDate} />
-        <div id="date-posted-help" class="form-text fs-6">The date job was posted (this will be automatic eventually).</div>
+        <div id="posting-date-help" class="form-text fs-6">The date job was posted (this will be automatic eventually).</div>
         </div>
 
         <div class="mb-3">
           <label for="date-closing" class="form-label">Date Closing</label>
           <input id="date-closing"  class="form-control" type="date" aria-describedby="date-closing-help"
             name="date-closing"
-            placeholder={job.dateClosing}  
-            value={job.closingDate }/>
+            placeholder="" 
+            value={job.closingDate} />
           <div id="date-closing-help" class="form-text fs-6">The date that the job posting will close, if any (enter data constraints here).</div>
         </div>
 
@@ -105,7 +105,7 @@ const JobForm = function(props) {
 
         <input type="submit" data-action="save" value="Save" />
         {job.id == "" ? ("") :(<input type="submit" data-action="delete" value="Delete" />)}
-        <input type="button" data-action="cancel" value="Cancel" />
+        <a href="#" type="button" value="Cancel" >Cancel</a>
       </form>
     );
 };

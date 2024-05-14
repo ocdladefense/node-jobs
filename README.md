@@ -170,7 +170,7 @@ Promise:
 ## Relevant Links
 * [Serving static files in Express](https://expressjs.com/en/starter/static-files.html)
 * [Express app.get() Request Function](https://www.geeksforgeeks.org/express-js-app-get-request-function/)
-
+* [Using JSON](https://stackoverflow.com/questions/43735486/load-static-json-file-in-webpack)]
 
 ## Note:
 * We each will create feature branches

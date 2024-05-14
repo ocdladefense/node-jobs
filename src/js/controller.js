@@ -7,16 +7,20 @@ import Job from "../../node_modules/@ocdla/employment/Job.js";
 
 
 
+
 export default class Controller {
   records;
   useMock = USE_MOCK_RECORDS;
 
   static actions = ["create", "save", "edit", "delete", "cancel"];
 
-  constructor(selector) {
-    this.selector = selector;
+  constructor() {
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
-    this.view = View.createRoot(this.selector);
+    //this.view = View.createRoot(this.selector);
+  }
+
+  returnRecords() {
+    return this.records;
   }
 
   getUserInput(id) {
@@ -147,7 +151,7 @@ export default class Controller {
     return result.length > 0 ? result[0] : null;
   }
 
-  async getJobs(records) {
+  async loadData(records) {
     if (this.useMock) {
       this.records = records || await this.getMockData();
     } else {
@@ -160,9 +164,20 @@ export default class Controller {
   }
 
   render() {
-    let initialView = <JobList jobs={this.records} ownerId={USER_ID} />;
-    this.currentView = initialView;
-    this.view.render(this.currentView);
+      let jobs = this.records;
+      let userId = USER_ID;
+      let message = props.error || props.message || "";
+  
+      return (
+          <div>
+              <div style="color:red;" class="error">{message}</div>
+              
+              <a href="#new" style="margin-bottom: 15px; display: block;" id="button">Create a Job Posting</a>
+              <div class="list-group">
+                  {jobs.map(job => <JobCard job={job} isOwner={job.isOwner(userId)} />)} 
+              </div>
+          </div>
+      );
   }
 
   renderForm(j) {
