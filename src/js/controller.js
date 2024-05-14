@@ -11,7 +11,7 @@ export default class Controller {
   records;
   useMock = USE_MOCK_RECORDS;
 
-  static actions = ["new", "save", "edit", "delete", "cancel"];
+  static actions = ["create", "save", "edit", "delete", "cancel"];
 
   constructor(selector) {
     this.selector = selector;
@@ -62,7 +62,7 @@ export default class Controller {
     // Construct a Job object when necessary.
     if (["save"].includes(action)) {
       job = this.getFormData();
-    } else if (action == "new") {
+    } else if (action == "create") {
       job = new Job();
     } else if (action == "edit" || action == "delete") {
       job = this.getRecord(id);
