@@ -19,15 +19,19 @@ const uploads = multer({storage: storage});
 //const uploads = multer({dest: __dirname + "/uploads"});
 
 // Change to 'dist'
-app.use(express.static('public'))
+app.use(express.static('examples/server/public'));
 
-app.get('/foobar', (req, res) => {
-    res.send("GET Request Called")
-})
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/dist/index.html');
+
+// Goal - how do we marry node server with our compiled webpack code?
+
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/upload.html");
 });
+
+
+
 
 app.post("/uploads", uploads.array("files"), (req, res) => {
     console.log(req.body);
