@@ -5,6 +5,7 @@ import {vNode, View} from "@ocdla/view";
 const JobCard = function(props) {
     let job = props.job;
 
+    
     return (
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col">
@@ -28,6 +29,7 @@ const JobCard = function(props) {
             </div>
         </div>
     )
+    
 };
 
 export default JobCard;
