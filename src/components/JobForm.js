@@ -37,7 +37,7 @@ const JobForm = function(props) {
           <input id="title"  class="form-control" type="text" aria-describedby="title-help"
             name="title"
             placeholder="Enter Job Title" 
-            value={job.jobTitle} />
+            value={job.title} />
           <div id="title-help" class="form-text fs-6">The title of the job position (insert data constraints here).</div>
         </div>
 
@@ -75,7 +75,7 @@ const JobForm = function(props) {
         <input id="date-posted"  class="form-control" type="date" aria-describedby="date-posted-help"
           name="date-posted"
           placeholder={job.datePosted}
-          value={job.datePosted} />
+          value={job.postingDate} />
         <div id="date-posted-help" class="form-text fs-6">The date job was posted (this will be automatic eventually).</div>
         </div>
 
@@ -84,7 +84,7 @@ const JobForm = function(props) {
           <input id="date-closing"  class="form-control" type="date" aria-describedby="date-closing-help"
             name="date-closing"
             placeholder={job.dateClosing}  
-            value={job.dateClosing}/>
+            value={job.closingDate }/>
           <div id="date-closing-help" class="form-text fs-6">The date that the job posting will close, if any (enter data constraints here).</div>
         </div>
 

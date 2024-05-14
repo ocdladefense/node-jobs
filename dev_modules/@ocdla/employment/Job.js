@@ -42,8 +42,8 @@ export default class Job {
         job.ownerId = vals.get("owner-id");
         job.title = vals.get("title");
         job.salary = vals.get("salary");
-        job.postingDate = vals.get("date-posted");
-        job.closingDate = vals.get("date-closing");
+        job.postingDate = vals.get("posting-date");
+        job.closingDate = vals.get("closing-date");
         job.fileUrl = vals.get("file-upload");
         job.employer = vals.get("employer");
         job.location = vals.get("location");
