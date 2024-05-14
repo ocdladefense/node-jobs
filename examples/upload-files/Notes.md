@@ -3,7 +3,8 @@
 ## To-Do
 * npm update
 * node server
-* url: 
+* file path: C:\Users\kelsi_trwt3rq\Portfolio\Internship\node-jobs\examples\upload-files\index.html
+Note: Your file path may be different from mine.
 * Move relevant files/folders
 * Test
 * Commit/Push
