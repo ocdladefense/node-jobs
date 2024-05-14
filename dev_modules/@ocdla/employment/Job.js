@@ -3,18 +3,18 @@
  * @module Job
  * @classdesc This class helps normalize data into job objects. 
  */
-class Job {
+export default class Job {
     /**
      * @constructor 
-     * @param {string} jobTitle - The title of the job.
+     * @param {string} title - The title of the job.
      */
     constructor(title = "") {
         this.id = "";
         this.ownerId = "";
         this.title = title;
         this.salary = "";
-        this.datePosted = "";
-        this.dateClosing = "";
+        this.postingDate = "";
+        this.closingDate = "";
         this.fileUrl = "";
         this.employer = "";
         this.location = "";
@@ -36,50 +36,56 @@ class Job {
 
     static fromFormData(formData) {
         // set each relevant property on the job constructor
-        let formValues = formData.values;
+        let vals = formData.values;
         let job = new Job();
-        job.ownerId = USER_ID;
-        job.jobTitle = formValues.get("title");
-        job.salary = formValues.get("salary");
-        job.datePosted = formValues.get("date-posted");
-        job.dateClosing = formValues.get("date-closing");
-        job.fileUrl = formValues.get("file-upload");
-        job.employer = formValues.get("employer");
-        job.location = formValues.get("location");
-        job.openUntilFilled = formValues.get("open-until-filled");
+
+        job.ownerId = vals.get("owner-id");
+        job.title = vals.get("title");
+        job.salary = vals.get("salary");
+        job.postingDate = vals.get("date-posted");
+        job.closingDate = vals.get("date-closing");
+        job.fileUrl = vals.get("file-upload");
+        job.employer = vals.get("employer");
+        job.location = vals.get("location");
+        job.openUntilFilled = vals.get("open-until-filled");
         job.isActive = ""; //finish this? a checkbox on the form, have some instructions
+
         return job;
     }
 
     static fromSObject(SObject) {
         let job = new Job();
+
         job.id = SObject.Id; //
         job.ownerId = SObject.OwnerId, //
-        job.jobTitle = SObject.Name; //
+        job.title = SObject.Name; //
         job.salary = SObject.Salary__c;
-        job.datePosted = SObject.PostingDate__c;
-        job.dateClosing = SObject.ClosingDate__c;
+        job.postingDate = SObject.PostingDate__c;
+        job.closingDate = SObject.ClosingDate__c;
         job.fileUrl = SObject.AttachmentUrl__c;
         job.employer = SObject.Employer__c;
         job.location = SObject.Location__c;
         job.openUntilFilled = SObject.OpenUntilFilled__c;
+
+        return job;
     }
 
     toSObject() {
         return {
-            AttachementUrl__c: this.fileUrl,
-            ClosingDate__c: this.dateClosing,
-            Employer__c: this.employer,
-            IsActive__c: this.isActive, 
-            Location__c: this.location,
-            OpenUntilFilled__c: this.openUntilFilled,
-            PostingDate__c: this.datePosted,
-            Salary__c: this.salary
+          Name: this.title,
+          AttachementUrl__c: this.fileUrl,
+          PostingDate__c: this.datePosted,
+          ClosingDate__c: this.dateClosing,
+          OpenUntilFilled__c: this.openUntilFilled,
+          Employer__c: this.employer,
+          IsActive__c: this.isActive,
+          Location__c: this.location,
+          Salary__c: this.salary
         };
     }
 
     isOwner(id) {
-        return id == this.ownerId;
+        return true;//id == this.ownerId;
     }
 }
-export default Job;
+
