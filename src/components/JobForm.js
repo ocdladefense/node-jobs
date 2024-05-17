@@ -87,7 +87,7 @@ const JobForm = function(props) {
           <div id="date-closing-help" class="form-text fs-6 valid-feedback invalid-feedback">The date that the job posting will close, if any (enter data constraints here).</div>
         </div>
 
-        <FileUpload url={job.fileUrl} />
+        {/* <FileUpload url={job.fileUrl} /> */}
 
         <div class="mb-3">
           <div class="input-group">
