@@ -36,7 +36,7 @@ export default class Job {
 
     static fromFormData(formData) {
         // set each relevant property on the job constructor
-        let vals = formData.values;
+        let vals = formData;
         let job = new Job();
 
         job.ownerId = vals.get("owner-id");
