@@ -117,9 +117,18 @@ export default JobForm;
 export default class JobForm {
   useMock = USE_MOCK_RECORDS;
 
+  static actions = ["save", "delete", "cancel"];
+
   constructor(job) {
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
     this.job = job;
+  }
+
+  loadData() {
+    /*
+    if job has id, load data
+    else, give it a new job
+    */
   }
 
   getUserInput(id) {
@@ -146,17 +155,32 @@ export default class JobForm {
       return;
     }
 
-    if (["save"].includes(action)) {
-      job = this.getFormData();
-    } else if (action == "create") {
-      job = new Job();
+    // if (["save"].includes(action)) {
+    //   job = this.getFormData();
+    // } 
+
+    if(!JobForm.actions.includes(action)) {
+      return;
+    }
+
+    job = this.getFormData();
+
+    if (action == "cancel") {
+      if(window.confirm("Are you sure?")) { window.location.assign("#"); }
+    }
+
+    if (action == "delete") {
+      this.deleteJob();
+      window.location.assign("#specifications");
     }
 
     if (!!job.Id) {
-      this.updateJob(job);
+      await this.updateJob(job);
     } else {
       await this.createJob(job);
     }
+
+    // If everything okay, redirect to # (pound)
   }
 
   async createJob(job) {
@@ -170,11 +194,17 @@ export default class JobForm {
     }
   }
 
+  listenTo(event) {
+    let elem = document.querySelector("#job-container");
+    elem.addEventListener(event, this);
+  }
+
   render() {
     let job = this.job;
 
     return (
-      <form id="record-form" onSubmit={this.handleEvent.bind(this)}>
+      <form id="record-form">
+        
         <div class="mb-3">
           <label for="title" class="form-label">Job Title</label>
           <input id="title"  class="form-control" aria-describedby="title-help"
@@ -239,7 +269,8 @@ export default class JobForm {
 
         <input type="submit" data-action="save" value="Save" />
         {job.id == "" ? ("") :(<input type="submit" data-action="delete" value="Delete" />)}
-        <a href="#" type="button" value="Cancel" >Cancel</a>
+        {/* <a href="#" type="button" value="Cancel" >Cancel</a> */}
+        <button type="button" value="Cancel" data-action="cancel">Cancel</button>
       </form>
     );
   }
