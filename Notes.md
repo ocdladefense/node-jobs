@@ -47,3 +47,11 @@
 * you will need to add jobs to your oclda sandbox to use that
 * its okay to pretend that function for bootstrap is working in controller, paste into the console and execute it if needed
 * try to implement in the controller, and encorporate bootstrap styling
+
+# Charlese
+* Validation
+* Implement Job Description field - full text
+
+# Kelsie & Alex
+* Each action is working with form
+* Determine basic UX validation fails, let user know, what to happen
