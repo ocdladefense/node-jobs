@@ -238,8 +238,8 @@ export default class JobForm {
         </div>
 
         <input type="submit" data-action="save" value="Save" />
-        <input type="submit" data-action="delete" value="Delete" />
-        <input type="button" data-action="cancel" value="Cancel" />
+        {job.id == "" ? ("") :(<input type="submit" data-action="delete" value="Delete" />)}
+        <a href="#" type="button" value="Cancel" >Cancel</a>
       </form>
     );
   }
