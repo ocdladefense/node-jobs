@@ -38,7 +38,7 @@ const JobForm = function(props) {
             name="title"
             placeholder="Enter Job Title" 
             value={job.jobTitle}
-            required/>
+            required />
           <div id="title-help" class="form-text fs-6 valid-feedback invalid-feedback">The title of the job position (insert data constraints here).</div>
         </div>
 
@@ -102,9 +102,9 @@ const JobForm = function(props) {
         </div>
 
 
-        <input type="submit" data-action="save" value="Save" />
-        {job.id == "" ? ("") :(<input type="submit" data-action="delete" value="Delete" />)}
-        <a href="#" type="button" value="Cancel" >Cancel</a>
+        <button type="submit" href="#save" value="Save">Save</button>
+        {job.id == "" ? ("") :(<button type="delete" href="#delete" value="Delete">Delete</button>)}
+        <a href="#" value="Cancel">Cancel</a>
       </form>
     );
 };

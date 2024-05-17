@@ -7,6 +7,7 @@ import Job from "../../node_modules/@ocdla/employment/Job.js";
 export default class Router {
 
     static validHashes = [];
+    static actions = ["create", "save", "edit", "delete", "cancel"];
 
     constructor(selector) {
         this.selector = selector;
@@ -20,18 +21,34 @@ export default class Router {
         if (hash == "") {
             let c = new JobList();
             //c.listenTo("click");
+            //c.setupEventHandlers();
             await c.loadData();
             tree = c.render();
+            this.view.render(tree);
         } else if (hash == "#new") { 
             let job = new Job();
             tree = <JobForm job={job}/>;
-        } 
+            this.view.render(tree);
+        } else if (hash == "#save") {
+            let isValid = this.validateSubmission();
+            if (!isValid) {
+                console.log("form was not valid!");
+                //rerender the page with the error messages
+                let form = document.getElementById("record-form");
+                tree = form;
+                this.view.update(tree);
+            } else {
+                let c = new JobList();
+                await c.loadData();
+                tree = c.render();
+                this.view.render(tree);
+            }
+        }
 
-        this.view.render(tree);
+        //this.view.render(tree);
     }
 
     listenTo(event) {
-        //let elem = document.querySelector(this.selector);
         window.addEventListener(event, this);
       }
 
@@ -40,6 +57,19 @@ export default class Router {
         this.render();
     }
 
-    
+    validateSubmission() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        let forms = document.querySelectorAll('.needs-validation');
+
+        // Loop over them and prevent submission
+        for (let i = 0; i < forms.length; i++) {
+            let form = forms[i];
+            let validity = form.checkValidity();
+            form.classList.add('was-validated')
+            return validity;
+        }
+    }
 }
 
