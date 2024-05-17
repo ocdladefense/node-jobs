@@ -2,6 +2,9 @@
 # Created by https://www.gitignore.io/api/node,macos
 
 
+/uploads/*
+!/uploads/.gitkeep
+
 .Notes.md
 # Salesforce cache
 .sfdx/

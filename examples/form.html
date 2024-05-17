@@ -38,7 +38,10 @@
                 <input id="dateClosing" class="form-control" placeholder="MM/DD/YYYY" value={job.employer} />
             </div>
         
-            <FileUpload url={fileUrl} />
+            <div class="form-group">
+                <label for="fileupload">Upload Files:</label>
+                <input id="fileupload" class="form-control" type="file" value={fileUrl} multiple />
+            </div>
         
             <div class="form-check">
                 <input id="openUntilFilled" class="form-check-input" type="checkbox" checked />

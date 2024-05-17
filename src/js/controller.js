@@ -7,16 +7,20 @@ import Job from "../../node_modules/@ocdla/employment/Job.js";
 
 
 
+
 export default class Controller {
   records;
   useMock = USE_MOCK_RECORDS;
 
-  static actions = ["new", "save", "edit", "delete", "cancel"];
+  static actions = ["create", "save", "edit", "delete", "cancel"];
 
-  constructor(selector) {
-    this.selector = selector;
+  constructor() {
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
-    this.view = View.createRoot(this.selector);
+    //this.view = View.createRoot(this.selector);
+  }
+
+  returnRecords() {
+    return this.records;
   }
 
   getUserInput(id) {
@@ -30,23 +34,10 @@ export default class Controller {
   }
 
   getFormData() {
-    let openValue = this.getUserInput("open-until-filled");
-    let isOpen = openValue == "on" ? true : false;
-    let idvalue = this.getUserInput("id");
-    let id = idvalue == "" ? null : idvalue;
-    // Convert to Job object first.
-    let job = {
-      ownerId: USER_ID,
-      id: id,
-      jobTitle: this.getUserInput("title"),
-      salary: this.getUserInput("salary"),
-      datePosted: this.getUserInput("date-posted"),
-      dateClosing: this.getUserInput("date-closing"),
-      fileUrl: "https://a-domain.law/justice-architect",
-      employer: this.getUserInput("employer"),
-      location: this.getUserInput("location"),
-      openUntilFilled: isOpen,
-    };
+    let formEl = document.getElementById("record-form");
+    let formData = new FormData(formEl);
+
+    let job = Job.fromFormData(formData);
 
     // Then, needs to be converted from Job object to Salesforce "SObject", i.e., job.toSObject();
     // So this conversion, which you are doing manually here, should be done in the Job class.uh
@@ -75,7 +66,7 @@ export default class Controller {
     // Construct a Job object when necessary.
     if (["save"].includes(action)) {
       job = this.getFormData();
-    } else if (action == "new") {
+    } else if (action == "create") {
       job = new Job();
     } else if (action == "edit" || action == "delete") {
       job = this.getRecord(id);
@@ -160,7 +151,7 @@ export default class Controller {
     return result.length > 0 ? result[0] : null;
   }
 
-  async getJobs(records) {
+  async loadData(records) {
     if (this.useMock) {
       this.records = records || await this.getMockData();
     } else {
@@ -173,9 +164,20 @@ export default class Controller {
   }
 
   render() {
-    let initialView = <JobList jobs={this.records} ownerId={USER_ID} />;
-    this.currentView = initialView;
-    this.view.render(this.currentView);
+      let jobs = this.records;
+      let userId = USER_ID;
+      let message = props.error || props.message || "";
+  
+      return (
+          <div>
+              <div style="color:red;" class="error">{message}</div>
+              
+              <a href="#new" style="margin-bottom: 15px; display: block;" id="button">Create a Job Posting</a>
+              <div class="list-group">
+                  {jobs.map(job => <JobCard job={job} isOwner={job.isOwner(userId)} />)} 
+              </div>
+          </div>
+      );
   }
 
   renderForm(j) {
