@@ -32,9 +32,25 @@ export default class FileUpload {
   }
 
   async uploadFile(file) {
-    // Implement file upload logic here.
-    // This could involve sending a request to the server or a third-party service.
-    // For example, if using the Salesforce API, it might look something like this:
+    // Create a new FormData instance
+    const formData = new FormData();
+
+    // Append the file to the FormData instance
+    formData.append("files", file);
+
+    // Send a POST request to the server
+    const response = await fetch('/uploads', {
+        method: 'POST',
+        body: formData,
+    });
+
+    // Parse the JSON response
+    const data = await response.json();
+
+    // Log the response data
+    console.log(data);
+
+    // If using the Salesforce API, it might look something like this:
     // await this.api.uploadFile("Job__c", job.Id, file);
   }
 
