@@ -24,7 +24,10 @@ export default class Router {
             tree = c.render();
         } else if (hash == "#new") { 
             let job = new Job();
-            tree = <JobForm job={job}/>;
+            let c = new JobForm(job);
+            c.listenTo("click");
+            await c.loadData();
+            tree = c.render();
         } 
 
         this.view.render(tree);
