@@ -51,6 +51,7 @@
 # Charlese
 * Validation
 * Implement Job Description field - full text
+* Details page - Additional route
 
 # Kelsie & Alex
 * Each action is working with form
