@@ -174,11 +174,11 @@ export default class JobForm {
       window.location.assign("#specifications");
     }
 
-    if (!!job.Id) {
-      await this.updateJob(job);
-    } else {
-      await this.createJob(job);
-    }
+    // if (!!job.Id) {
+    //   await this.updateJob(job);
+    // } else {
+    //   await this.createJob(job);
+    // }
 
     // If everything okay, redirect to # (pound)
   }
