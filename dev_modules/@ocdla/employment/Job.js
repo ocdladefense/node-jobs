@@ -74,8 +74,8 @@ export default class Job {
         return {
           Name: this.title,
           AttachementUrl__c: this.fileUrl,
-          PostingDate__c: this.datePosted,
-          ClosingDate__c: this.dateClosing,
+          PostingDate__c: this.postingDate,
+          ClosingDate__c: this.closingDate,
           OpenUntilFilled__c: this.openUntilFilled,
           Employer__c: this.employer,
           IsActive__c: this.isActive,
