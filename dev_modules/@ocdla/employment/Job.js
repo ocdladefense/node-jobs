@@ -73,7 +73,7 @@ export default class Job {
     toSObject() {
         return {
           Name: this.title,
-          AttachementUrl__c: this.fileUrl,
+          AttachmentUrl__c: this.fileUrl,
           PostingDate__c: this.postingDate,
           ClosingDate__c: this.closingDate,
           OpenUntilFilled__c: this.openUntilFilled,
