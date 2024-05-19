@@ -71,7 +71,7 @@ export default class JobForm {
       } else {
         await this.createJob(job);
       }
-      await this.getJobs();
+      await this.loadData();
       window.location.assign("#");
     }
 
