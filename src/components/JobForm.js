@@ -91,10 +91,9 @@ export default class JobForm {
   }
 
   async createJob(job) {
-    job.id = job.id == "" ? null : id;
-    job.AttachementUrl__c = job.AttachementUrl__c == null ? " " : job.AttachementUrl__c;// temp code
+    job.AttachmentUrl__c = "https://a-domain.law/justice-architect"// temp code
     job.OpenUntilFilled__c = job.OpenUntilFilled__c  == null ? true : job.openUntilFilled;// temp code 
-    //job.IsActive__c = true;
+    job.IsActive__c = true;
     await this.api.create("Job__c", job);
   }
 
