@@ -195,7 +195,7 @@ export default class JobForm {
         </div>
 
         <button type="submit" href="#" data-action="save" value="Save">Save</button>
-        {job.id == "" ? ("") : (<input type="submit" data-action="delete" value="Delete" />)}
+        {job.id == "" || job.id == undefined ? ("") : (<input type="submit" data-action="delete" value="Delete" />)}
         {/* <a href="#" type="button" value="Cancel" >Cancel</a> */}
         <button type="button" value="Cancel" data-action="cancel">Cancel</button>
       </form>
