@@ -56,20 +56,5 @@ export default class Router {
         console.log("hash has changed");
         this.render();
     }
-
-    validateSubmission() {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        let forms = document.querySelectorAll('.needs-validation');
-
-        // Loop over them and prevent submission
-        for (let i = 0; i < forms.length; i++) {
-            let form = forms[i];
-            let validity = form.checkValidity();
-            form.classList.add('was-validated')
-            return validity;
-        }
-    }
 }
 

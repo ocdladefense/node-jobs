@@ -64,6 +64,8 @@ export default class JobForm {
       window.location.assign("#specifications");
     }
 
+    
+
     // if (!!job.Id) {
     //   await this.updateJob(job);
     // } else {
@@ -87,6 +89,21 @@ export default class JobForm {
   listenTo(event) {
     let elem = document.querySelector("#job-container");
     elem.addEventListener(event, this);
+  }
+
+  validateSubmission() {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    let forms = document.querySelectorAll('.needs-validation');
+
+    // Loop over them and prevent submission
+    for (let i = 0; i < forms.length; i++) {
+        let form = forms[i];
+        let validity = form.checkValidity();
+        form.classList.add('was-validated')
+        return validity;
+    }
   }
 
   render() {
@@ -158,9 +175,9 @@ export default class JobForm {
         </div>
 
         <input type="submit" data-action="save" value="Save" />
-        {job.id == "" ? ("") :(<input type="submit" data-action="delete" value="Delete" />)}
-        {/* <a href="#" type="button" value="Cancel" >Cancel</a> */}
-        <button type="button" value="Cancel" data-action="cancel">Cancel</button>
+        {job.id == undefined || job.id == "" ? ("") : (<input type="submit" data-action="delete" value="Delete" />)}
+        <a href="#" type="button" value="Cancel" >Cancel</a>
+        {/* <button type="button" value="Cancel" data-action="cancel">Cancel</button> */}
       </form>
     );
   }
