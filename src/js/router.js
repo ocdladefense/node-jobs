@@ -19,7 +19,7 @@ export default class Router {
 
         if (hash == "") {
             let c = new JobList();
-            //c.listenTo("click");
+            c.listenTo("click");
             await c.loadData();
             tree = c.render();
         } else if (hash == "#new") { 
