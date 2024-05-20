@@ -1,12 +1,7 @@
-/**
- * Example of a base component class that implements some of the
- * methods of our previous Controller.js class.
- */
-
 /** @jsx vNode */
 import { vNode, View } from "@ocdla/view";
 
-export default class Component {
+export default class Details {
   root;
   actions = [];
   props = {};
@@ -22,7 +17,7 @@ export default class Component {
   render() {
     return (
       <div>
-        <h1>Component</h1>
+        <h1>Details Component</h1>
       </div>
     );
   }

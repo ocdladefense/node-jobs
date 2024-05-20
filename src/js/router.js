@@ -2,6 +2,7 @@
 import { vNode, View } from "@ocdla/view";
 import JobForm from "../components/JobForm.js";
 import JobList from "../components/JobList.js";
+import Details from "../components/Details.js";
 import Job from "../../node_modules/@ocdla/employment/Job.js";
 
 export default class Router {
@@ -30,9 +31,10 @@ export default class Router {
             jobForm.listenTo("click");
             tree = jobForm.render();
             this.view.render(tree);
-        } else if (hash == "details") {
-            console.log("hash was details");
-            //finish this branch
+        } else if (hash == "#details") {
+            let details = new Details();
+            tree = details.render();
+            this.view.render(tree);
         }
 
         //this.view.render(tree);
