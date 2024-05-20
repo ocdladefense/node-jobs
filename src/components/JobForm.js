@@ -54,7 +54,6 @@ export default class JobForm {
       return;
     }
 
-    job = this.getFormData();
 
     if (action == "cancel") {
       if (window.confirm("Are you sure?")) { window.location.assign("#"); }
@@ -62,8 +61,10 @@ export default class JobForm {
 
     if (action == "delete") {
       this.deleteJob();
-      window.location.assign("#specifications");
+      window.location.assign("#");
+      return;
     }
+    job = this.getFormData();
 
     if (action == "save") {
       try {
@@ -72,7 +73,7 @@ export default class JobForm {
           } else {
             await this.createJob(job);
           }
-          window.location.assign("#");
+        window.location.assign("#");
       }
       catch (e) {
         console.log(e, method);
@@ -80,7 +81,7 @@ export default class JobForm {
         window.alert(e.message);
       }
     }
-
+    window.location.assign("#");
     // If everything okay, redirect to # (pound)
   }
 
@@ -91,9 +92,9 @@ export default class JobForm {
   }
 
   async createJob(job) {
-    job.AttachmentUrl__c = "https://a-domain.law/justice-architect"// temp code
-    job.OpenUntilFilled__c = job.OpenUntilFilled__c  == null ? true : job.openUntilFilled;// temp code 
-    job.IsActive__c = true;
+    
+    job.OpenUntilFilled__c = job.OpenUntilFilled__c  == null ? true : job.openUntilFilled;// temp code needed 
+    //job.IsActive__c = true;
     await this.api.create("Job__c", job);
   }
 
