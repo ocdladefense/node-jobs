@@ -62,8 +62,6 @@ export default class JobForm {
 
     if (action == "delete") {
       this.deleteJob();
-      window.location.assign("");
-      return;
     }
     job = this.getFormData();
 
@@ -81,7 +79,7 @@ export default class JobForm {
         window.alert(e.message);
       }
     }
-    window.location.assign("");
+    window.location.assign("#");
     // If everything okay, redirect to # (pound)
   }
 
@@ -92,9 +90,7 @@ export default class JobForm {
   }
 
   async createJob(job) {
-    
     job.OpenUntilFilled__c = job.OpenUntilFilled__c  == null ? true : job.openUntilFilled;// temp code needed 
-    //job.IsActive__c = true;
     let resp = await this.api.create("Job__c", job);
     return resp;
   }
