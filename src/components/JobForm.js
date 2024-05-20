@@ -46,6 +46,7 @@ export default class JobForm {
       return;
     }
     e.preventDefault();
+    e.stopPropagation();
 
     // if (["save"].includes(action)) {
     //   job = this.getFormData();
@@ -69,11 +70,18 @@ export default class JobForm {
 
     if (action == "save") {
       try {
-          if (!!job.Id) {
-            await this.updateJob(job);
-          } else {
-            await this.createJob(job);
-          }
+        let isValid = this.validateSubmission();
+
+        if (!isValid) {
+          console.log("form was not valid!");
+          return; //stops the page from going back to the joblist, allowing the user to see the error messages
+        } 
+
+        // if (!!job.Id) {
+        //   await this.updateJob(job);
+        // } else {
+        //   await this.createJob(job);
+        // }
       }
       catch (e) {
         console.log(e, method);
@@ -130,14 +138,16 @@ export default class JobForm {
     let job = this.job;
 
     return (
-      <form id="record-form">
+      <form id="record-form" class="needs-validation" novalidate>
 
         <div class="mb-3">
           <label for="title"  class="form-label">Job Title</label>
-          <input id="title" name="title" class="form-control" aria-describedby="title-help"
+          <input id="title" name="title" class="form-control" aria-describedby="title-help" 
             placeholder="Enter Job Title"
-            value={job.jobTitle} />
-          <div id="title-help" class="form-text fs-6">The title of the job position (insert data constraints here).</div>
+            value={job.jobTitle} 
+            required />
+          <div id="title-help" class="form-text fs-6">The title of the job position.</div>
+          <div class="invalid-feedback form-text fs-6">Job title is required!</div>
         </div>
 
         <div class="mb-3">
@@ -146,6 +156,7 @@ export default class JobForm {
             placeholder="Enter the Employer"
             value={job.employer} />
           <div id="employer-help" class="form-text fs-6">The name of the Employer (insert data constraints here).</div>
+          <div class="invalid-feedback form-text fs-6"></div>
         </div>
 
         <div class="mb-3">
@@ -154,6 +165,7 @@ export default class JobForm {
             placeholder="Enter the Salary"
             value={job.salary} />
           <div id="salary-help" class="form-text fs-6">The compensation information for the position (insert data constraints here).</div>
+          <div class="invalid-feedback form-text fs-6"></div>
         </div>
 
         <div class="mb-3">
@@ -162,6 +174,7 @@ export default class JobForm {
             placeholder="Enter the Location"
             value={job.location} />
           <div id="location-help" class="form-text fs-6">The location where the job will take place (insert data constraints here).</div>
+          <div class="invalid-feedback form-text fs-6"></div>
         </div>
 
         <div class="mb-3">
@@ -170,6 +183,7 @@ export default class JobForm {
             placeholder={job.datePosted}
             value={job.datePosted} />
           <div id="date-posted-help" class="form-text fs-6">The date job was posted (this will be automatic eventually).</div>
+          <div class="invalid-feedback form-text fs-6"></div>
         </div>
 
         <div class="mb-3">
@@ -178,6 +192,7 @@ export default class JobForm {
             placeholder={job.dateClosing}
             value={job.dateClosing} />
           <div id="date-closing-help" class="form-text fs-6">The date that the job posting will close, if any (enter data constraints here).</div>
+          <div class="invalid-feedback form-text fs-6"></div>
         </div>
 
         <FileUpload url={job.fileUrl} />
@@ -192,12 +207,13 @@ export default class JobForm {
             )}
           </div>
           <div id="checkbox-help" name="open-until-filled" class="form-text fs-6">Whether or not the job posting closes once it is filled.</div>
+          <div class="invalid-feedback form-text fs-6"></div>
         </div>
 
-        <button type="submit" href="#" data-action="save" value="Save">Save</button>
+        <button type="submit" href="#save" data-action="save" value="Save">Save</button>
         {job.id == "" || job.id == undefined ? ("") : (<input type="submit" data-action="delete" value="Delete" />)}
-        {/* <a href="#" type="button" value="Cancel" >Cancel</a> */}
-        <button type="button" value="Cancel" data-action="cancel">Cancel</button>
+        <a href="#" type="button" value="Cancel" >Cancel</a>
+        {/* <button type="button" value="Cancel" data-action="cancel">Cancel</button> */}
       </form>
     );
   }

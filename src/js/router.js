@@ -26,22 +26,19 @@ export default class Router {
             this.view.render(tree);
         } else if (hash == "#new") { 
             let job = new Job();
-            tree = <JobForm job={job}/>;
+            let jobForm = new JobForm(job);
+            jobForm.listenTo("click");
+            tree = jobForm.render();
             this.view.render(tree);
         } else if (hash == "#save") {
-            let isValid = this.validateSubmission();
-            if (!isValid) {
-                console.log("form was not valid!");
-                //rerender the page with the error messages
-                let form = document.getElementById("record-form");
-                tree = form;
-                this.view.update(tree);
-            } else {
-                let c = new JobList();
-                await c.loadData();
-                tree = c.render();
-                this.view.render(tree);
-            }
+            console.log("hash was save");
+            // let c = new JobList();
+            // await c.loadData();
+            // tree = c.render();
+            // this.view.render(tree);
+        } else if (hash == "details") {
+            console.log("hash was details");
+            //finish this branch
         }
 
         //this.view.render(tree);
