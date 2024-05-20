@@ -45,6 +45,7 @@ export default class JobForm {
     if (dataset == null || action == null) {
       return;
     }
+    e.preventDefault();
 
     // if (["save"].includes(action)) {
     //   job = this.getFormData();
@@ -61,7 +62,7 @@ export default class JobForm {
 
     if (action == "delete") {
       this.deleteJob();
-      window.location.assign("#");
+      window.location.assign("");
       return;
     }
     job = this.getFormData();
@@ -73,7 +74,6 @@ export default class JobForm {
           } else {
             await this.createJob(job);
           }
-        window.location.assign("#");
       }
       catch (e) {
         console.log(e, method);
@@ -81,7 +81,7 @@ export default class JobForm {
         window.alert(e.message);
       }
     }
-    window.location.assign("#");
+    window.location.assign("");
     // If everything okay, redirect to # (pound)
   }
 
@@ -95,7 +95,8 @@ export default class JobForm {
     
     job.OpenUntilFilled__c = job.OpenUntilFilled__c  == null ? true : job.openUntilFilled;// temp code needed 
     //job.IsActive__c = true;
-    await this.api.create("Job__c", job);
+    let resp = await this.api.create("Job__c", job);
+    return resp;
   }
 
   async updateJob(job) {
@@ -178,7 +179,7 @@ export default class JobForm {
           <div id="checkbox-help" name="open-until-filled" class="form-text fs-6">Whether or not the job posting closes once it is filled.</div>
         </div>
 
-        <input type="submit" data-action="save" value="Save" />
+        <button type="submit" href="#" data-action="save" value="Save">Save</button>
         {job.id == "" ? ("") : (<input type="submit" data-action="delete" value="Delete" />)}
         {/* <a href="#" type="button" value="Cancel" >Cancel</a> */}
         <button type="button" value="Cancel" data-action="cancel">Cancel</button>
