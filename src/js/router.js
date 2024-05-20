@@ -30,12 +30,6 @@ export default class Router {
             jobForm.listenTo("click");
             tree = jobForm.render();
             this.view.render(tree);
-        } else if (hash == "#save") {
-            console.log("hash was save");
-            // let c = new JobList();
-            // await c.loadData();
-            // tree = c.render();
-            // this.view.render(tree);
         } else if (hash == "details") {
             console.log("hash was details");
             //finish this branch

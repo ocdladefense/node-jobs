@@ -75,13 +75,13 @@ export default class JobForm {
         if (!isValid) {
           console.log("form was not valid!");
           return; //stops the page from going back to the joblist, allowing the user to see the error messages
-        } 
+        }  
 
-        // if (!!job.Id) {
-        //   await this.updateJob(job);
-        // } else {
-        //   await this.createJob(job);
-        // }
+        if (!!job.Id) {
+          await this.updateJob(job);
+        } else {
+          await this.createJob(job);
+        }
       }
       catch (e) {
         console.log(e, method);
