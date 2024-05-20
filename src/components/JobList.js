@@ -38,7 +38,7 @@ export default class JobList {
     if (
       dataset == null ||
       action == null ||
-      !Job.actions.includes(action)
+      !JobList.actions.includes(action)
     ) {
       return;
     }
@@ -51,6 +51,7 @@ export default class JobList {
     method = "onRequest" + this.toTitleCase(action);
 
     try {
+      e.preventDefault();
       nextRender = await this[method](job);
     } catch (e) {
       console.log(e, method);
@@ -58,7 +59,7 @@ export default class JobList {
       window.alert(e.message);
     }
 
-    this.view.update(nextRender);
+    window.location.assign("");
   }
 
   async onRequestDelete(job) {
@@ -76,7 +77,7 @@ export default class JobList {
       message = e.message;
     }
 
-    await this.getJobs(this.records);
+    await this.loadData(this.records);
 
     return <JobList jobs={this.records} message={message} ownerId={userId} />;
   }
