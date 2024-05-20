@@ -20,8 +20,7 @@ export default class Router {
 
         if (hash == "") {
             let c = new JobList();
-            //c.listenTo("click");
-            //c.setupEventHandlers();
+            c.listenTo("click");
             await c.loadData();
             tree = c.render();
             this.view.render(tree);

@@ -10,7 +10,7 @@ export default class JobList {
   records;
   useMock = USE_MOCK_RECORDS;
 
-  static actions = ["create", "save", "edit", "delete", "cancel"];
+  static actions = ["edit", "delete"];
 
   constructor() {
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
@@ -21,28 +21,10 @@ export default class JobList {
     return this.records;
   }
 
-  getUserInput(id) {
-    let elem = document.getElementById(id);
-    return elem.value;
-  }
-
   listenTo(event) {
-    let elem = document.querySelector(this.selector);
+    let elem = document.querySelector("#job-container");
     elem.addEventListener(event, this);
   }
-
-  getFormData() {
-    let formEl = document.getElementById("record-form");
-    let formData = new FormData(formEl);
-
-    let job = Job.fromFormData(formData);
-
-    // Then, needs to be converted from Job object to Salesforce "SObject", i.e., job.toSObject();
-    // So this conversion, which you are doing manually here, should be done in the Job class.uh
-
-    return job.toSObject();
-  }
-
   async handleEvent(e) {
     let target = e.target;
     let dataset = target.dataset;
@@ -56,24 +38,20 @@ export default class JobList {
     if (
       dataset == null ||
       action == null ||
-      !Controller.actions.includes(action)
+      !JobList.actions.includes(action)
     ) {
       return;
     }
 
     // Construct a Job object when necessary.
-    if (["save"].includes(action)) {
-      job = this.getFormData();
-    } else if (action == "create") {
-      job = new Job();
-    } else if (action == "edit" || action == "delete") {
-      job = this.getRecord(id);
-    }
+
+    job = this.getRecord(id);
 
 
-  method = "onRequest" + this.toTitleCase(action);
+    method = "onRequest" + this.toTitleCase(action);
 
     try {
+      e.preventDefault();
       nextRender = await this[method](job);
     } catch (e) {
       console.log(e, method);
@@ -81,7 +59,7 @@ export default class JobList {
       window.alert(e.message);
     }
 
-    this.view.update(nextRender);
+    window.location.assign("");
   }
 
   async onRequestDelete(job) {
@@ -99,7 +77,7 @@ export default class JobList {
       message = e.message;
     }
 
-    await this.getJobs(this.records);
+    await this.loadData(this.records);
 
     return <JobList jobs={this.records} message={message} ownerId={userId} />;
   }
@@ -111,9 +89,6 @@ export default class JobList {
     else await this.api.delete("Job__c", id);
   }
 
-  onRequestCreate(job) {
-    return <JobForm job={job} />;
-  }
 
   onRequestEdit(job) {
     let userId = USER_ID;
@@ -130,19 +105,8 @@ export default class JobList {
     }
   }
 
-  async onRequestSave(job) {
-    if (!!job.Id) {
-      this.updateJob(job);
-    } else {
-      await this.createJob(job);
-    }
-    await this.getJobs();
-    return <JobList jobs={this.records} message="The record was created." />;
-  }
 
-  onRequestCancel() {
-    return <JobList jobs={this.records} ownerId={USER_ID} />;
-  }
+
 
   getRecord(recordId) {
     let result = this.records.filter((record) => record.id == recordId);
@@ -153,52 +117,31 @@ export default class JobList {
     if (this.useMock) {
       this.records = records || await this.getMockData();
     } else {
-      let resp = await this.api.query(
-        "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c FROM Job__c"
-      );
-
+      let resp = await this.api.query(QUERY);
       this.records = resp.records.map((record) => Job.fromSObject(record));
     }
   }
 
   render() {
-      let jobs = this.records;
-      let userId = USER_ID;
-      //let message = props.error || props.message || "";
-      let message = "";
+    let jobs = this.records;
+    let userId = USER_ID;
+    //let message = props.error || props.message || "";
+    let message = "";
+
+    return (
+      <div>
+        <div style="color:red;" class="error">{message}</div>
+
+        <a href="#new" style="margin-bottom: 15px; display: block;" id="button">Create a Job Posting</a>
+        <div class="list-group">
+          {jobs.map(job => <JobCard job={job} isOwner={job.isOwner(userId)} />)}
+        </div>
+      </div>
+    );
+  }
+
+
   
-      return (
-          <div>
-              <div style="color:red;" class="error">{message}</div>
-              
-              <a href="#new" style="margin-bottom: 15px; display: block;" id="button">Create a Job Posting</a>
-              <div class="list-group">
-                  {jobs.map(job => <JobCard job={job} isOwner={job.isOwner(userId)} />)} 
-              </div>
-          </div>
-      );
-  }
-
-  renderForm(j) {
-    this.view.update(<JobForm job={j} />);
-  }
-
-  async createJob(job) {
-    await this.api.create("Job__c", job);
-  }
-
-  async updateJob(job) {
-    let temp = await this.api.update("Job__c", job);
-    if (temp == true) {
-      this.view.update(
-        <JobList
-          jobs={this.records}
-          message="your posting was succesfully updated"
-          ownerId={USER_ID}
-        />
-      );
-    }
-  }
 
   async getMockData() {
     let j1 = {
