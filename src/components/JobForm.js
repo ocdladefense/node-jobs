@@ -91,11 +91,13 @@ export default class JobForm {
 
   async createJob(job) {
     job.OpenUntilFilled__c = job.OpenUntilFilled__c  == null ? true : job.openUntilFilled;// temp code needed 
+    job.Id = null;
     let resp = await this.api.create("Job__c", job);
     return resp;
   }
 
   async updateJob(job) {
+    job.OpenUntilFilled__c = job.OpenUntilFilled__c  == null ? true : job.openUntilFilled;// temp code needed 
     let temp = await this.api.update("Job__c", job);
     if (temp == true) {
       window.alert("Your posting was successfully updated");
@@ -117,10 +119,12 @@ export default class JobForm {
           <label for="title"  class="form-label">Job Title</label>
           <input id="title" name="title" class="form-control" aria-describedby="title-help"
             placeholder="Enter Job Title"
-            value={job.jobTitle} />
+            value={job.title} />
           <div id="title-help" class="form-text fs-6">The title of the job position (insert data constraints here).</div>
         </div>
-
+        <div>
+        <input value={job.id} name="id" id="id" hidden/>
+        </div>
         <div class="mb-3">
           <label for="employer" class="form-label">Employer</label>
           <input id="employer" name="employer" class="form-control" aria-describedby="employer-help"
