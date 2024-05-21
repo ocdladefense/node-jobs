@@ -8,7 +8,7 @@ import FileUpload from "./FileUpload.js";
 export default class JobForm {
   useMock = USE_MOCK_RECORDS;
 
-  static actions = ["save", "delete", "cancel"];
+  static actions = ["save", "formDelete", "cancel"];
 
   constructor(job) {
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
@@ -60,10 +60,19 @@ export default class JobForm {
       if (window.confirm("Are you sure?")) { window.location.assign("#"); }
     }
 
-    if (action == "delete") {
-      this.deleteJob();
-    }
+    
     job = this.getFormData();
+
+    try {
+      if (action == "formDelete") {
+      await this.deleteJob(job.Id);
+      let message = "The record was deleted.";
+      window.alert(message);
+      }
+    } catch (e) {
+      window.alert(e.message);
+    }
+    
 
     if (action == "save") {
       try {
@@ -80,6 +89,7 @@ export default class JobForm {
       }
     }
     window.location.assign("#");
+    window.location.reload();
     // If everything okay, redirect to # (pound)
   }
 
@@ -88,12 +98,15 @@ export default class JobForm {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
-
+  // ---- crud methods ------
   async createJob(job) {
     job.OpenUntilFilled__c = job.OpenUntilFilled__c  == null ? true : job.openUntilFilled;// temp code needed 
     job.Id = null;
     let resp = await this.api.create("Job__c", job);
     return resp;
+  }
+  async deleteJob(id) {
+     await this.api.delete("Job__c", id);
   }
 
   async updateJob(job) {
@@ -103,7 +116,7 @@ export default class JobForm {
       window.alert("Your posting was successfully updated");
     }
   }
-
+  // --- end of crud -----
   listenTo(event) {
     let elem = document.querySelector("#job-container");
     elem.addEventListener(event, this);
@@ -180,7 +193,7 @@ export default class JobForm {
         </div>
 
         <button type="submit" href="#" data-action="save" value="Save">Save</button>
-        {job.id == "" ? ("") : (<input type="submit" data-action="delete" value="Delete" />)}
+        {job.id == "" ? ("") : (<input type="submit" data-action="formDelete" value="Delete" />)}
         {/* <a href="#" type="button" value="Cancel" >Cancel</a> */}
         <button type="button" value="Cancel" data-action="cancel">Cancel</button>
       </form>
