@@ -31,12 +31,18 @@ export default class JobForm extends Component {
       this.record = list.getRecord(this.recordId);
     } else {
       let resp = await this.api.query(
-        "SELECT Id, Name, Salary__c, PostingDate__c, ClosingDate__c, FileUrl__c, Employer__c, Location__c, OpenUntilFilled__c FROM Job__c WHERE Id = '" +
+        "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c FROM Job__c WHERE Id = '" +
           this.recordId +
           "'"
       );
-      let list = new RecordList(resp.records);
-      this.record = list.getRecord(this.recordId);
+      //let list = new RecordList(resp.records);
+      //this.record = list.getRecord(this.recordId);
+      if(resp.record != undefined){
+      this.record = Job.fromSObject(resp.records[0]);
+      }
+      else{
+        this.record = new Job();
+      }
     }
   }
 
@@ -113,8 +119,8 @@ export default class JobForm extends Component {
     }
   }
 
-  async onRequestDelete(Id) {
-    let resp = await this.api.delete("Job__c", Id);
+  async onRequestDelete(record) {
+    let resp = await this.api.delete("Job__c", record.Id);
     return resp;
   }
 
@@ -131,11 +137,13 @@ export default class JobForm extends Component {
   // ---- CRUD methods ------
   async createRecord(record) {
     delete record.Id;
+    record.OpenUntilFilled__c = record.OpenUntilFilled__c == "on" ? true : false;
     let resp = await this.api.create("Job__c", record);
     return resp;
   }
 
   async updateRecord(record) {
+    record.OpenUntilFilled__c = record.OpenUntilFilled__c == "on" ? true : false;
     let resp = await this.api.update("Job__c", record);
     return resp;
   }

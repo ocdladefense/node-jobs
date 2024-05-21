@@ -34,7 +34,7 @@ export default class Router {
             tree = c.render();
         }
         else if (hash == "#new") { 
-            let job = new Job();
+            let job = new Job("");
             this.currentComponent = c = new JobForm(job);
             c.listenTo("click");
             await c.loadData();
