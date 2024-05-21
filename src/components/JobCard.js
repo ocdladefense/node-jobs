@@ -4,8 +4,8 @@ import {vNode, View} from "@ocdla/view";
 
 const JobCard = function(props) {
     let job = props.job;
+    let admin = props.isOwner;
 
-    
     return (
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col">
@@ -22,7 +22,7 @@ const JobCard = function(props) {
                             </p>
                         </div>
                         <div class="card-footer">
-                            <a href={`#edit?id=${job.id}`} class="btn btn-secondary" data-id={job.id} data-action="edit">Edit</a>
+                            <a href={`#edit?id=${job.id}`} class="btn btn-secondary">Edit</a>
                             <a href="#" class="btn btn-secondary" data-id={job.id} data-action="delete">Delete</a>
                             <a href="#details" class="btn btn-secondary" data-id={job.id}>View Details</a>
                         </div>

@@ -3,16 +3,16 @@ import { vNode, View } from "@ocdla/view";
 import SalesforceRestApi from "@ocdla/salesforce/SalesforceRestApi.js";
 import JobCard from "./JobCard.js";
 import Job from "@ocdla/employment/Job.js";
+import Component from "./Component.js";
 
 
-
-export default class JobList {
+export default class JobList extends Component {
   records;
   useMock = USE_MOCK_RECORDS;
 
-  static actions = ["delete"];
-
   constructor() {
+    super();
+    this.actions = ["delete"];
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
     //this.view = View.createRoot(this.selector);
   }
@@ -25,63 +25,32 @@ export default class JobList {
     let elem = document.querySelector("#job-container");
     elem.addEventListener(event, this);
   }
-  async handleEvent(e) {
-    let target = e.target;
-    let dataset = target.dataset;
-    let action = target.dataset.action;
-    let id = target.dataset.id;
-    let job;
-    let nextRender;
-    let method;
 
-    // Bail out if we're not interested in the user's interaction.
-    if (
-      dataset == null ||
-      action == null ||
-      !JobList.actions.includes(action)
-    ) {
-      return;
-    }
-
-    // Construct a Job object when necessary.
-
-    job = this.getRecord(id);
-
-
-    method = "onRequest" + this.toTitleCase(action);
-
-    try {
-      e.preventDefault();
-      nextRender = await this[method](job);
-    } catch (e) {
-      console.log(e, method);
-
-      window.alert(e.message);
-    }
-
-    window.location.assign("#");
-    window.location.reload();
+  async onRequestDelete(dataset) {
+    let id = dataset.id;
+    let resp = await this.api.delete("Job__c", id);
+    return resp;
   }
 
-  async onRequestDelete(job) {
-    let message;
-    let userId = USER_ID;
+  // async onRequestDelete(job) {
+  //   let message;
+  //   let userId = USER_ID;
 
-    if (!job.isOwner(userId)) {
-      throw new Error("You don't have permission to perform this action.");
-    }
+  //   if (!job.isOwner(userId)) {
+  //     throw new Error("You don't have permission to perform this action.");
+  //   }
 
-    try {
-      await this.deleteJob(job.id);
-      message = "The record was deleted.";
-    } catch (e) {
-      message = e.message;
-    }
+  //   try {
+  //     await this.deleteJob(job.id);
+  //     message = "The record was deleted.";
+  //   } catch (e) {
+  //     message = e.message;
+  //   }
 
-    await this.loadData(this.records);
+  //   await this.loadData(this.records);
 
-    return;
-  }
+  //   return;
+  // }
 
   async deleteJob(id) {
     if (this.useMock) {
@@ -121,16 +90,5 @@ export default class JobList {
         </div>
       </div>
     );
-  }
-
-
-  
-
-
-
-  toTitleCase(str) {
-    return str.replace(/\w\S*/g, function (txt) {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
   }
 }

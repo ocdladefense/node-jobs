@@ -11,8 +11,6 @@ import Component from "./Component.js";
 export default class JobForm extends Component {
   useMock = USE_MOCK_RECORDS;
 
-  static actions = ["save", "delete", "cancel"];
-
   record;
 
   recordId;
@@ -21,6 +19,7 @@ export default class JobForm extends Component {
     super();
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
     this.recordId = recordId;
+    this.actions = ["save", "delete", "cancel"];
   }
 
   async loadData() {
@@ -75,11 +74,7 @@ export default class JobForm extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    // if (["save"].includes(action)) {
-    //   job = this.getFormData();
-    // } 
-
-    if (!JobForm.actions.includes(action)) {
+    if (!this.actions.includes(action)) {
       return false;
     }
 
@@ -118,17 +113,19 @@ export default class JobForm extends Component {
     }
   }
 
-  async onRequestDelete(record) {
-    let resp = await this.api.delete("Job__c", record.Id);
+  async onRequestDelete(recordId) {
+    let resp = await this.api.delete("Job__c", recordId);
     return resp;
   }
 
-  async onRequestSave(record) {
+  async onRequestSave(dataset) {
     let isValid = this.validateSubmission();
-
     if (!isValid) {
       throw new Error("There are errors in your form.");
     }
+
+    let record = this.getFormData();
+    record = record.toSObject();
 
     if (!!record.Id) {
       await this.updateRecord(record);

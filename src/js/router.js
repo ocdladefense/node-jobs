@@ -31,7 +31,6 @@ export default class Router {
 
         if (hash == "" || hash == "#") {
             this.currentComponent = c = new JobList();
-            
         }
         else if (hash == "#new") { 
             this.currentComponent = c = new JobForm();
@@ -51,6 +50,7 @@ export default class Router {
 
         this.view.render(tree);
     }
+    
     getRecordId() {
         let hash = window.location.hash;
         const urlParams = new URLSearchParams(hash.substring(hash.indexOf('?')));
