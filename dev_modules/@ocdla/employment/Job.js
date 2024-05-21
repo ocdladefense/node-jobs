@@ -57,7 +57,7 @@ export default class Job {
         let job = new Job();
 
         job.id = SObject.Id; //
-        job.ownerId = SObject.OwnerId, //
+        job.ownerId = SObject.OwnerId; //
         job.title = SObject.Name; //
         job.salary = SObject.Salary__c;
         job.postingDate = SObject.PostingDate__c;

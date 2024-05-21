@@ -26,8 +26,7 @@ export default class Router {
             tree = c.render();
             this.view.render(tree);
         } else if (hash == "#new") { 
-            let job = new Job();
-            let jobForm = new JobForm(job);
+            let jobForm = new JobForm();
             jobForm.listenTo("click");
             tree = jobForm.render();
             this.view.render(tree);
