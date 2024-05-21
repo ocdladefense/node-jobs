@@ -98,7 +98,7 @@ export default class JobList {
 
   async loadData(records) {
     if (this.useMock) {
-      this.records = records || await this.getMockData();
+      this.records = records || await Job.getMockData();
     } else {
       let resp = await this.api.query(QUERY);
       this.records = resp.records.map((record) => Job.fromSObject(record));
@@ -126,54 +126,7 @@ export default class JobList {
 
   
 
-  async getMockData() {
-    let j1 = {
-      OwnerId: "0",
-      Id: "0",
-      Name: "Legal Maverick",
-      Salary__c: "$80,000",
-      PostingDate__c: "4/20/2024",
-      ClosingDate__c: "5/29/2024",
-      FileUrl__c: "https://my-domain.com/document1",
-      Employer__c: "Veritas Law Group",
-      Location__c: "Rivertown Junction",
-      OpneUntilFilled__c: false,
-    };
 
-    let j2 = {
-      OwnerId: "1",
-      Id: "1",
-      Name: "Trial Whisperer",
-      Salary__c: "$110,000",
-      PostingDate__c: "4/28/2024",
-      ClosingDate__c: "5/10/2024",
-      FileUrl__c: "https:/this-domain.org/documents/requirements",
-      Employer__c: "JusticeShield Attorneys",
-      Location__c: "Cedarwood Heights",
-      OpenUntilFilled__c: true,
-    };
-
-    let j3 = {
-      OwnerId: "2",
-      Id: "2",
-      Name: "Justice Architect",
-      Salary__c: "$96,000",
-      PostingDate__c: "4/17/2024",
-      ClosingDate__c: "6/1/2024",
-      FileUrl__c: "https://a-domain.law/justice-architect",
-      Employer__c: "Liberty Legal Associates",
-      Location__c: "Haborview Bay",
-      OpenUntilFilled__c: false,
-    };
-
-    let mockJobs = [
-      Job.fromSObject(j1),
-      Job.fromSObject(j2),
-      Job.fromSObject(j3),
-    ];
-
-    return Promise.resolve(mockJobs);
-  }
 
   toTitleCase(str) {
     return str.replace(/\w\S*/g, function (txt) {
