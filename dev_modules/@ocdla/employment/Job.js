@@ -40,6 +40,7 @@ export default class Job {
         let job = new Job();
 
         job.ownerId = vals.get("owner-id");
+        job.id = vals.get("id");
         job.title = vals.get("title");
         job.salary = vals.get("salary");
         job.postingDate = vals.get("posting-date");
@@ -73,6 +74,7 @@ export default class Job {
     toSObject() {
         return {
           Name: this.title,
+          Id: this.id,
           AttachmentUrl__c: this.fileUrl,
           PostingDate__c: this.postingDate,
           ClosingDate__c: this.closingDate,
