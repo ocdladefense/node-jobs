@@ -10,7 +10,7 @@ export default class JobList {
   records;
   useMock = USE_MOCK_RECORDS;
 
-  static actions = ["edit", "delete"];
+  static actions = ["delete"];
 
   constructor() {
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
@@ -59,7 +59,8 @@ export default class JobList {
       window.alert(e.message);
     }
 
-    window.location.assign("");
+    window.location.assign("#");
+    window.location.reload();
   }
 
   async onRequestDelete(job) {
@@ -79,7 +80,7 @@ export default class JobList {
 
     await this.loadData(this.records);
 
-    return <JobList jobs={this.records} message={message} ownerId={userId} />;
+    return;
   }
 
   async deleteJob(id) {
@@ -88,24 +89,6 @@ export default class JobList {
     }
     else await this.api.delete("Job__c", id);
   }
-
-
-  onRequestEdit(job) {
-    let userId = USER_ID;
-    if (job == null || !job.isOwner(userId)) {
-      return (
-        <JobList
-          jobs={this.records}
-          message="You don't have permission to perform this action."
-          ownerId={userId}
-        />
-      );
-    } else {
-      return <JobForm job={job} />;
-    }
-  }
-
-
 
 
   getRecord(recordId) {
