@@ -42,6 +42,8 @@
 * Write a method that converts from month-day-year to yyyy-mm-dd in the controller
 * Job constructor can automatically set the posting date to current date 
 * and automatically set closing date to current day + 30 days
+* Salesforce rest api send() validation (make sure to handle if instanceUrl and access token are empty)
+* do the standaline deets first, then try the one that does both joblist and details (JobSearch)
 
 
 ### Notes from Tuesday Meeting 5/21

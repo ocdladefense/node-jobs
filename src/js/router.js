@@ -2,8 +2,7 @@
 import { vNode, View } from "@ocdla/view";
 import JobForm from "../components/JobForm.js";
 import JobList from "../components/JobList.js";
-import Details from "../components/Details.js";
-import Job from "../../node_modules/@ocdla/employment/Job.js";
+import JobDetails from "../components/JobDetails.js";
 
 export default class Router {
 
@@ -28,28 +27,29 @@ export default class Router {
            elem.removeEventListener("click", this.currentComponent);
         }
 
+        let recordId = this.getRecordId();
+
         if (hash == "" || hash == "#") {
             this.currentComponent = c = new JobList();
-            c.listenTo("click");
-            await c.loadData();
-            tree = c.render();
+            
         }
         else if (hash == "#new") { 
-            let job = new Job("");
-            this.currentComponent = c = new JobForm(job);
-            c.listenTo("click");
-            await c.loadData();
-            tree = c.render();
+            this.currentComponent = c = new JobForm();
         } 
         else if (hash.startsWith("#edit")){
-            let recordId = this.getRecordId();
             this.currentComponent = c = new JobForm(recordId);
-            c.listenTo("click");
-            await c.loadData();
-            tree = c.render();
+        } 
+        else if (hash == "#details") {
+            this.currentComponent = c = new JobDetails();
         }
 
-        //this.view.render(tree);
+        c.listenTo("click", "#job-container");
+
+        if (c.loadData)
+            await c.loadData();
+        tree = c.render();
+
+        this.view.render(tree);
     }
     getRecordId() {
         let hash = window.location.hash;

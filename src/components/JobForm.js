@@ -5,7 +5,6 @@ import Job from "@ocdla/employment/Job.js";
 import {RecordList} from "@ocdla/employment/Job.js";
 import FileUpload from "./FileUpload.js";
 import Component from "./Component.js";
-import { error } from "toastr";
 
 
 
@@ -22,12 +21,13 @@ export default class JobForm extends Component {
     super();
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
     this.recordId = recordId;
-    if (jobId == null) {
-      this.record = new Job();
-    }
   }
 
   async loadData() {
+    if (this.recordId == null) {
+      this.record = new Job();
+      return;
+    }
     if (this.useMock) {
       let records = await Job.getMockData();
       let list = new RecordList(records);
@@ -38,14 +38,8 @@ export default class JobForm extends Component {
           this.recordId +
           "'"
       );
-      //let list = new RecordList(resp.records);
-      //this.record = list.getRecord(this.recordId);
-      if(resp.record != undefined){
-      this.records[0] = Job.fromSObject(resp.records[0]);
-      }
-      else{
-        this.record = new Job();
-      }
+      let list = new RecordList(resp.records);
+      this.record = list.getRecord(this.recordId);
     }
   }
 
@@ -96,7 +90,7 @@ export default class JobForm extends Component {
 
 
     try {
-      this[method](record);
+      await this[method](record);
       message = "The action was completed successfully.";
     }
     catch(e) {
@@ -160,6 +154,21 @@ export default class JobForm extends Component {
   }
 
 
+  validateSubmission() {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    let forms = document.querySelectorAll('.needs-validation');
+
+    // Loop over them and prevent submission
+    for (let i = 0; i < forms.length; i++) {
+        let form = forms[i];
+        let validity = form.checkValidity();
+        form.classList.add('was-validated')
+        return validity;
+    }
+  }s
+
 
   render() {
     let job = this.record;
@@ -174,7 +183,7 @@ export default class JobForm extends Component {
           <label for="title"  class="form-label">Job Title</label>
           <input id="title" name="title" class="form-control" aria-describedby="title-help" 
             placeholder="Enter Job Title"
-            value={job.jobTitle} 
+            value={job.title} 
             required />
           <div id="title-help" class="form-text fs-6">The title of the job position.</div>
           <div class="invalid-feedback form-text fs-6">Job title is required!</div>
@@ -273,26 +282,10 @@ export default class JobForm extends Component {
           </div>
           <div id="checkbox-help" name="open-until-filled" class="form-text fs-6">Whether or not the job posting closes once it is filled.</div>
           <div class="invalid-feedback form-text fs-6"></div>
-          <div
-            id="checkbox-help"
-            name="open-until-filled"
-            class="form-text fs-6"
-          >
-            Whether or not the job posting closes once it is filled.
-          </div>
         </div>
 
         <button type="submit" href="#save" data-action="save" value="Save">Save</button>
         {job.id == "" || job.id == undefined ? ("") : (<input type="submit" data-action="delete" value="Delete" />)}
-        <button type="button" value="Cancel" data-action="cancel">Cancel</button>
-        <button type="submit" href="#" data-action="save" value="Save">
-          Save
-        </button>
-        {job.id == "" ? (
-          ""
-        ) : (
-          <input type="submit" data-action="delete" value="Delete" />
-        )}
         <button type="button" value="Cancel" data-action="cancel">
           Cancel
         </button>

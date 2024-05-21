@@ -1,7 +1,7 @@
 /** @jsx vNode */
 import { vNode, View } from "@ocdla/view";
 
-export default class Details {
+export default class JobDetails {
   root;
   actions = [];
   props = {};
@@ -37,6 +37,10 @@ export default class Details {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
+
+  // loadData() {
+
+  // }
 
   handleEvent(e) {
     let target = e.target;
