@@ -8,7 +8,10 @@ import Job from "../../node_modules/@ocdla/employment/Job.js";
 export default class Router {
 
     static validHashes = [];
-    static actions = ["create", "save", "edit", "delete", "cancel"];
+
+    currentComponent;
+
+
 
     constructor(selector) {
         this.selector = selector;
@@ -18,33 +21,49 @@ export default class Router {
     async render() {        
         let hash = window.location.hash;
         let tree;
+        let c;
 
-        if (hash == "") {
-            let c = new JobList();
+        let elem = document.querySelector("#job-container");
+        if(elem) {
+           elem.removeEventListener("click", this.currentComponent);
+        }
+
+        if (hash == "" || hash == "#") {
+            this.currentComponent = c = new JobList();
             c.listenTo("click");
             await c.loadData();
             tree = c.render();
-            this.view.render(tree);
-        } else if (hash == "#new") { 
-            let jobForm = new JobForm();
-            jobForm.listenTo("click");
-            tree = jobForm.render();
-            this.view.render(tree);
-        } else if (hash == "#details") {
-            let details = new Details();
-            tree = details.render();
-            this.view.render(tree);
+        }
+        else if (hash == "#new") { 
+            let job = new Job("");
+            this.currentComponent = c = new JobForm(job);
+            c.listenTo("click");
+            await c.loadData();
+            tree = c.render();
+        } 
+        else if (hash.startsWith("#edit")){
+            let recordId = this.getRecordId();
+            this.currentComponent = c = new JobForm(recordId);
+            c.listenTo("click");
+            await c.loadData();
+            tree = c.render();
         }
 
         //this.view.render(tree);
     }
-
+    getRecordId() {
+        let hash = window.location.hash;
+        const urlParams = new URLSearchParams(hash.substring(hash.indexOf('?')));
+        const jobId = urlParams.get('id');
+    
+        return jobId;
+    }
     listenTo(event) {
         window.addEventListener(event, this);
       }
 
     handleEvent(e) {
-        console.log("hash has changed");
+        //console.log("hash has changed");
         this.render();
     }
 }

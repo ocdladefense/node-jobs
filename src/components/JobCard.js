@@ -22,7 +22,7 @@ const JobCard = function(props) {
                             </p>
                         </div>
                         <div class="card-footer">
-                            <a href="#" class="btn btn-secondary" data-id={job.id} data-action="edit">Edit</a>
+                            <a href={`#edit?id=${job.id}`} class="btn btn-secondary" data-id={job.id} data-action="edit">Edit</a>
                             <a href="#" class="btn btn-secondary" data-id={job.id} data-action="delete">Delete</a>
                             <a href="#details" class="btn btn-secondary" data-id={job.id}>View Details</a>
                         </div>

@@ -2,51 +2,81 @@
 import { vNode, View } from "@ocdla/view";
 import SalesforceRestApi from "@ocdla/salesforce/SalesforceRestApi.js";
 import Job from "@ocdla/employment/Job.js";
+import {RecordList} from "@ocdla/employment/Job.js";
 import FileUpload from "./FileUpload.js";
+import Component from "./Component.js";
+import { error } from "toastr";
 
 
-export default class JobForm {
+
+export default class JobForm extends Component {
   useMock = USE_MOCK_RECORDS;
 
   static actions = ["save", "delete", "cancel"];
 
-  constructor(jobId) {
+  record;
+
+  recordId;
+
+  constructor(recordId) {
+    super();
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
-    this.jobId = jobId;
+    this.recordId = recordId;
     if (jobId == null) {
       this.record = new Job();
     }
   }
 
-  loadData() {
-    /*
-    if job has id, load data
-    else, give it a new job
-    */
+  async loadData() {
+    if (this.useMock) {
+      let records = await Job.getMockData();
+      let list = new RecordList(records);
+      this.record = list.getRecord(this.recordId);
+    } else {
+      let resp = await this.api.query(
+        "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c FROM Job__c WHERE Id = '" +
+          this.recordId +
+          "'"
+      );
+      //let list = new RecordList(resp.records);
+      //this.record = list.getRecord(this.recordId);
+      if(resp.record != undefined){
+      this.records[0] = Job.fromSObject(resp.records[0]);
+      }
+      else{
+        this.record = new Job();
+      }
+    }
   }
 
-  getUserInput(id) {
-    let elem = document.getElementById(id);
-    return elem.value;
+  // --- end of crud -----
+  listenTo(event) {
+    let elem = document.querySelector("#job-container");
+    elem.addEventListener(event, this);
   }
 
   getFormData() {
     let formEl = document.getElementById("record-form");
     let formData = new FormData(formEl);
 
-    let job = Job.fromFormData(formData);
-
-    return job.toSObject();
+    return Job.fromFormData(formData);
   }
 
   async handleEvent(e) {
+    // When an error occurs, the message will be displayed to the user.
+    // But then, what do we want to happen?  Do go back to the list if there an error?
+    // Or do we stay on the page and display the error message?
+    // Also validations errors - we obbserved that the error message is displayed, but the form is still submitted.
     let target = e.target;
     let dataset = target.dataset;
     let action = target.dataset.action;
-    let job;
+    let record;
+    let message = "";
+    let method;
+    let error = false;
 
     if (dataset == null || action == null) {
-      return;
+      return false;
     }
     e.preventDefault();
     e.stopPropagation();
@@ -56,89 +86,83 @@ export default class JobForm {
     // } 
 
     if (!JobForm.actions.includes(action)) {
-      return;
+      return false;
     }
 
+    method = "onRequest" + this.toTitleCase(action);
 
-    if (action == "cancel") {
-      if (window.confirm("Are you sure?")) { window.location.assign("#"); }
+    record = this.getFormData();
+    record = record.toSObject();
+
+
+    try {
+      this[method](record);
+      message = "The action was completed successfully.";
+    }
+    catch(e) {
+      console.log(e, method);
+      message = e.message;
+      error = true;
     }
 
-    if (action == "delete") {
-      this.deleteJob();
-      window.location.assign("");
-      return;
-    }
-    job = this.getFormData();
+    window.alert(message);
 
-    if (action == "save") {
-      try {
-        let isValid = this.validateSubmission();
+    // For forms, don't move on to the next page if there was an error.
+    if(error) return false;
 
-        if (!isValid) {
-          console.log("form was not valid!");
-          return; //stops the page from going back to the joblist, allowing the user to see the error messages
-        }  
-
-        if (!!job.Id) {
-          await this.updateJob(job);
-        } else {
-          await this.createJob(job);
-        }
-      }
-      catch (e) {
-        console.log(e, method);
-
-        window.alert(e.message);
-      }
-    }
-    window.location.assign("");
-    // If everything okay, redirect to # (pound)
+    window.location.assign("#");
+    window.location.reload();
   }
 
-  toTitleCase(str) {
-    return str.replace(/\w\S*/g, function (txt) {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
+
+  async onRequestCancel() {
+
+    if (window.confirm("Really leave this page?  Any unsaved changes will be lost.")) {
+      window.location.assign("#");
+    } else {
+      return false;
+    }
   }
 
-  async createJob(job) {
-    
-    job.OpenUntilFilled__c = job.OpenUntilFilled__c  == null ? true : job.openUntilFilled;// temp code needed 
-    //job.IsActive__c = true;
-    let resp = await this.api.create("Job__c", job);
+  async onRequestDelete(record) {
+    let resp = await this.api.delete("Job__c", record.Id);
     return resp;
   }
 
-  async updateJob(job) {
-    let temp = await this.api.update("Job__c", job);
-    if (temp == true) {
-      window.alert("Your posting was successfully updated");
+  async onRequestSave(record) {
+    let isValid = this.validateSubmission();
+
+    if (!isValid) {
+      throw new Error("There are errors in your form.");
     }
-  }
 
-  listenTo(event) {
-    let elem = document.querySelector("#job-container");
-    elem.addEventListener(event, this);
-  }
-
-  validateSubmission() {
-    'use strict'
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    let forms = document.querySelectorAll('.needs-validation');
-
-    // Loop over them and prevent submission
-    for (let i = 0; i < forms.length; i++) {
-        let form = forms[i];
-        let validity = form.checkValidity();
-        form.classList.add('was-validated')
-        return validity;
+    if (!!record.Id) {
+      await this.updateRecord(record);
+    } else {
+      await this.createRecord(record);
     }
+    message = "The record was saved.";
   }
+
+
+  // ---- CRUD methods ------
+  async createRecord(record) {
+    delete record.Id;
+    record.OpenUntilFilled__c = record.OpenUntilFilled__c == "on" ? true : false;
+    let resp = await this.api.create("Job__c", record);
+    return resp;
+  }
+
+  async updateRecord(record) {
+    record.OpenUntilFilled__c = record.OpenUntilFilled__c == "on" ? true : false;
+    let resp = await this.api.update("Job__c", record);
+    return resp;
+  }
+
+
 
   render() {
-    let job = this.job;
+    let job = this.record;
 
     return (
       <form id="record-form" class="needs-validation" novalidate>
@@ -155,10 +179,15 @@ export default class JobForm {
           <div id="title-help" class="form-text fs-6">The title of the job position.</div>
           <div class="invalid-feedback form-text fs-6">Job title is required!</div>
         </div>
-
         <div class="mb-3">
-          <label for="employer" class="form-label">Employer</label>
-          <input id="employer" name="employer" class="form-control" aria-describedby="employer-help"
+          <label for="employer" class="form-label">
+            Employer
+          </label>
+          <input
+            id="employer"
+            name="employer"
+            class="form-control"
+            aria-describedby="employer-help"
             placeholder="Enter the Employer"
             value={job.employer} 
             required />
@@ -167,8 +196,14 @@ export default class JobForm {
         </div>
 
         <div class="mb-3">
-          <label for="salary" class="form-label">Salary</label>
-          <input id="salary" name="salary" class="form-control" aria-describedby="salary-help"
+          <label for="salary" class="form-label">
+            Salary
+          </label>
+          <input
+            id="salary"
+            name="salary"
+            class="form-control"
+            aria-describedby="salary-help"
             placeholder="Enter the Salary"
             value={job.salary} 
             required />
@@ -177,8 +212,14 @@ export default class JobForm {
         </div>
 
         <div class="mb-3">
-          <label for="location" class="form-label">Location</label>
-          <input id="location" name="location" class="form-control" aria-describedby="location-help"
+          <label for="location" class="form-label">
+            Location
+          </label>
+          <input
+            id="location"
+            name="location"
+            class="form-control"
+            aria-describedby="location-help"
             placeholder="Enter the Location"
             value={job.location} 
             required />
@@ -209,20 +250,52 @@ export default class JobForm {
 
         <div class="mb-3">
           <div class="input-group">
-            <label for="open-until-filled" class="form-label">Open until filled?</label>
+            <label for="open-until-filled" class="form-label">
+              Open until filled?
+            </label>
             {job.openUntilFilled ? (
-              <input id="open-until-filled" class="form-input m-2" type="checkbox" checked aria-describedby="checkbox-help" />
+              <input
+                id="open-until-filled"
+                name="open-until-filled"
+                class="form-input m-2"
+                type="checkbox"
+                checked
+                aria-describedby="checkbox-help"
+              />
             ) : (
-              <input id="open-until-filled" class="form-input m-2" type="checkbox" aria-describedby="checkbox-help" />
+              <input
+                id="open-until-filled"
+                class="form-input m-2"
+                type="checkbox"
+                aria-describedby="checkbox-help"
+              />
             )}
           </div>
           <div id="checkbox-help" name="open-until-filled" class="form-text fs-6">Whether or not the job posting closes once it is filled.</div>
           <div class="invalid-feedback form-text fs-6"></div>
+          <div
+            id="checkbox-help"
+            name="open-until-filled"
+            class="form-text fs-6"
+          >
+            Whether or not the job posting closes once it is filled.
+          </div>
         </div>
 
         <button type="submit" href="#save" data-action="save" value="Save">Save</button>
         {job.id == "" || job.id == undefined ? ("") : (<input type="submit" data-action="delete" value="Delete" />)}
         <button type="button" value="Cancel" data-action="cancel">Cancel</button>
+        <button type="submit" href="#" data-action="save" value="Save">
+          Save
+        </button>
+        {job.id == "" ? (
+          ""
+        ) : (
+          <input type="submit" data-action="delete" value="Delete" />
+        )}
+        <button type="button" value="Cancel" data-action="cancel">
+          Cancel
+        </button>
       </form>
     );
   }
