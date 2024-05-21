@@ -16,3 +16,5 @@
 * Question: Which fields should be required? I currently only have Job Title required on the form.
 * A validation message only shows up on the form if the field was not valid. Otherwise a green checkmark indicates a valid entry.
 * currently the form only validates required fields. I am still figuring out how to do data validation.
+* Not 100% sure how to pass the data from the JobList to the Details view?
+* Description field has been added as a Long Text area (32,000+ chars, oops), though its currently not displaying anywhere.
