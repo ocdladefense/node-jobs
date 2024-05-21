@@ -8,6 +8,10 @@ export default class Router {
 
     static validHashes = [];
 
+    currentComponent;
+
+
+
     constructor(selector) {
         this.selector = selector;
         this.view = View.createRoot(this.selector);
@@ -16,26 +20,29 @@ export default class Router {
     async render() {        
         let hash = window.location.hash;
         let tree;
+        let c;
+
+        let elem = document.querySelector("#job-container");
+        if(elem) {
+           elem.removeEventListener("click", this.currentComponent);
+        }
 
         if (hash == "" || hash == "#") {
-            let c = new JobList();
+            this.currentComponent = c = new JobList();
             c.listenTo("click");
             await c.loadData();
             tree = c.render();
-        } else if (hash == "#new") { 
+        }
+        else if (hash == "#new") { 
             let job = new Job();
-            let c = new JobForm(job);
+            this.currentComponent = c = new JobForm(job);
             c.listenTo("click");
             await c.loadData();
             tree = c.render();
         } 
         else if (hash.startsWith("#edit")){
-            let jobId = this.getJobId();
-            let temp = new JobList();
-            await temp.loadData();
-            let job = temp.getRecord(jobId);
-            console.log(job);
-            let c = new JobForm(job);
+            let recordId = this.getRecordId();
+            this.currentComponent = c = new JobForm(recordId);
             c.listenTo("click");
             await c.loadData();
             tree = c.render();
@@ -43,7 +50,7 @@ export default class Router {
 
         this.view.render(tree);
     }
-    getJobId() {
+    getRecordId() {
         let hash = window.location.hash;
         const urlParams = new URLSearchParams(hash.substring(hash.indexOf('?')));
         const jobId = urlParams.get('id');
