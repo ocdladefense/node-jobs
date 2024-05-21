@@ -155,6 +155,7 @@ export default class JobList {
       Employer__c: "Veritas Law Group",
       Location__c: "Rivertown Junction",
       OpneUntilFilled__c: false,
+      Description__c: "Position Overview: Are you a legal trailblazer with an unyielding passion for justice? Look no further! Veritas Law Group is seeking a Legal Maverick to join our dynamic team. As a Legal Maverick, youll redefine the boundaries of legal practice, challenge conventional norms, and fearlessly advocate for our clients. \n \n Responsibilities:\n \n Innovative Case Strategy: As a Legal Maverick, youll craft groundbreaking legal strategies that leave opposing counsel scratching their heads. Think outside the box, disrupt the status quo, and find creative solutions to complex legal puzzles.\n Fearless Representation: Whether in the courtroom or the boardroom, youll fearlessly represent our clients interests. Your confidence, charisma, and unwavering commitment will set you apart. \n Legal Acrobatics: Legal Mavericks dont just walk; they leap, twist, and somersault through legal challenges. Expect to juggle multiple cases, dive into uncharted legal waters, and emerge victorious.\n Rule-Bending Advocacy: Rules are meant to be bent, not broken. As a Legal Maverick, youll navigate the gray areas, push boundaries, and champion justice with flair.\n Veritas Verve: Our Legal Mavericks embody the Veritas spirit—bold, audacious, and relentless. Youll uphold our core values while rewriting legal narratives.\n Qualifications:\n \n\n Juris Doctor (JD): Youve conquered law school, but your hunger for knowledge remains insatiable.\n Trailblazing Spirit: Youre not afraid to forge new paths, challenge precedents, and take calculated risks.\n Charisma and Conviction: Your presence commands attention, and your arguments resonate. Confidence is your secret weapon.\n Fearless Advocacy: You thrive under pressure, turning courtroom drama into your personal stage.\n Legal Agility: You can pivot, pirouette, and pivot again. Adaptability is your middle name.\n Perks:\n \n \n Legal Stunts: Showcase your legal prowess in high-stakes cases.\n Custom Cape: Every Legal Maverick needs a signature cape. Ours is metaphorical, but youll feel invincible.\n Coffee with the Judge: Network with judges, influencers, and fellow Mavericks.\n Veritas Swag: Rock our branded gear and let everyone know youre a Legal Maverick.\n Apply Now: If youre ready to rewrite legal history, break barriers, and leave a lasting impact, submit your application today. Veritas Law Group awaits its next Legal Maverick! \n \n \n Veritas Law Group is an equal opportunity employer. We encourage applications from all legal daredevils, regardless of race, gender, or cape color.",
     };
 
     let j2 = {
@@ -168,6 +169,7 @@ export default class JobList {
       Employer__c: "JusticeShield Attorneys",
       Location__c: "Cedarwood Heights",
       OpenUntilFilled__c: true,
+      Description__c: "",
     };
 
     let j3 = {
@@ -181,6 +183,7 @@ export default class JobList {
       Employer__c: "Liberty Legal Associates",
       Location__c: "Haborview Bay",
       OpenUntilFilled__c: false,
+      Description__c: "",
     };
 
     let mockJobs = [
