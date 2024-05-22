@@ -3,17 +3,27 @@ const multer = require('multer'); // Middleware for handling multipart/form-data
 const cors = require('cors'); // A package for providing Connect/Express middleware that can be used to enable CORS with various options
 
 const app = express();
-app.use(cors());
+//app.use(cors());
+app.use(cors({ origin: 'http://localhost:8081' }));
 
+// const storage = multer.diskStorage({
+//     destination: function(req, file, callback) {
+//         callback(null, __dirname + "/uploads");
+//     }, 
+//     filename: function(req, file, callback) {
+//         callback(null, file.originalname);
+//     }
+// });
 
 const storage = multer.diskStorage({
     destination: function(req, file, callback) {
-        callback(null, __dirname + "/uploads");
-    }, 
+        const jobName = req.body.jobName;
+        callback(null, __dirname + "/uploads/" + jobName);
+    },
     filename: function(req, file, callback) {
-        callback(null, file.originalname);
+        callback(null, 'renamedFile.pdf')
     }
-});
+})
 
 const uploads = multer({storage: storage});
 //const uploads = multer({dest: __dirname + "/uploads"});
