@@ -15,6 +15,8 @@ export default class JobForm extends Component {
 
   recordId;
 
+  fileUpload = new FileUpload();
+
   constructor(recordId) {
     super();
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
@@ -78,6 +80,10 @@ export default class JobForm extends Component {
       return false;
     }
 
+    if (action === 'save') {
+      await this.fileUpload.uploadFile(e);
+    }
+
     method = "onRequest" + this.toTitleCase(action);
 
     record = this.getFormData();
@@ -135,6 +141,20 @@ export default class JobForm extends Component {
     message = "The record was saved.";
   }
 
+  // ---- File Upload Method ----
+  async uploadFile(e) {
+    e.preventDefault();
+
+    const files = document.getElementById("files");
+
+    const formData = new FormData();
+    for (let i=0; i < files.files.length; i++) {
+      formData.append("files", files.files[i]);
+    }
+
+    const data = await response.json();
+    console.log(data);
+  }
 
   // ---- CRUD methods ------
   async createRecord(record) {
