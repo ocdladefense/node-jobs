@@ -81,12 +81,18 @@ export default class JobList extends Component {
     let message = "";
 
     return (
-      <div>
-        <div style="color:red;" class="error">{message}</div>
+      <div class="full-container">
+        <div style="color:red;" class="error">
+          {message}
+        </div>
 
-        <a href="#new" style="margin-bottom: 15px; display: block;" id="button">Create a Job Posting</a>
+        <a href="#new" style="margin-bottom: 15px; display: block;" id="button">
+          Create a Job Posting
+        </a>
         <div class="list-group">
-          {jobs.map(job => <JobCard job={job} isOwner={job.isOwner(userId)} />)}
+          {jobs.map((job) => (
+            <JobCard job={job} isOwner={job.isOwner(userId)} />
+          ))}
         </div>
       </div>
     );

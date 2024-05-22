@@ -44,8 +44,9 @@ export default class Router {
 
         c.listenTo("click", "#job-container");
 
-        if (c.loadData)
+        if (c.loadData) {
             await c.loadData();
+        }
         tree = c.render();
 
         this.view.render(tree);
@@ -58,9 +59,10 @@ export default class Router {
     
         return jobId;
     }
+
     listenTo(event) {
         window.addEventListener(event, this);
-      }
+    }
 
     handleEvent(e) {
         //console.log("hash has changed");
