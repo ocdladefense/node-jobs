@@ -1,0 +1,28 @@
+.form-container {
+    background-color: white;
+    display: grid;
+    /* margin: 2vw; */
+    margin-left: 25vw;
+    margin-right: 25vw;
+    padding: 1%;
+    border: solid;
+    border-radius: 5px;
+}
+
+.item-container {
+    padding: 1%;
+}
+
+.form-label {
+    font-weight: bold;
+    font-family:'Times New Roman', Times, serif;
+}
+
+.form-text {
+    font-style:italic;
+}
+
+.form-control {
+    border: solid;
+    border-width: 1px;
+}

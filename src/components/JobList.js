@@ -89,7 +89,7 @@ export default class JobList extends Component {
         <a href="#new" style="margin-bottom: 15px; display: block;" id="button">
           Create a Job Posting
         </a>
-        <div class="list-group">
+        <div class="grid-container">
           {jobs.map((job) => (
             <JobCard job={job} isOwner={job.isOwner(userId)} />
           ))}

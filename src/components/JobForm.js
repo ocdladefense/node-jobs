@@ -5,8 +5,7 @@ import Job from "@ocdla/employment/Job.js";
 import {RecordList} from "@ocdla/employment/Job.js";
 import FileUpload from "./FileUpload.js";
 import Component from "./Component.js";
-
-
+import "../css/form-design.css";
 
 export default class JobForm extends Component {
   useMock = USE_MOCK_RECORDS;
@@ -191,122 +190,124 @@ export default class JobForm extends Component {
     let job = this.record;
 
     return (
-      <form id="record-form" class="needs-validation" novalidate>
+      <div class="form-container">
+        <form id="record-form" class="needs-validation" novalidate>
         
-        <input name="id" type="hidden" value={job.id}/>
-        <input name="ownerId" type="hidden" value={job.ownerId}/>
+          <input name="id" type="hidden" value={job.id}/>
+          <input name="ownerId" type="hidden" value={job.ownerId}/>
 
-        <div class="mb-3">
-          <label for="title"  class="form-label">Job Title</label>
-          <input id="title" name="title" class="form-control" aria-describedby="title-help" 
-            placeholder="Enter Job Title"
-            value={job.title} 
-            required />
-          <div id="title-help" class="form-text fs-6">The title of the job position.</div>
-          <div class="invalid-feedback form-text fs-6">Job title is required!</div>
-        </div>
-        <div class="mb-3">
-          <label for="employer" class="form-label">
-            Employer
-          </label>
-          <input
-            id="employer"
-            name="employer"
-            class="form-control"
-            aria-describedby="employer-help"
-            placeholder="Enter the Employer"
-            value={job.employer} 
-            required />
-          <div id="employer-help" class="form-text fs-6">The name of the Employer (insert data constraints here).</div>
-          <div class="invalid-feedback form-text fs-6"></div>
-        </div>
-
-        <div class="mb-3">
-          <label for="salary" class="form-label">
-            Salary
-          </label>
-          <input
-            id="salary"
-            name="salary"
-            class="form-control"
-            aria-describedby="salary-help"
-            placeholder="Enter the Salary"
-            value={job.salary} 
-            required />
-          <div id="salary-help" class="form-text fs-6">The compensation information for the position (insert data constraints here).</div>
-          <div class="invalid-feedback form-text fs-6"></div>
-        </div>
-
-        <div class="mb-3">
-          <label for="location" class="form-label">
-            Location
-          </label>
-          <input
-            id="location"
-            name="location"
-            class="form-control"
-            aria-describedby="location-help"
-            placeholder="Enter the Location"
-            value={job.location} 
-            required />
-          <div id="location-help" class="form-text fs-6">The location where the job will take place (insert data constraints here).</div>
-          <div class="invalid-feedback form-text fs-6"></div>
-        </div>
-
-        <div class="mb-3">
-          <label for="posting-date" class="form-label">Date Posted</label>
-          <input id="posting-date" name="posting-date" class="form-control" type="date" aria-describedby="posting-date-help"
-            placeholder="Enter today's date."
-            value={job.postingDate} />
-          <div id="posting-date-help" class="form-text fs-6">The date job was posted (this will be automatic eventually).</div>
-          <div class="invalid-feedback form-text fs-6"></div>
-        </div>
-
-        <div class="mb-3">
-          <label for="closing-date" class="form-label">Date Closing</label>
-          <input id="closing-date" name="closing-date" class="form-control" type="date" aria-describedby="closing-date-help"
-            placeholder="Enter the closing date, we suggest 30 days from today."
-            value={job.closingDate} 
-            required />
-          <div id="closing-date-help" class="form-text fs-6">The date that the job posting will close, if any (enter data constraints here).</div>
-          <div class="invalid-feedback form-text fs-6"></div>
-        </div>
-
-        <FileUpload url={job.fileUrl} />
-
-        <div class="mb-3">
-          <div class="input-group">
-            <label for="open-until-filled" class="form-label">
-              Open until filled?
-            </label>
-            {job.openUntilFilled ? (
-              <input
-                id="open-until-filled"
-                name="open-until-filled"
-                class="form-input m-2"
-                type="checkbox"
-                checked
-                aria-describedby="checkbox-help"
-              />
-            ) : (
-              <input
-                id="open-until-filled"
-                class="form-input m-2"
-                type="checkbox"
-                aria-describedby="checkbox-help"
-              />
-            )}
+          <div class="item-container">
+            <label for="title"  class="form-label">Job Title</label>
+            <input id="title" name="title" class="form-control" aria-describedby="title-help" 
+              placeholder="Enter Job Title"
+              value={job.title} 
+              required />
+            <div id="title-help" class="form-text fs-6">The title of the job position.</div>
+            <div class="invalid-feedback form-text fs-6">Job title is required!</div>
           </div>
-          <div id="checkbox-help" name="open-until-filled" class="form-text fs-6">Whether or not the job posting closes once it is filled.</div>
-          <div class="invalid-feedback form-text fs-6"></div>
-        </div>
+          <div class="item-container">
+            <label for="employer" class="form-label">
+              Employer
+            </label>
+            <input
+              id="employer"
+              name="employer"
+              class="form-control"
+              aria-describedby="employer-help"
+              placeholder="Enter the Employer"
+              value={job.employer} 
+              required />
+            <div id="employer-help" class="form-text fs-6">The name of the Employer (insert data constraints here).</div>
+            <div class="invalid-feedback form-text fs-6"></div>
+          </div>
 
-        <button type="submit" href="#save" data-action="save" value="Save">Save</button>
-        {job.id == "" || job.id == undefined ? ("") : (<input type="submit" data-action="delete" value="Delete" />)}
-        <button type="button" value="Cancel" data-action="cancel">
-          Cancel
-        </button>
-      </form>
+          <div class="item-container">
+            <label for="salary" class="form-label">
+              Salary
+            </label>
+            <input
+              id="salary"
+              name="salary"
+              class="form-control"
+              aria-describedby="salary-help"
+              placeholder="Enter the Salary"
+              value={job.salary} 
+              required />
+            <div id="salary-help" class="form-text fs-6">The compensation information for the position (insert data constraints here).</div>
+            <div class="invalid-feedback form-text fs-6"></div>
+          </div>
+
+          <div class="item-container">
+            <label for="location" class="form-label">
+              Location
+            </label>
+            <input
+              id="location"
+              name="location"
+              class="form-control"
+              aria-describedby="location-help"
+              placeholder="Enter the Location"
+              value={job.location} 
+              required />
+            <div id="location-help" class="form-text fs-6">The location where the job will take place (insert data constraints here).</div>
+            <div class="invalid-feedback form-text fs-6"></div>
+          </div>
+
+          <div class="item-container">
+            <label for="posting-date" class="form-label">Date Posted</label>
+            <input id="posting-date" name="posting-date" class="form-control" type="date" aria-describedby="posting-date-help"
+              placeholder="Enter today's date."
+              value={job.postingDate} />
+            <div id="posting-date-help" class="form-text fs-6">The date job was posted (this will be automatic eventually).</div>
+            <div class="invalid-feedback form-text fs-6"></div>
+          </div>
+
+          <div class="item-container">
+            <label for="closing-date" class="form-label">Date Closing</label>
+            <input id="closing-date" name="closing-date" class="form-control" type="date" aria-describedby="closing-date-help"
+              placeholder="Enter the closing date, we suggest 30 days from today."
+              value={job.closingDate} 
+              required />
+            <div id="closing-date-help" class="form-text fs-6">The date that the job posting will close, if any (enter data constraints here).</div>
+            <div class="invalid-feedback form-text fs-6"></div>
+          </div>
+
+          <FileUpload url={job.fileUrl} />
+
+          <div class="item-container">
+            <div class="input-group">
+              <label for="open-until-filled" class="form-label">
+                Open until filled?
+              </label>
+              {job.openUntilFilled ? (
+                <input
+                  id="open-until-filled"
+                  name="open-until-filled"
+                  class="form-input m-2"
+                  type="checkbox"
+                  checked
+                  aria-describedby="checkbox-help"
+                />
+              ) : (
+                <input
+                  id="open-until-filled"
+                  class="form-input m-2"
+                  type="checkbox"
+                  aria-describedby="checkbox-help"
+                />
+              )}
+            </div>
+            <div id="checkbox-help" name="open-until-filled" class="form-text fs-6">Whether or not the job posting closes once it is filled.</div>
+            <div class="invalid-feedback form-text fs-6"></div>
+          </div>
+
+          <button type="submit" href="#save" data-action="save" value="Save">Save</button>
+          {job.id == "" || job.id == undefined ? ("") : (<input type="submit" data-action="delete" value="Delete" />)}
+          <button type="button" value="Cancel" data-action="cancel">
+            Cancel
+          </button>
+        </form>
+      </div>
     );
   }
 }
