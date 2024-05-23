@@ -13,7 +13,7 @@ export default class Job {
     this.ownerId = "";
     this.title = title;
     this.salary = "";
-    this.postingDate = "";
+    this.postingDate = this.getCurrentDateISOFormat();
     this.closingDate = "";
     this.fileUrl = "";
     this.employer = "";
@@ -94,7 +94,16 @@ export default class Job {
     return true; //id == this.ownerId;
   }
 
+  static getCurrentDateISOFormat() {
+    let date = new Date();
+    let rightNow = date.toISOString();
+    rightNow = rightNow.split("T", 1);
+    let today = rightNow[0];
+    return today;
+  }
+
   static async getMockData() {
+
     let j1 = {
       OwnerId: "0",
       Id: "0",
