@@ -7,17 +7,22 @@ import Component from "./Component.js";
 
 
 export default class JobList extends Component {
-  records;
-  useMock = USE_MOCK_RECORDS;
+
+  // Reference to the SalesforceRestApi object.
+  #api;
+
+
+  // Internal list of records.
+  #records;
+
 
   constructor() {
     super();
     this.actions = ["delete"];
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
-    //this.view = View.createRoot(this.selector);
   }
 
-  returnRecords() {
+  getRecords() {
     return this.records;
   }
 
@@ -29,6 +34,7 @@ export default class JobList extends Component {
   async onRequestDelete(dataset) {
     let id = dataset.id;
     let resp = await this.api.delete("Job__c", id);
+    
     return resp;
   }
 
@@ -53,10 +59,7 @@ export default class JobList extends Component {
   // }
 
   async deleteJob(id) {
-    if (this.useMock) {
-      this.records = this.records.filter((record) => record.id != id);
-    }
-    else await this.api.delete("Job__c", id);
+    return await this.api.delete("Job__c", id);
   }
 
 
@@ -65,13 +68,11 @@ export default class JobList extends Component {
     return result.length > 0 ? result[0] : null;
   }
 
-  async loadData(records) {
-    if (this.useMock) {
-      this.records = records || await Job.getMockData();
-    } else {
+
+
+  async loadData() {
       let resp = await this.api.query(QUERY);
       this.records = resp.records.map((record) => Job.fromSObject(record));
-    }
   }
 
   render() {
