@@ -2,6 +2,8 @@
 import { vNode, View } from "@ocdla/view";
 import Component from "./Component.js";
 import {RecordList} from "@ocdla/employment/Job.js";
+import Job from "@ocdla/employment/Job.js";
+
 
 
 export default class JobDetails extends Component {
@@ -18,12 +20,31 @@ export default class JobDetails extends Component {
   }
 
   render() {
+    let job = this.record;
+
     return (
-      <div>
-        <h1>Details Component</h1>
+      <div class="container mt-5">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Job Title: {job.title}</h2>
+          </div>
+          <div class="card-body">
+            <h5 class="card-subtitle mb-2 text-muted">Open Until Filled? {job.openUntilFilled ? ("Yes") : ("No")}</h5>
+            <h5 class="card-subtitle mb-2 text-muted">Company: {job.employer}</h5>
+            <p class="card-text"><strong>Location:</strong> {job.location}</p>
+            <p class="card-text"><strong>Salary:</strong> {job.salary}</p>
+            <p class="card-text"><strong>Attachements: {job.fileUrl}</strong></p>
+            <p class="card-text"><strong>Description:</strong></p>
+            <p class="card-text">{job.description}</p>
+
+          </div>
+          <div class="card-footer text-muted">
+            Posted on: {job.postingDate} 
+          </div>
+        </div>
       </div>
     );
-  }
+ }
 
   async loadData() {
     if (this.recordId == null) {

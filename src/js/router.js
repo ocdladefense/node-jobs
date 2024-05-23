@@ -38,7 +38,7 @@ export default class Router {
         else if (hash.startsWith("#edit")){
             this.currentComponent = c = new JobForm(recordId);
         } 
-        else if (hash == "#details") {
+        else if (hash.startsWith("#details")) {
             this.currentComponent = c = new JobDetails(recordId);
         }
 
