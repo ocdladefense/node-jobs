@@ -39,7 +39,7 @@ export default class Router {
             this.currentComponent = c = new JobForm(recordId);
         } 
         else if (hash == "#details") {
-            this.currentComponent = c = new JobDetails();
+            this.currentComponent = c = new JobDetails(recordId);
         }
 
         c.listenTo("click", "#job-container");

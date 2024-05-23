@@ -164,7 +164,7 @@ export default class JobForm extends Component {
         form.classList.add('was-validated')
         return validity;
     }
-  }s
+  }
 
 
   render() {

@@ -1,17 +1,20 @@
 /** @jsx vNode */
 import { vNode, View } from "@ocdla/view";
+import Component from "./Component.js";
+import {RecordList} from "@ocdla/employment/Job.js";
 
-export default class JobDetails {
-  root;
-  actions = [];
-  props = {};
 
-  constructor(props) {
-    this.props = props || {};
-  }
+export default class JobDetails extends Component {
+  useMock = USE_MOCK_RECORDS;
 
-  setRoot(node) {
-    this.root = node;
+  record;
+
+  recordId;
+
+  constructor(recordId) {
+    super();
+    this.recordId = recordId;
+    this.actions = [];
   }
 
   render() {
@@ -22,52 +25,24 @@ export default class JobDetails {
     );
   }
 
-  getUserInput(id) {
-    let elem = document.getElementById(id);
-    return elem.value;
-  }
-
-  listenTo(event, selector) {
-    let elem = document.querySelector(selector);
-    elem.addEventListener(event, this);
-  }
-
-  toTitleCase(str) {
-    return str.replace(/\w\S*/g, function (txt) {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
-  }
-
-  // loadData() {
-
-  // }
-
-  handleEvent(e) {
-    let target = e.target;
-    let dataset = target.dataset;
-    let action = target.dataset.action;
-    let id = target.dataset.id;
-    let method;
-
-    // Bail out if we're not interested in the user's interaction.
-    if (dataset == null || action == null || !this.actions.includes(action)) {
+  async loadData() {
+    if (this.recordId == null) {
+      this.record = new Job();
       return;
     }
-
-    method = "onRequest" + this.toTitleCase(action);
-
-    this[method](dataset);
+    if (this.useMock) {
+      let records = await Job.getMockData();
+      let list = new RecordList(records);
+      this.record = list.getRecord(this.recordId);
+    } else {
+      let resp = await this.api.query(
+        "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c, Description__c FROM Job__c WHERE Id = '" +
+          this.recordId +
+          "'"
+      );
+      let list = new RecordList(resp.records);
+      this.record = list.getRecord(this.recordId);
+    }
   }
 }
 
-// For future use.
-// Don't worry about these.
-export function useState(initialValue) {
-  console.log("useState called");
-  return [initialValue, () => {}];
-}
-
-export function useEffect(callback, dependencies) {
-  console.log("useEffect called");
-  callback();
-}
