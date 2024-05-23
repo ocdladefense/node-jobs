@@ -164,7 +164,7 @@ export default class JobForm extends Component {
         form.classList.add('was-validated')
         return validity;
     }
-  }s
+  }
 
 
   render() {
@@ -177,14 +177,37 @@ export default class JobForm extends Component {
         <input name="ownerId" type="hidden" value={job.ownerId}/>
 
         <div class="mb-3">
-          <label for="title"  class="form-label">Job Title</label>
-          <input id="title" name="title" class="form-control" aria-describedby="title-help" 
+          <label for="title"  class="form-label">
+            Job Title
+          </label>
+          <input 
+            id="title" 
+            name="title" 
+            class="form-control" 
+            aria-describedby="title-help" 
             placeholder="Enter Job Title"
             value={job.title} 
             required />
           <div id="title-help" class="form-text fs-6">The title of the job position.</div>
           <div class="invalid-feedback form-text fs-6">Job title is required!</div>
         </div>
+
+        <div class="mb-3">
+          <label for="description"  class="form-label">
+            Job Description
+          </label>
+          <input 
+            id="description" 
+            name="description" 
+            class="form-control" 
+            aria-describedby="description-help" 
+            placeholder="Enter Job Description"
+            value={job.description} 
+            required />
+          <div id="description-help" class="form-text fs-6">The description of the job position.</div>
+          <div class="invalid-feedback form-text fs-6">Job description is required!</div>
+        </div>
+
         <div class="mb-3">
           <label for="employer" class="form-label">
             Employer
