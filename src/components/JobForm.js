@@ -177,14 +177,37 @@ export default class JobForm extends Component {
         <input name="ownerId" type="hidden" value={job.ownerId}/>
 
         <div class="mb-3">
-          <label for="title"  class="form-label">Job Title</label>
-          <input id="title" name="title" class="form-control" aria-describedby="title-help" 
+          <label for="title"  class="form-label">
+            Job Title
+          </label>
+          <input 
+            id="title" 
+            name="title" 
+            class="form-control" 
+            aria-describedby="title-help" 
             placeholder="Enter Job Title"
             value={job.title} 
             required />
           <div id="title-help" class="form-text fs-6">The title of the job position.</div>
           <div class="invalid-feedback form-text fs-6">Job title is required!</div>
         </div>
+
+        <div class="mb-3">
+          <label for="description"  class="form-label">
+            Job Description
+          </label>
+          <input 
+            id="description" 
+            name="description" 
+            class="form-control" 
+            aria-describedby="description-help" 
+            placeholder="Enter Job Description"
+            value={job.description} 
+            required />
+          <div id="description-help" class="form-text fs-6">The description of the job position.</div>
+          <div class="invalid-feedback form-text fs-6">Job description is required!</div>
+        </div>
+
         <div class="mb-3">
           <label for="employer" class="form-label">
             Employer
@@ -198,7 +221,7 @@ export default class JobForm extends Component {
             value={job.employer} 
             required />
           <div id="employer-help" class="form-text fs-6">The name of the Employer (insert data constraints here).</div>
-          <div class="invalid-feedback form-text fs-6"></div>
+          <div class="invalid-feedback form-text fs-6">Employer is required!</div>
         </div>
 
         <div class="mb-3">
@@ -214,7 +237,7 @@ export default class JobForm extends Component {
             value={job.salary} 
             required />
           <div id="salary-help" class="form-text fs-6">The compensation information for the position (insert data constraints here).</div>
-          <div class="invalid-feedback form-text fs-6"></div>
+          <div class="invalid-feedback form-text fs-6">Salary is required!</div>
         </div>
 
         <div class="mb-3">
@@ -230,17 +253,17 @@ export default class JobForm extends Component {
             value={job.location} 
             required />
           <div id="location-help" class="form-text fs-6">The location where the job will take place (insert data constraints here).</div>
-          <div class="invalid-feedback form-text fs-6"></div>
+          <div class="invalid-feedback form-text fs-6">Location is required!</div>
         </div>
 
-        <div class="mb-3">
+        {/* <div class="mb-3">
           <label for="posting-date" class="form-label">Date Posted</label>
           <input id="posting-date" name="posting-date" class="form-control" type="date" aria-describedby="posting-date-help"
             placeholder="Enter today's date."
             value={job.postingDate} />
           <div id="posting-date-help" class="form-text fs-6">The date job was posted (this will be automatic eventually).</div>
-          <div class="invalid-feedback form-text fs-6"></div>
-        </div>
+          <div class="invalid-feedback form-text fs-6">Date Posted is required!</div>
+        </div> */}
 
         <div class="mb-3">
           <label for="closing-date" class="form-label">Date Closing</label>
@@ -249,7 +272,7 @@ export default class JobForm extends Component {
             value={job.closingDate} 
             required />
           <div id="closing-date-help" class="form-text fs-6">The date that the job posting will close, if any (enter data constraints here).</div>
-          <div class="invalid-feedback form-text fs-6"></div>
+          <div class="invalid-feedback form-text fs-6">Date Closing is required!</div>
         </div>
 
         <FileUpload url={job.fileUrl} />
