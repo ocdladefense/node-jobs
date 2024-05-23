@@ -1,6 +1,6 @@
 {
     "name": "@ocdla/salesforce",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "description": "A library to interface with the Salesforce REST API",
     "type": "module",
     "scripts": {
@@ -9,6 +9,7 @@
     "author": "Charlese Muchmore",
     "license": "MIT",
     "dependencies": {
+	"@ocdla/lib-http": "~1.1.0"
     },
     "devDependencies": {
       "jsdoc": "^3.6.10"

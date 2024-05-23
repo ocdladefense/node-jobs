@@ -1,13 +1,23 @@
+import HttpClient from '@ocdla/lib-http/HttpClient.js';
 
 /**
  * @module SalesforceRestApi
  * @classdesc This module is to be used to interface with the Salesforce API using a RESTful architecture. 
  */
-class SalesforceRestApi {
+export default class SalesforceRestApi extends HttpClient {
     instanceUrl;
+
     accessToken;
+
+    path;
+
     method;
+
+    headers;
+
     body;
+
+
     /**
      * Represents the Salesforce API version being used.
      * @static
@@ -26,11 +36,12 @@ class SalesforceRestApi {
      * @param {string} accessToken - The
     */
     constructor(instanceUrl, accessToken) {
+        super();
         this.instanceUrl = instanceUrl;
         this.accessToken = accessToken;
         this.headers = new Headers();
-        this.authHeader = "Bearer " + this.accessToken; 
-        this.headers.append("Authorization", this.authHeader);
+        let authHeader = "Bearer " + this.accessToken; 
+        this.headers.append("Authorization", authHeader);
         this.headers.append('Content-Type', 'application/json');
     }
 
@@ -40,10 +51,12 @@ class SalesforceRestApi {
      * @example
      * "SELECT Name,Id FROM Object_Name"
     */
-    query(queryString) {
+    async query(queryString) {
+
         this.method = 'GET';
         this.path = SalesforceRestApi.BASE_URL + 'query?q=' + queryString;
-        return this.send();
+
+        return await this.send();
     }
 
     /** 
@@ -94,11 +107,13 @@ class SalesforceRestApi {
             headers: this.headers
         };
 
-        if (this.method != 'GET' && this.method != 'DELETE') {
+        if (["GET", "DELETE"].includes(this.method) == false) {
             config.body = this.body;
         }
 
-        return fetch(`${this.instanceUrl}${this.path}`, config)
+        const req = new Request(this.instanceUrl + this.path, config);
+        
+        return super.send(req)
         .then((resp) => {
             if((resp.status >= 200 && resp.status <= 299 ) && (this.method == "PATCH" || this.method == "DELETE")){
                 return true;
@@ -119,13 +134,9 @@ class SalesforceRestApi {
                 console.log(json.errorCode)
             }
             return json;
-
-
         })
         .catch((err) => {
             console.error('Error:', err);
         });
     }
 }
-
-export default SalesforceRestApi;
