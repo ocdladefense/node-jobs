@@ -21,9 +21,9 @@ const JobCard = function(props) {
                     <strong>Open until filled:</strong> {job.openUntilFilled ? 'Yes' : 'No'}<br />
                 </p>
                 <div class="footer">
-                    <a href={`#edit?id=${job.id}`} class="btn btn-secondary">Edit</a>
-                    <a href="#" class="btn btn-secondary" data-id={job.id} data-action="delete">Delete</a>
-                    <a href="#details" class="btn btn-secondary" data-id={job.id}>View Details</a>
+                    <a href="#details" class="button" data-id={job.id}>View Details</a>
+                    <a href={`#edit?id=${job.id}`} class="button">Edit</a>
+                    <a href="#" class="button" data-id={job.id} data-action="delete">Delete</a>
                 </div>
             </div>
         </div>
