@@ -13,7 +13,7 @@ export default class Job {
     this.ownerId = "";
     this.title = title;
     this.salary = "";
-    this.postingDate = this.getCurrentDateISOFormat();
+    this.postingDate = Job.getCurrentDateISOFormat();
     this.closingDate = "";
     this.fileUrl = "";
     this.employer = "";

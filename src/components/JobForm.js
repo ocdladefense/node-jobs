@@ -256,14 +256,14 @@ export default class JobForm extends Component {
           <div class="invalid-feedback form-text fs-6">Location is required!</div>
         </div>
 
-        <div class="mb-3">
+        {/* <div class="mb-3">
           <label for="posting-date" class="form-label">Date Posted</label>
           <input id="posting-date" name="posting-date" class="form-control" type="date" aria-describedby="posting-date-help"
             placeholder="Enter today's date."
             value={job.postingDate} />
           <div id="posting-date-help" class="form-text fs-6">The date job was posted (this will be automatic eventually).</div>
           <div class="invalid-feedback form-text fs-6">Date Posted is required!</div>
-        </div>
+        </div> */}
 
         <div class="mb-3">
           <label for="closing-date" class="form-label">Date Closing</label>
