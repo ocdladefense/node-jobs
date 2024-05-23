@@ -3,6 +3,9 @@
  * methods of our previous Controller.js class.
  */
 
+/** @jsx vNode */
+import { vNode, View } from "@ocdla/view";
+
 export default class Component {
   root;
   actions = [];
@@ -40,24 +43,50 @@ export default class Component {
     });
   }
 
-  handleEvent(e) {
+  async handleEvent(e) {
+    // When an error occurs, the message will be displayed to the user.
+    // But then, what do we want to happen?  Do go back to the list if there an error?
+    // Or do we stay on the page and display the error message?
+    // Also validations errors - we obbserved that the error message is displayed, but the form is still submitted.
     let target = e.target;
     let dataset = target.dataset;
     let action = target.dataset.action;
-    let id = target.dataset.id;
+    let record;
+    let message = "";
     let method;
+    let error = false;
 
-    // Bail out if we're not interested in the user's interaction.
-    if (dataset == null || action == null || !this.actions.includes(action)) {
-      return;
+    if (dataset == null || action == null) {
+      return false;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!this.actions.includes(action)) {
+      return false;
     }
 
     method = "onRequest" + this.toTitleCase(action);
 
-    this[method](dataset);
+    try {
+      await this[method](dataset);
+      message = "The action was completed successfully.";
+    }
+    catch(e) {
+      console.log(e, method);
+      message = e.message;
+      error = true;
+    }
+
+    window.alert(message);
+
+    // For forms, don't move on to the next page if there was an error.
+    if(error) return false;
+
+    window.location.assign("#");
+    window.location.reload();
   }
 }
-
 // For future use.
 // Don't worry about these.
 export function useState(initialValue) {

@@ -2,11 +2,15 @@
 import { vNode, View } from "@ocdla/view";
 import JobForm from "../components/JobForm.js";
 import JobList from "../components/JobList.js";
-import Job from "../../node_modules/@ocdla/employment/Job.js";
+import JobDetails from "../components/JobDetails.js";
 
 export default class Router {
 
     static validHashes = [];
+
+    currentComponent;
+
+
 
     constructor(selector) {
         this.selector = selector;
@@ -16,30 +20,53 @@ export default class Router {
     async render() {        
         let hash = window.location.hash;
         let tree;
+        let c;
 
-        if (hash == "") {
-            let c = new JobList();
-            //c.listenTo("click");
-            await c.loadData();
-            tree = c.render();
-        } else if (hash == "#new") { 
-            let job = new Job();
-            tree = <JobForm job={job}/>;
+        let elem = document.querySelector("#job-container");
+        if(elem) {
+           elem.removeEventListener("click", this.currentComponent);
+        }
+
+        let recordId = this.getRecordId();
+
+        if (hash == "" || hash == "#") {
+            this.currentComponent = c = new JobList();
+        }
+        else if (hash == "#new") { 
+            this.currentComponent = c = new JobForm();
         } 
+        else if (hash.startsWith("#edit")){
+            this.currentComponent = c = new JobForm(recordId);
+        } 
+        else if (hash == "#details") {
+            this.currentComponent = c = new JobDetails();
+        }
+
+        c.listenTo("click", "#job-container");
+
+        if (c.loadData) {
+            await c.loadData();
+        }
+        tree = c.render();
 
         this.view.render(tree);
     }
-
-    listenTo(event) {
-        //let elem = document.querySelector(this.selector);
-        window.addEventListener(event, this);
-      }
-
-    handleEvent(e) {
-        console.log("hash has changed");
-        this.render();
+    
+    getRecordId() {
+        let hash = window.location.hash;
+        const urlParams = new URLSearchParams(hash.substring(hash.indexOf('?')));
+        const jobId = urlParams.get('id');
+    
+        return jobId;
     }
 
-    
+    listenTo(event) {
+        window.addEventListener(event, this);
+    }
+
+    handleEvent(e) {
+        //console.log("hash has changed");
+        this.render();
+    }
 }
 
