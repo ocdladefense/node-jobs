@@ -1,6 +1,7 @@
 
 # Created by https://www.gitignore.io/api/node,macos
 
+/my-notes.md
 
 /uploads/*
 !/uploads/.gitkeep
