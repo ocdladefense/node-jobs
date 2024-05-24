@@ -22,13 +22,16 @@ const JobCard = function(props) {
                 </p>
                 <div class="footer">
                     <a href="#details" class="button" data-id={job.id}>View Details</a>
-                    <a href={`#edit?id=${job.id}`} class="button">Edit</a>
-                    <a href="#" class="button" data-id={job.id} data-action="delete">Delete</a>
+                    {admin && (
+                        <div class="validation">
+                            <a href={`#edit?id=${job.id}`} class="button">Edit</a>
+                            <a href="#" class="button" data-id={job.id} data-action="delete">Delete</a>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
     );
-    
 };
 
 export default JobCard;
