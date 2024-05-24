@@ -116,7 +116,7 @@ export default class Job {
       Employer__c: "Veritas Law Group",
       Location__c: "Rivertown Junction",
       OpenUntilFilled__c: false,
-      Description: "",
+      Description__c: "",
     };
 
     let j2 = {
@@ -130,7 +130,7 @@ export default class Job {
       Employer__c: "JusticeShield Attorneys",
       Location__c: "Cedarwood Heights",
       OpenUntilFilled__c: true,
-      Description: "",
+      Description__c: "",
     };
 
     let j3 = {
@@ -144,7 +144,7 @@ export default class Job {
       Employer__c: "Liberty Legal Associates",
       Location__c: "Haborview Bay",
       OpenUntilFilled__c: false,
-      Description: "",
+      Description__c: "",
     };
 
     let mockJobs = [
