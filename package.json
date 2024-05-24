@@ -36,7 +36,7 @@
   "dependencies": {
     "@ocdla/salesforce":  "file:./dev_modules/@ocdla/salesforce",
     "@ocdla/employment": "file:./dev_modules/@ocdla/employment",
-    "@ocdla/date-convert": "file:./dev_modules/@ocdla/date-convert",
+    "@ocdla/lib-date": "file:./dev_modules/@ocdla/lib-date",
     "@ocdla/view": "~2.3.0",
     "axios": "^1.6.8",
     "babel-loader": "^8.2.5",
