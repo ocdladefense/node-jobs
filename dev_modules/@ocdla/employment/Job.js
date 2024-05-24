@@ -1,3 +1,4 @@
+import DateConvert from "@ocdla/date-convert/DateConvert.js";
 
 /**
  * @module Job
@@ -13,7 +14,7 @@ export default class Job {
     this.ownerId = "";
     this.title = title;
     this.salary = "";
-    this.postingDate = Job.getCurrentDateISOFormat();
+    this.postingDate = new DateConvert().toISO();
     this.closingDate = "";
     this.fileUrl = "";
     this.employer = "";
@@ -94,13 +95,10 @@ export default class Job {
     return true; //id == this.ownerId;
   }
 
-  static getCurrentDateISOFormat() {
-    let date = new Date();
-    let rightNow = date.toISOString();
-    rightNow = rightNow.split("T", 1);
-    let today = rightNow[0];
-    return today;
-  }
+  // static getCurrentDateISOFormat() {
+  //   let date = new DateConvert();
+  //   return date.toISO();
+  // }
 
   static async getMockData() {
 
