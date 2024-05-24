@@ -1,16 +1,42 @@
 import HttpMock from "@ocdla/lib-http/HttpMock";
+import SObjectList from "@ocdla/salesforce/SObjectList";
+
 
 export default class SalesforceJobMock extends HttpMock {
   
-  
+  #list;
+
+
   constructor() {
     super();
+
+    let tmp = [];
+
+    SalesforceJobMock.records.records.forEach((record) => {
+      tmp.push([record.Id, record]);
+    });
+
+    this.list = new Map(tmp);
   }
 
 
   getResponse(req) {
 
-    return Response.json(SalesforceJobMock.records);
+    let url = new Url(req.url);
+
+    if (req.method === "GET") {
+      return Response.json(SalesforceJobMock.records);
+    } else if(req.method == "DELETE") {
+      let recordId = url.getLastPathSegment();
+      this.deleteRecord(recordId);
+
+      return new Response(null, {status: 204});
+    }
+  }
+
+  deleteRecord(recordId) {
+
+    this.list.delete(recordId);
   }
   
 
