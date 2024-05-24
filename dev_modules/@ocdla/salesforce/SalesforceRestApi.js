@@ -1,13 +1,23 @@
+import HttpClient from '@ocdla/lib-http/HttpClient.js';
 
 /**
  * @module SalesforceRestApi
  * @classdesc This module is to be used to interface with the Salesforce API using a RESTful architecture. 
  */
-class SalesforceRestApi {
+export default class SalesforceRestApi extends HttpClient {
     instanceUrl;
+
     accessToken;
+
+    path;
+
     method;
+
+    headers;
+
     body;
+
+
     /**
      * Represents the Salesforce API version being used.
      * @static
@@ -26,11 +36,12 @@ class SalesforceRestApi {
      * @param {string} accessToken - The
     */
     constructor(instanceUrl, accessToken) {
+        super();
         this.instanceUrl = instanceUrl;
         this.accessToken = accessToken;
         this.headers = new Headers();
-        this.authHeader = "Bearer " + this.accessToken; 
-        this.headers.append("Authorization", this.authHeader);
+        let authHeader = "Bearer " + this.accessToken; 
+        this.headers.append("Authorization", authHeader);
         this.headers.append('Content-Type', 'application/json');
     }
 
@@ -40,10 +51,12 @@ class SalesforceRestApi {
      * @example
      * "SELECT Name,Id FROM Object_Name"
     */
-    query(queryString) {
+    async query(queryString) {
+
         this.method = 'GET';
         this.path = SalesforceRestApi.BASE_URL + 'query?q=' + queryString;
-        return this.send();
+
+        return await this.send();
     }
 
     /** 
@@ -88,49 +101,39 @@ class SalesforceRestApi {
     /** 
      * @returns {object}
     */
-    send() {
 
+
+    async send() {
+        /*
         if (this.instanceUrl == null || this.accessToken == null || this.instanceUrl == "" || this.accessToken == "") {
             throw new Error("Invalid access credentials, cannot send " + this.method + " request");
         }
-
+        */
+       
         let config = {
             method: this.method,
             headers: this.headers
         };
 
-        if (this.method != 'GET' && this.method != 'DELETE') {
+        if (["GET", "DELETE"].includes(this.method) == false) {
             config.body = this.body;
         }
 
-        return fetch(`${this.instanceUrl}${this.path}`, config)
-        .then((resp) => {
-            if((resp.status >= 200 && resp.status <= 299 ) && (this.method == "PATCH" || this.method == "DELETE")){
-                return true;
-            }
-            else{
-                return resp.json();
-            }
-        })
-        .then((json) => {
+        const req = new Request(this.instanceUrl + this.path, config);
+        
+        const resp = await super.send(req);
 
-            if(json == undefined){
-                return true;
-            }
-            if(json == true){
-                return true;
-            } 
+        if(["PATCH", "OPTIONS", "DELETE"].includes(req.method) && resp.status >= 200 && resp.status <= 299 ) {
+            return resp;
+        }
+
+
+        else return await resp.json()
+        .then((json) => {
             if(json.errorCode != null){
                 console.log(json.errorCode)
             }
             return json;
-
-
-        })
-        .catch((err) => {
-            console.error('Error:', err);
         });
     }
 }
-
-export default SalesforceRestApi;

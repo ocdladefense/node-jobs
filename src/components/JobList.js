@@ -1,23 +1,30 @@
 /** @jsx vNode */
 import { vNode, View } from "@ocdla/view";
 import SalesforceRestApi from "@ocdla/salesforce/SalesforceRestApi.js";
-import JobCard from "./JobCard.js";
 import Job from "@ocdla/employment/Job.js";
 import Component from "./Component.js";
+import JobCard from "./JobCard.js";
+
+
 
 
 export default class JobList extends Component {
-  records;
-  useMock = USE_MOCK_RECORDS;
+
+  // Reference to the SalesforceRestApi object.
+  #api;
+
+
+  // Internal list of records.
+  #records;
+
 
   constructor() {
     super();
     this.actions = ["delete"];
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
-    //this.view = View.createRoot(this.selector);
   }
 
-  returnRecords() {
+  getRecords() {
     return this.records;
   }
 
@@ -29,8 +36,18 @@ export default class JobList extends Component {
   async onRequestDelete(dataset) {
     let id = dataset.id;
     let resp = await this.api.delete("Job__c", id);
-    return resp;
+
+    if(resp.ok) {
+      const e = new CustomEvent("rerender", { detail: this });
+      document.dispatchEvent(e);
+    }
+    else
+    {
+      window.alert("An error occurred while deleting the record.");
+    }
+
   }
+
 
   // async onRequestDelete(job) {
   //   let message;
@@ -52,27 +69,12 @@ export default class JobList extends Component {
   //   return;
   // }
 
-  async deleteJob(id) {
-    if (this.useMock) {
-      this.records = this.records.filter((record) => record.id != id);
-    }
-    else await this.api.delete("Job__c", id);
-  }
+ 
 
 
-  getRecord(recordId) {
-    let result = this.records.filter((record) => record.id == recordId);
-    return result.length > 0 ? result[0] : null;
-  }
-
-  async loadData(records) {
-    if (this.useMock) {
-      this.records = records || await Job.getMockData();
-      this.records = this.records.map((record) => Job.fromSObject(record));
-    } else {
+  async loadData() {
       let resp = await this.api.query(QUERY);
       this.records = resp.records.map((record) => Job.fromSObject(record));
-    }
   }
 
   render() {

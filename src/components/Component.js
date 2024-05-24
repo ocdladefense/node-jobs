@@ -51,7 +51,6 @@ export default class Component {
     let target = e.target;
     let dataset = target.dataset;
     let action = target.dataset.action;
-    let record;
     let message = "";
     let method;
     let error = false;
@@ -83,8 +82,8 @@ export default class Component {
     // For forms, don't move on to the next page if there was an error.
     if(error) return false;
 
-    window.location.assign("#");
-    window.location.reload();
+    // window.location.assign("#");
+    return false;
   }
 }
 // For future use.
