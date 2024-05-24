@@ -101,7 +101,7 @@ export default class SalesforceRestApi extends HttpClient {
     /** 
      * @returns {object}
     */
-    send() {
+    async send() {
         let config = {
             method: this.method,
             headers: this.headers
@@ -113,30 +113,19 @@ export default class SalesforceRestApi extends HttpClient {
 
         const req = new Request(this.instanceUrl + this.path, config);
         
-        return super.send(req)
-        .then((resp) => {
-            if((resp.status >= 200 && resp.status <= 299 ) && (this.method == "PATCH" || this.method == "DELETE")){
-                return true;
-            }
-            else{
-                return resp.json();
-            }
-        })
-        .then((json) => {
+        const resp = await super.send(req);
 
-            if(json == undefined){
-                return true;
-            }
-            if(json == true){
-                return true;
-            } 
+        if(["PATCH", "OPTIONS", "DELETE"].includes(req.method) && resp.status >= 200 && resp.status <= 299 ) {
+            return resp;
+        }
+
+
+        else return await resp.json()
+        .then((json) => {
             if(json.errorCode != null){
                 console.log(json.errorCode)
             }
             return json;
-        })
-        .catch((err) => {
-            console.error('Error:', err);
         });
     }
 }
