@@ -3,6 +3,7 @@ import { vNode, View } from "@ocdla/view";
 import JobForm from "../components/JobForm.js";
 import JobList from "../components/JobList.js";
 import JobDetails from "../components/JobDetails.js";
+import { urlHash } from "../components/Component.js";
 
 export default class Router {
 
@@ -21,6 +22,13 @@ export default class Router {
         let hash = window.location.hash;
         let tree;
         let c;
+        
+        // let params = {
+        //     id: "myRecordId",
+        //     otherParam1: "otherValue1",
+        //     otherParam2: "otherValue2"
+        //   }; 
+        // hash = urlHash("edit",params);
 
         let elem = document.querySelector("#job-container");
         if(elem) {
