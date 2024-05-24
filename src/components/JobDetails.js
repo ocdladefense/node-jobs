@@ -21,6 +21,7 @@ export default class JobDetails extends Component {
 
   render() {
     let job = this.record;
+    job.fileUrl = ""; // THIS IS A TEMPORARY SOLUTION
 
     return (
       <div class="container mt-5">
@@ -33,7 +34,7 @@ export default class JobDetails extends Component {
             <h5 class="card-subtitle mb-2 text-muted">Company: {job.employer}</h5>
             <p class="card-text"><strong>Location:</strong> {job.location}</p>
             <p class="card-text"><strong>Salary:</strong> {job.salary}</p>
-            <p class="card-text"><strong>Attachements: {job.fileUrl}</strong></p>
+            <p class="card-text"><strong>Attachments: {job.fileUrl}</strong></p>
             <p class="card-text"><strong>Description:</strong></p>
             <p class="card-text">{job.description}</p>
 
