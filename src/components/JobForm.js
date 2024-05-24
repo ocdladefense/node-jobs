@@ -101,7 +101,6 @@ export default class JobForm extends Component {
     if(error) return false;
 
     window.location.assign("#");
-    window.location.reload();
   }
 
 
