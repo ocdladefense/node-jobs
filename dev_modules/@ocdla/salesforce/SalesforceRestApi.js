@@ -89,6 +89,11 @@ class SalesforceRestApi {
      * @returns {object}
     */
     send() {
+
+        if (this.instanceUrl == null || this.accessToken == null || this.instanceUrl == "" || this.accessToken == "") {
+            throw new Error("Invalid access credentials, cannot send " + this.method + " request");
+        }
+
         let config = {
             method: this.method,
             headers: this.headers

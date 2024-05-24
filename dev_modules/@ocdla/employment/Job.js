@@ -1,3 +1,4 @@
+import DateConvert from "@ocdla/date-convert/DateConvert.js";
 
 /**
  * @module Job
@@ -13,12 +14,13 @@ export default class Job {
     this.ownerId = "";
     this.title = title;
     this.salary = "";
-    this.postingDate = "";
-    this.closingDate = "";
+    this.postingDate = new DateConvert().toISO();
+    this.closingDate = new DateConvert(this.postingDate).xDaysLater(30);
     this.fileUrl = "";
     this.employer = "";
     this.location = "";
     this.openUntilFilled = true;
+    this.description = "";
   }
 
   /**
@@ -50,6 +52,7 @@ export default class Job {
     job.location = vals.get("location");
     job.openUntilFilled = vals.get("open-until-filled");
     job.isActive = ""; //finish this? a checkbox on the form, have some instructions
+    job.description = vals.get("description");
 
     return job;
   }
@@ -67,6 +70,7 @@ export default class Job {
     job.employer = SObject.Employer__c;
     job.location = SObject.Location__c;
     job.openUntilFilled = SObject.OpenUntilFilled__c;
+    job.description = SObject.Description__c;
 
     return job;
   }
@@ -83,6 +87,7 @@ export default class Job {
       IsActive__c: this.isActive,
       Location__c: this.location,
       Salary__c: this.salary,
+      Description__c: this.description,
     };
   }
 
@@ -90,7 +95,13 @@ export default class Job {
     return true; //id == this.ownerId;
   }
 
+  // static getCurrentDateISOFormat() {
+  //   let date = new DateConvert();
+  //   return date.toISO();
+  // }
+
   static async getMockData() {
+
     let j1 = {
       OwnerId: "0",
       Id: "0",
@@ -101,7 +112,8 @@ export default class Job {
       FileUrl__c: "https://my-domain.com/document1",
       Employer__c: "Veritas Law Group",
       Location__c: "Rivertown Junction",
-      OpneUntilFilled__c: false,
+      OpenUntilFilled__c: false,
+      Description: "",
     };
 
     let j2 = {
@@ -115,6 +127,7 @@ export default class Job {
       Employer__c: "JusticeShield Attorneys",
       Location__c: "Cedarwood Heights",
       OpenUntilFilled__c: true,
+      Description: "",
     };
 
     let j3 = {
@@ -128,6 +141,7 @@ export default class Job {
       Employer__c: "Liberty Legal Associates",
       Location__c: "Haborview Bay",
       OpenUntilFilled__c: false,
+      Description: "",
     };
 
     let mockJobs = [
@@ -146,23 +160,14 @@ export class RecordList {
 
     records;
 
+  constructor(records) {
 
-    constructor(records) {
-
-        this.records = records;
-    }
-
-
-
+      this.records = records;
+  }
 
   getRecord(recordId) {
     // Job.fromSObject(record))[0];
     let result = this.records.filter((record) => record.Id == recordId);
     return result.length > 0 ? result[0] : null;
   }
-
-
-
 }
-
-

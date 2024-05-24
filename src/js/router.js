@@ -4,6 +4,7 @@ import JobForm from "../components/JobForm.js";
 import JobList from "../components/JobList.js";
 import JobDetails from "../components/JobDetails.js";
 import { urlHash } from "../components/Component.js";
+import JobSearch from "../components/JobSearch.js";
 
 export default class Router {
 
@@ -22,13 +23,7 @@ export default class Router {
         let hash = window.location.hash;
         let tree;
         let c;
-        
-        // let params = {
-        //     id: "myRecordId",
-        //     otherParam1: "otherValue1",
-        //     otherParam2: "otherValue2"
-        //   }; 
-        // hash = urlHash("edit",params);
+
 
         let elem = document.querySelector("#job-container");
         if(elem) {
@@ -38,16 +33,16 @@ export default class Router {
         let recordId = this.getRecordId();
 
         if (hash == "" || hash == "#") {
-            this.currentComponent = c = new JobList();
+            c = new JobList();
         }
         else if (hash == "#new") { 
-            this.currentComponent = c = new JobForm();
+            c = new JobForm();
         } 
         else if (hash.startsWith("#edit")){
-            this.currentComponent = c = new JobForm(recordId);
+            c = new JobForm(recordId);
         } 
-        else if (hash == "#details") {
-            this.currentComponent = c = new JobDetails();
+        else if (hash.startsWith("#details")) {
+            c = new JobSearch(recordId);
         }
 
         c.listenTo("click", "#job-container");
@@ -58,6 +53,7 @@ export default class Router {
         tree = c.render();
 
         this.view.render(tree);
+        this.currentComponent = c;
     }
     
     getRecordId() {

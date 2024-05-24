@@ -1,7 +1,7 @@
 {
-    "name": "@ocdla/employment",
+    "name": "@ocdla/date-convert",
     "version": "0.1.0",
-    "description": "Represents a job",
+    "description": "Helps convert dates.",
     "type": "module",
     "browser": "index.js",
     "scripts": {
@@ -12,7 +12,6 @@
     "dependencies": {
     },
     "devDependencies": {
-      "jsdoc": "^3.6.10",
-      "@ocdla/date-convert": "file:./dev_modules/@ocdla/date-convert"
+      "jsdoc": "^3.6.10"
     }
   }
