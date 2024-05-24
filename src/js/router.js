@@ -3,6 +3,7 @@ import { vNode, View } from "@ocdla/view";
 import JobForm from "../components/JobForm.js";
 import JobList from "../components/JobList.js";
 import JobDetails from "../components/JobDetails.js";
+import JobSearch from "../components/JobSearch.js";
 
 export default class Router {
 
@@ -39,7 +40,7 @@ export default class Router {
             this.currentComponent = c = new JobForm(recordId);
         } 
         else if (hash.startsWith("#details")) {
-            this.currentComponent = c = new JobDetails(recordId);
+            this.currentComponent = c = new JobSearch(recordId);
         }
 
         c.listenTo("click", "#job-container");
