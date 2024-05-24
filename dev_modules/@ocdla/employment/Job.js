@@ -131,9 +131,9 @@ export default class Job {
     };
 
     let mockJobs = [
-      Job.fromSObject(j1),
-      Job.fromSObject(j2),
-      Job.fromSObject(j3),
+      j1,
+      j2,
+      j3,
     ];
 
     return Promise.resolve(mockJobs);
@@ -157,7 +157,7 @@ export class RecordList {
 
   getRecord(recordId) {
     // Job.fromSObject(record))[0];
-    let result = this.records.filter((record) => record.id == recordId);
+    let result = this.records.filter((record) => record.Id == recordId);
     return result.length > 0 ? result[0] : null;
   }
 
