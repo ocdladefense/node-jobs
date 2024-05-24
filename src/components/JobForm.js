@@ -12,7 +12,7 @@ export default class JobForm extends Component {
   useMock = USE_MOCK_RECORDS;
 
   record;
-
+  message;
   recordId;
 
   constructor(recordId) {
@@ -31,6 +31,7 @@ export default class JobForm extends Component {
       let records = await Job.getMockData();
       let list = new RecordList(records);
       this.record = list.getRecord(this.recordId);
+      this.record = Job.fromSObject(this.record);
     } else {
       let resp = await this.api.query(
         "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c FROM Job__c WHERE Id = '" +
@@ -39,6 +40,7 @@ export default class JobForm extends Component {
       );
       let list = new RecordList(resp.records);
       this.record = list.getRecord(this.recordId);
+      this.record = Job.fromSObject(this.record);
     }
   }
 
@@ -64,7 +66,6 @@ export default class JobForm extends Component {
     let dataset = target.dataset;
     let action = target.dataset.action;
     let record;
-    let message = "";
     let method;
     let error = false;
 
@@ -86,7 +87,7 @@ export default class JobForm extends Component {
 
     try {
       await this[method](record);
-      message = "The action was completed successfully.";
+      this.message = "The action was completed successfully.";
     }
     catch(e) {
       console.log(e, method);
@@ -94,7 +95,7 @@ export default class JobForm extends Component {
       error = true;
     }
 
-    window.alert(message);
+    window.alert(this.message);
 
     // For forms, don't move on to the next page if there was an error.
     if(error) return false;
@@ -132,7 +133,7 @@ export default class JobForm extends Component {
     } else {
       await this.createRecord(record);
     }
-    message = "The record was saved.";
+    this.message = "The record was saved.";
   }
 
 
