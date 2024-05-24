@@ -1,6 +1,7 @@
 /** @jsx vNode */
 import { vNode, View } from "@ocdla/view";
 import SalesforceRestApi from "@ocdla/salesforce/SalesforceRestApi.js";
+import JobForm from "./JobForm.js";
 
 export default class FileUpload {
   useMock = USE_MOCK_RECORDS;
@@ -18,13 +19,13 @@ export default class FileUpload {
   getFileInput(id) {
     let elem = document.getElementById(id);
     let fileNameLabel = document.getElementById('file-name');
-
+  
     elem.addEventListener('change', (event) => {
-      console.log(envent.target.files[0]);
+      console.log(event.target.files[0]);
       fileNameLabel.textContent = event.target.files[0].name;
     });
     return elem.files[0];
-  }
+  }  
 
   async handleEvent(e) {
     let target = e.target;
@@ -38,7 +39,12 @@ export default class FileUpload {
 
     if (action === "upload") {
       file = this.getFileInput("file-upload");
+      formData.append("jobName", this.jobName);
       await this.uploadFile(file);
+    }
+
+    if (action === "remove") {
+      document.getElementById('file-name').textContent = '';
     }
   }
 
@@ -63,15 +69,39 @@ export default class FileUpload {
     console.log(data);
 }
 
+  // render() {
+  //   let multipleFilesEnabled = false;
+  
+  //   return (
+  //     <div class="mb-3">
+  //       <label for="file-upload" class="form-label">Upload Files</label>
+  //       <div class="input-group">
+  //         {this.fileUrl != "" ? (<span>{this.fileUrl}</span>) : null}
+  //         <input type="file" class="form-control-file" id="file-upload" value={this.fileUrl} aria-describedby="file-upload-help" />
+  //         <i class="fas fa-file-upload"></i>
+  //         <label id="file-name" class="form-label"></label> {/* Add this line */}
+  //         <input type="button" data-action="upload" value="Upload File" onClick={() => document.getElementById('file-upload').click()} />
+  //         <input type="button" data-action="remove" value="Remove File" onClick={this.handleEvent.bind(this)} />
+  //         {multipleFilesEnabled ? (<input type="button" data-action="add" value="Add File" onClick={this.handleEvent.bind(this)} />) : ("")} 
+  //       </div>
+  //       <div id="file-upload-help" class="form-text fs-6">Any files relevant to the position (insert data constraints here).</div>
+  //     </div> 
+  //   );
+
+  //   this.getFileInput('file-upload');
+  //   return renderedComponent;
+  // }  
+
   render() {
     let multipleFilesEnabled = false;
   
-    return (
+    let renderedComponent = (
       <div class="mb-3">
         <label for="file-upload" class="form-label">Upload Files</label>
         <div class="input-group">
           {this.fileUrl != "" ? (<span>{this.fileUrl}</span>) : null}
           <input type="file" class="form-control-file" id="file-upload" value={this.fileUrl} aria-describedby="file-upload-help" />
+          <i class="fas fa-file-upload"></i>
           <label id="file-name" class="form-label"></label> {/* Add this line */}
           <input type="button" data-action="upload" value="Upload File" onClick={() => document.getElementById('file-upload').click()} />
           <input type="button" data-action="remove" value="Remove File" onClick={this.handleEvent.bind(this)} />
@@ -80,5 +110,16 @@ export default class FileUpload {
         <div id="file-upload-help" class="form-text fs-6">Any files relevant to the position (insert data constraints here).</div>
       </div> 
     );
+  
+    this.getFileInput('file-upload');
+  
+    return renderedComponent;
   }  
+}
+
+window.onload = () => {
+  document.addEventListener('DOMContentLoaded', (event) => {
+    let jobForm = new JobForm();
+    jobForm.fileUpload.getFileInput('file-upload');
+  });
 }

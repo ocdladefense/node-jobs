@@ -80,7 +80,9 @@ export default class JobForm extends Component {
     }
 
     if (action === 'save') {
-      await this.fileUpload.uploadFile(e);
+      let file = this.fileUpload.getFileInput('file-input');
+      let jobName = jobName;
+      await this.fileUpload.uploadFile(file, jobName);
     }
 
     method = "onRequest" + this.toTitleCase(action);

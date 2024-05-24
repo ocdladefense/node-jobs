@@ -4,7 +4,7 @@ const cors = require('cors'); // A package for providing Connect/Express middlew
 
 const app = express();
 //app.use(cors());
-app.use(cors({ origin: 'http://localhost:8081' }));
+app.use(cors({ origin: 'http://localhost:8080' }));
 
 // const storage = multer.diskStorage({
 //     destination: function(req, file, callback) {
