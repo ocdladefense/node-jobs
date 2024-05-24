@@ -68,6 +68,7 @@ export default class JobList extends Component {
   async loadData(records) {
     if (this.useMock) {
       this.records = records || await Job.getMockData();
+      this.records = this.records.map((record) => Job.fromSObject(record));
     } else {
       let resp = await this.api.query(QUERY);
       this.records = resp.records.map((record) => Job.fromSObject(record));
