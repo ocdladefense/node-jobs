@@ -98,3 +98,20 @@ export function useEffect(callback, dependencies) {
   console.log("useEffect called");
   callback();
 }
+
+export function urlHash(hashPath, params) {
+  let hash = `#${hashPath}!`;
+
+  
+  Object.keys(params).forEach((key, index) => {
+    hash += `${key}=${params[key]}`;
+
+    if (index !== Object.keys(params).length - 1) {
+      hash += ";";
+    }
+  });
+
+  console.log(hash);
+  window.location.assign(hash);
+}
+
