@@ -31,6 +31,23 @@ class DateConvert {
     // Returning just the date
     return isoDateTime[0];
   }
+
+  xDaysLater(x) {
+    // Turning the dateString back into a Date object
+    let date = new Date(this.dateString);
+
+    // Adding x days (in milliseconds) to the date
+    let xDaysLater = date.getTime() + x * 24 * 60 * 60 * 1000;
+
+    // Turning that back into an object cause the previous step made it a string I guess
+    let nextDate = new Date(xDaysLater);
+
+    // Setting this.dateString as a date only
+    this.dateString = nextDate.toLocaleDateString();
+
+    // Returning the incremented isoDateString
+    return this.toISO();
+  }
 }
 
 export default DateConvert;

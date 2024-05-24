@@ -15,7 +15,7 @@ export default class Job {
     this.title = title;
     this.salary = "";
     this.postingDate = new DateConvert().toISO();
-    this.closingDate = "";
+    this.closingDate = new DateConvert(this.postingDate).xDaysLater(30);
     this.fileUrl = "";
     this.employer = "";
     this.location = "";
