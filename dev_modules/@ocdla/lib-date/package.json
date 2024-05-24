@@ -1,5 +1,5 @@
 {
-    "name": "@ocdla/date-convert",
+    "name": "@ocdla/lib-date",
     "version": "0.1.0",
     "description": "Helps convert dates.",
     "type": "module",

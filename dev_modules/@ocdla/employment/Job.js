@@ -10,12 +10,15 @@ export default class Job {
    * @param {string} title - The title of the job.
    */
   constructor(title = "") {
+    let posting = new DateConvert();
+    let closing = posting.addDays(30); //new DateConvert(this.postingDate).xDaysLater(30);
+
     this.id = "";
     this.ownerId = "";
     this.title = title;
     this.salary = "";
-    this.postingDate = new DateConvert().toISO();
-    this.closingDate = new DateConvert(this.postingDate).xDaysLater(30);
+    this.postingDate = posting.toISO();
+    this.closingDate = closing.toISO();
     this.fileUrl = "";
     this.employer = "";
     this.location = "";
