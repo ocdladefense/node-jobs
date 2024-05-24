@@ -1,6 +1,6 @@
 import HttpMock from "@ocdla/lib-http/HttpMock";
 import SObjectList from "@ocdla/salesforce/SObjectList";
-
+import Url from "@ocdla/lib-http/Url";
 
 export default class SalesforceJobMock extends HttpMock {
   
@@ -24,9 +24,11 @@ export default class SalesforceJobMock extends HttpMock {
 
     let url = new Url(req.url);
 
-    if (req.method === "GET") {
-      return Response.json(SalesforceJobMock.records);
-    } else if(req.method == "DELETE") {
+    if(req.method === "GET") {
+      return Response.json({"records": Array.from(this.list.values())});
+    }
+    else if(req.method == "DELETE")
+    {
       let recordId = url.getLastPathSegment();
       this.deleteRecord(recordId);
 

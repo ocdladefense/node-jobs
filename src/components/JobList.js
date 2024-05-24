@@ -1,9 +1,11 @@
 /** @jsx vNode */
 import { vNode, View } from "@ocdla/view";
 import SalesforceRestApi from "@ocdla/salesforce/SalesforceRestApi.js";
-import JobCard from "./JobCard.js";
 import Job from "@ocdla/employment/Job.js";
 import Component from "./Component.js";
+import JobCard from "./JobCard.js";
+
+
 
 
 export default class JobList extends Component {
@@ -34,9 +36,18 @@ export default class JobList extends Component {
   async onRequestDelete(dataset) {
     let id = dataset.id;
     let resp = await this.api.delete("Job__c", id);
-    
-    return resp;
+
+    if(resp.ok) {
+      const e = new CustomEvent("rerender", { detail: this });
+      document.dispatchEvent(e);
+    }
+    else
+    {
+      window.alert("An error occurred while deleting the record.");
+    }
+
   }
+
 
   // async onRequestDelete(job) {
   //   let message;
@@ -58,16 +69,7 @@ export default class JobList extends Component {
   //   return;
   // }
 
-  async deleteJob(id) {
-    return await this.api.delete("Job__c", id);
-  }
-
-
-  getRecord(recordId) {
-    let result = this.records.filter((record) => record.id == recordId);
-    return result.length > 0 ? result[0] : null;
-  }
-
+ 
 
 
   async loadData() {

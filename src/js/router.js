@@ -62,11 +62,13 @@ export default class Router {
 
     listenTo(event) {
         window.addEventListener(event, this);
+        document.addEventListener("rerender", this);    
     }
 
-    handleEvent(e) {
+
+    async handleEvent(e) {
         //console.log("hash has changed");
-        this.render();
+        await this.render();
     }
 }
 
