@@ -3,6 +3,7 @@ import { vNode, View } from "@ocdla/view";
 import Component from "./Component.js";
 import JobList from "../components/JobList.js";
 import JobDetails from "../components/JobDetails.js";
+import "../css/job-search-design.css";
 
 export default class JobSearch extends Component {
   useMock = USE_MOCK_RECORDS;
@@ -23,13 +24,11 @@ export default class JobSearch extends Component {
   
     return (
       <div class="container">
-        <div class="row">
-          <div class="col-md">
-            {this.jobList.render()}
-          </div>
-          <div class="col-md">
-            {this.jobDetails.render()}
-          </div>
+        <div class="stickyexample">
+          {this.jobDetails.render()}
+        </div>
+        <div class="container-fluid">
+          {this.jobList.render()}
         </div>
       </div>
     );
