@@ -198,14 +198,16 @@ export default class JobForm extends Component {
           <label for="description"  class="form-label">
             Job Description
           </label>
-          <input 
+          <textarea 
             id="description" 
             name="description" 
+            rows="10"
+            cols="20"
             class="form-control" 
             aria-describedby="description-help" 
-            placeholder="Enter Job Description"
-            value={job.description} 
-            required />
+            required>
+              {job.description == "" || job.description == undefined ? ("Enter a description here") : (job.description)}
+            </textarea>
           <div id="description-help" class="form-text fs-6">The description of the job position.</div>
           <div class="invalid-feedback form-text fs-6">Job description is required!</div>
         </div>
