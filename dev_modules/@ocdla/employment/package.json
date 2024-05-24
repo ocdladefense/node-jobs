@@ -1,5 +1,5 @@
 {
-    "name": "@ocdla/job",
+    "name": "@ocdla/employment",
     "version": "0.1.0",
     "description": "Represents a job",
     "type": "module",
@@ -12,6 +12,7 @@
     "dependencies": {
     },
     "devDependencies": {
-      "jsdoc": "^3.6.10"
+      "jsdoc": "^3.6.10",
+      "@ocdla/date-convert": "file:./dev_modules/@ocdla/date-convert"
     }
   }
