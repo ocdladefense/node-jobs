@@ -27,21 +27,15 @@ export default class JobForm extends Component {
       this.record = new Job();
       return;
     }
-    if (this.useMock) {
-      let records = await Job.getMockData();
-      let list = new RecordList(records);
-      this.record = list.getRecord(this.recordId);
-      this.record = Job.fromSObject(this.record);
-    } else {
-      let resp = await this.api.query(
-        "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c FROM Job__c WHERE Id = '" +
-          this.recordId +
-          "'"
-      );
-      let list = new RecordList(resp.records);
-      this.record = list.getRecord(this.recordId);
-      this.record = Job.fromSObject(this.record);
-    }
+
+    let resp = await this.api.query(
+      "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c FROM Job__c WHERE Id = '" +
+        this.recordId +
+        "'"
+    );
+    let list = new RecordList(resp.records);
+    let record = list.getRecord(this.recordId);
+    this.record = Job.fromSObject(record);
   }
 
   // --- end of crud -----
@@ -113,10 +107,14 @@ export default class JobForm extends Component {
     }
   }
 
+
+
   async onRequestDelete(recordId) {
     let resp = await this.api.delete("Job__c", recordId);
     return resp;
   }
+
+
 
   async onRequestSave(dataset) {
     let isValid = this.validateSubmission();
@@ -136,6 +134,7 @@ export default class JobForm extends Component {
   }
 
 
+
   // ---- CRUD methods ------
   async createRecord(record) {
     delete record.Id;
@@ -144,12 +143,15 @@ export default class JobForm extends Component {
     return resp;
   }
 
+
+
   async updateRecord(record) {
     record.OpenUntilFilled__c = record.OpenUntilFilled__c == "on" ? true : false;
     let resp = await this.api.update("Job__c", record);
     return resp;
   }
 
+  
 
   validateSubmission() {
     'use strict'
