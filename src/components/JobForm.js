@@ -68,21 +68,16 @@ export default class JobForm extends Component {
     let message = "";
     let method;
     let error = false;
+    let type = e.type; // click or submit
 
     if (dataset == null || action == null) {
       return false;
     }
-    e.preventDefault();
-    e.stopPropagation();
+    // e.preventDefault();
+    // e.stopPropagation();
 
     if (!this.actions.includes(action)) {
       return false;
-    }
-
-    if (action === 'save') {
-      let file = this.fileUpload.getFileInput('file-input');
-      let jobName = jobName;
-      await this.fileUpload.uploadFile(file, jobName);
     }
 
     method = "onRequest" + this.toTitleCase(action);
@@ -110,6 +105,27 @@ export default class JobForm extends Component {
     window.location.reload();
   }
 
+  // File Upload method
+  async uploadFile(file, jobName) {
+    // Create a new FormData instance
+    const formData = new FormData();
+
+    // Append the file and job name to the FormData instance
+    formData.append("files", file);
+    formData.append("jobName", jobName);
+
+    // Send a POST request to the server
+    const response = await fetch('http://localhost:5500/uploads', {
+        method: 'POST',
+        body: formData,
+    });
+
+    // Parse the JSON response
+    const data = await response.json();
+
+    // Log the response data
+    console.log(data);
+  }
 
   async onRequestCancel() {
 
@@ -125,6 +141,32 @@ export default class JobForm extends Component {
     return resp;
   }
 
+  getFileInput(id) {
+    // Get the file input element by its ID
+    let elem = document.getElementById(id);
+    // Get the label element to display the file name
+    let fileNameLabel = document.getElementById('file-name');
+    
+    // Add an event listener for the 'change' event on the file input element
+    elem.addEventListener('change', (event) => {''
+      // Log the first file selected by the user
+      console.log(event.target.files[0]);
+      // Update the text content of the label with the name of the selected file
+      fileNameLabel.textContent = event.target.files[0].name;
+    });
+    // Return the first file selected by the user
+    return elem.files[0];
+  }  
+
+  getFirstFile(id) {
+    // Get the file input element by its ID
+    let elem = document.getElementById(id);
+    // Return the first file selected by the user
+    return elem.files[0];
+  }  
+
+  // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+
   async onRequestSave(dataset) {
     let isValid = this.validateSubmission();
     if (!isValid) {
@@ -133,28 +175,22 @@ export default class JobForm extends Component {
 
     let record = this.getFormData();
     record = record.toSObject();
+    try{
+      if (!!record.Id) {
+        await this.updateRecord(record);
+      } else {
+        await this.createRecord(record);
+      }
 
-    if (!!record.Id) {
-      await this.updateRecord(record);
-    } else {
-      await this.createRecord(record);
+      // If the job was successfully created, then the file is uploaded
+      let file = this.getFirstFile("file-upload"); // Retrieves and returns the first file selected by the user
+      // formData.append("jobName", this.jobName); // Appends a new key-value pair to the formData object
+      // await this.uploadFile(file, formData); // Calls the uploadFile method with the file obtained from the first line as an argument
+
+    }catch(e) {
+
     }
     message = "The record was saved.";
-  }
-
-  // ---- File Upload Method ----
-  async uploadFile(e) {
-    e.preventDefault();
-
-    const files = document.getElementById("files");
-
-    const formData = new FormData();
-    for (let i=0; i < files.files.length; i++) {
-      formData.append("files", files.files[i]);
-    }
-
-    const data = await response.json();
-    console.log(data);
   }
 
   // ---- CRUD methods ------
@@ -193,7 +229,7 @@ export default class JobForm extends Component {
 
     return (
       <div class="form-container">
-        <form id="record-form" class="needs-validation" novalidate>
+        <form id="record-form" method="post" class="needs-validation" novalidate>
         
           <input name="id" type="hidden" value={job.id}/>
           <input name="ownerId" type="hidden" value={job.ownerId}/>
