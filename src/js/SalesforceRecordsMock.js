@@ -3,7 +3,7 @@ import SObjectList from "@ocdla/salesforce/SObjectList";
 import Url from "@ocdla/lib-http/Url";
 
 export default class SalesforceJobMock extends HttpMock {
-  
+
   #list;
 
 
@@ -24,15 +24,20 @@ export default class SalesforceJobMock extends HttpMock {
 
     let url = new Url(req.url);
 
-    if(req.method === "GET") {
-      return Response.json({"records": Array.from(this.list.values())});
+    if (req.method === "GET") {
+      return Response.json({ "records": Array.from(this.list.values()) });
     }
-    else if(req.method == "DELETE")
-    {
+    else if (req.method == "DELETE") {
       let recordId = url.getLastPathSegment();
       this.deleteRecord(recordId);
 
-      return new Response(null, {status: 204});
+      return new Response(null, { status: 204 });
+    }
+    else if (req.method == "POST") {
+
+    }
+    else if (req.method == "PATCH") {
+
     }
   }
 
@@ -40,7 +45,7 @@ export default class SalesforceJobMock extends HttpMock {
 
     this.list.delete(recordId);
   }
-  
+
 
   static records = {
     records: [
