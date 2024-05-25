@@ -49,6 +49,10 @@ export default class Router {
         }
 
         c.listenTo("click", "#job-container");
+        /*
+        Listen for submit events
+        c.listenTo("submit", "#record-form");
+        */
 
         if (c.loadData) {
             await c.loadData();
@@ -77,5 +81,6 @@ export default class Router {
         //console.log("hash has changed");
         await this.render();
     }
+
 }
 

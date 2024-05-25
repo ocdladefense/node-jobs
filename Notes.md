@@ -48,3 +48,9 @@
 
 ### Notes from Tuesday Meeting 5/21
 * Cancel is in fact supposed to be a button, and handled by the JobForm.
+
+
+## Running server.js
+* Use node src/js/server.js to run server.js
+* Use netstat -ano |findstr :5500 to filter and display network statistics related to the port number 5500
+* Use taskkill /PID 22856 /F to kill server
