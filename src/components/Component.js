@@ -104,8 +104,9 @@ export function urlHash(hash, params) {
   hash = hash || "#";
   // hash has to start with #
   if (!hash.startsWith("#")) {
-    hash = "#" + hash;
+    hash = "#" + hash ;
   }
+  hash += "!";
   if (params != null) {
     Object.keys(params).forEach((key, index) => {
       hash += `${key}=${params[key]}`;
@@ -114,8 +115,8 @@ export function urlHash(hash, params) {
       }
     });
   }
-
-  window.location.assign(hash);
+  return hash;
+  //window.location.assign(hash);
 }
 
 export function separateHash(hash) { 

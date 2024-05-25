@@ -1,6 +1,7 @@
 /** @jsx vNode */
 
 import {vNode, View} from "@ocdla/view";
+import { urlHash } from "../components/Component.js";
 
 const JobCard = function(props) {
     let job = props.job;
@@ -21,10 +22,10 @@ const JobCard = function(props) {
                     <strong>Open until filled:</strong> {job.openUntilFilled ? 'Yes' : 'No'}<br />
                 </p>
                 <div class="footer">
-                    <a href={`#edit?id=${job.id}`} class="btn btn-secondary">Edit</a>
+                    <a href={urlHash("edit", job)} class="btn btn-secondary">Edit</a>
                     <a href="#" class="btn btn-secondary" data-id={job.id} data-action="delete">Delete</a>
-                    <a href={`#details?id=${job.id}`} class="btn btn-secondary" data-id={job.id}>View Details</a>
-                    <a href={`#search?id=${job.id}`} class="btn btn-secondary" data-id={job.id}>Search</a>
+                    <a href={urlHash("details", job)} class="btn btn-secondary" data-id={job.id}>View Details</a>
+                    <a href={urlHash("search", job)} class="btn btn-secondary" data-id={job.id}>Search</a>
                 </div>
             </div>
         </div>
