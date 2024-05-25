@@ -1,10 +1,9 @@
 /** @jsx vNode */
 import { vNode, View } from "@ocdla/view";
-import SalesforceRestApi from "@ocdla/salesforce/SalesforceRestApi.js";
-import JobForm from "./JobForm.js";
+
+
 
 export default class FileUpload {
-  useMock = USE_MOCK_RECORDS;
 
   multipleFilesEnabled = false;
 
@@ -42,11 +41,4 @@ export default class FileUpload {
       </div> 
     );
   }  
-}
-
-window.onload = () => {
-  document.addEventListener('DOMContentLoaded', (event) => {
-    let jobForm = new JobForm();
-    jobForm.fileUpload.getFileInput('file-upload');
-  });
 }
