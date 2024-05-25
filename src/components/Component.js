@@ -98,19 +98,44 @@ export function useEffect(callback, dependencies) {
   callback();
 }
 
-export function urlHash(hashPath, params) {
-  let hash = `#${hashPath}!`;
+export function urlHash(hash, params) {
 
-  
-  Object.keys(params).forEach((key, index) => {
-    hash += `${key}=${params[key]}`;
+  //Checks to make sure hash is not null
+  hash = hash || "#";
+  // hash has to start with #
+  if (!hash.startsWith("#")) {
+    hash = "#" + hash ;
+  }
+  hash += "!";
+  if (params != null) {
+    Object.keys(params).forEach((key, index) => {
+      hash += `${key}=${params[key]}`;
+      if (index !== Object.keys(params).length - 1) {
+        hash += ";";
+      }
+    });
+  }
+  return hash;
+  //window.location.assign(hash);
+}
 
-    if (index !== Object.keys(params).length - 1) {
-      hash += ";";
+export function separateHash(hash) { 
+    let request =  hash.substring(hash.indexOf('#'), hash.indexOf('!'));
+    let queryString = hash.substring(hash.indexOf('!') + 1);
+    let params = queryString.split(';');
+    let paramObj = [];
+    if (params != null || params !== "") {
+      params.forEach(param => {
+        const [key, value] = param.split('=');
+        paramObj[key] = value;
+      });
     }
-  });
 
-  console.log(hash);
-  window.location.assign(hash);
+    console.log(request, paramObj);
+    //if object is null that means request is equal to ""
+    if(paramObj != null){
+    return {request, paramObj};
+    }
+    return hash;
 }
 

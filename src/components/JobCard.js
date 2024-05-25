@@ -1,6 +1,7 @@
 /** @jsx vNode */
 
 import {vNode, View} from "@ocdla/view";
+import { urlHash } from "../components/Component.js";
 
 const JobCard = function(props) {
     let job = props.job;
@@ -22,12 +23,12 @@ const JobCard = function(props) {
                 </p>
                 <div class="footer">
                     
-                    <a href={`#details?id=${job.id}`} class="btn btn-secondary" data-id={job.id}>View Details</a>
-                    <a href={`#search?id=${job.id}`} class="btn btn-secondary" data-id={job.id}>Search</a>
+                    <a href={`#details!id=${job.id}`} class="btn btn-secondary" data-id={job.id}>View Details</a>
+                    <a href={`#search!id=${job.id}`} class="btn btn-secondary" data-id={job.id}>Search</a>
             
                     {admin && (
                         <div class="validation">
-                            <a href={`#edit?id=${job.id}`} class="button">Edit</a>
+                            <a href={`#edit!id=${job.id}`} class="button">Edit</a>
                             <a href="#" class="btn btn-secondary" data-id={job.id} data-action="delete">Delete</a>
                         </div>
                     )}
