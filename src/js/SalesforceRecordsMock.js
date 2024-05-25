@@ -37,13 +37,25 @@ export default class SalesforceJobMock extends HttpMock {
 
     }
     else if (req.method == "PATCH") {
-
+      let recordId = url.getLastPathSegment();
     }
   }
 
   deleteRecord(recordId) {
 
     this.list.delete(recordId);
+  }
+  // these are f
+  addRecord(recordId, job) {
+    this.list.push(recordId,job);
+  }
+  updateRecord(recordId,job) {
+
+    let record = this.list.find(recordId);
+    if(record) {
+      record.job = job;
+    }
+
   }
 
 
