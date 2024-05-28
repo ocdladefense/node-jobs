@@ -66,9 +66,9 @@ export default class SalesforceJobMock extends HttpMock {
   }
   updateRecord(recordId, job) {
     let record = this.list.get(recordId);
-    if (record) {
-      record.job = job;
-    }
+    
+    this.list.set(recordId,job)
+    
   }
 
 
