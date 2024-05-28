@@ -20,26 +20,7 @@ export default class SalesforceJobMock extends HttpMock {
   }
 
 
-  getResponse(req) {
 
-    let url = new Url(req.url);
-
-    if (req.method === "GET") {
-      return Response.json({ "records": Array.from(this.list.values()) });
-    }
-    else if (req.method == "DELETE") {
-      let recordId = url.getLastPathSegment();
-      this.deleteRecord(recordId);
-
-      return new Response(null, { status: 204 });
-    }
-    else if (req.method == "POST") {
-
-    }
-    else if (req.method == "PATCH") {
-      let recordId = url.getLastPathSegment();
-    }
-  }
 
   async getResponse(req) {
 
