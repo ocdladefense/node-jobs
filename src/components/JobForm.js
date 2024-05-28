@@ -2,23 +2,17 @@
 import { vNode, View } from "@ocdla/view";
 import SalesforceRestApi from "@ocdla/salesforce/SalesforceRestApi.js";
 import Job from "@ocdla/employment/Job.js";
-import {RecordList} from "@ocdla/employment/Job.js";
+import { RecordList } from "@ocdla/employment/Job.js";
 import FileUpload from "./FileUpload.js";
 import Component from "./Component.js";
 // import "../css/form-design.css";
 
 export default class JobForm extends Component {
-
-
   recordId;
-
 
   record;
 
-
   message;
-
-  
 
   constructor(recordId) {
     super();
@@ -72,8 +66,8 @@ export default class JobForm extends Component {
     if (dataset == null || action == null) {
       return false;
     }
-    // e.preventDefault();
-    // e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
 
     if (!this.actions.includes(action)) {
       return false;
@@ -84,21 +78,19 @@ export default class JobForm extends Component {
     record = this.getFormData();
     record = record.toSObject();
 
-
     try {
       await this[method](record);
       this.message = "The action was completed successfully.";
-    }
-    catch(e) {
+    } catch (e) {
       console.log(e, method);
-      message = e.message;
+      this.message = e.message;
       error = true;
     }
 
     window.alert(this.message);
 
     // For forms, don't move on to the next page if there was an error.
-    if(error) return false;
+    if (error) return false;
 
     window.location.assign("#");
   }
@@ -113,9 +105,9 @@ export default class JobForm extends Component {
     formData.append("jobName", jobName);
 
     // Send a POST request to the server
-    const response = await fetch('http://localhost:5500/uploads', {
-        method: 'POST',
-        body: formData,
+    const response = await fetch("http://localhost:5500/uploads", {
+      method: "POST",
+      body: formData,
     });
 
     // Parse the JSON response
@@ -126,30 +118,31 @@ export default class JobForm extends Component {
   }
 
   async onRequestCancel() {
-
-    if (window.confirm("Really leave this page?  Any unsaved changes will be lost.")) {
+    if (
+      window.confirm(
+        "Really leave this page?  Any unsaved changes will be lost."
+      )
+    ) {
       window.location.assign("#");
     } else {
       return false;
     }
   }
 
-
-
   async onRequestDelete(recordId) {
     let resp = await this.api.delete("Job__c", recordId);
     return resp;
   }
 
-
   getFileInput(id) {
     // Get the file input element by its ID
     let elem = document.getElementById(id);
     // Get the label element to display the file name
-    let fileNameLabel = document.getElementById('file-name');
-    
+    let fileNameLabel = document.getElementById("file-name");
+
     // Add an event listener for the 'change' event on the file input element
-    elem.addEventListener('change', (event) => {''
+    elem.addEventListener("change", (event) => {
+      "";
       // Log the first file selected by the user
       console.log(event.target.files[0]);
       // Update the text content of the label with the name of the selected file
@@ -157,14 +150,14 @@ export default class JobForm extends Component {
     });
     // Return the first file selected by the user
     return elem.files[0];
-  }  
+  }
 
   getFirstFile(id) {
     // Get the file input element by its ID
     let elem = document.getElementById(id);
     // Return the first file selected by the user
     return elem.files[0];
-  }  
+  }
 
   // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
 
@@ -176,68 +169,66 @@ export default class JobForm extends Component {
 
     let record = this.getFormData();
     record = record.toSObject();
-    try{
-      if (!!record.Id) {
-        await this.updateRecord(record);
-      } else {
-        await this.createRecord(record);
-      }
+    if (!!record.Id) {
+      await this.updateRecord(record);
+    } else {
+      // If record does not have an ID, create record
+      // Save the form data
+      let response = await this.createRecord(record);
 
       // If the job was successfully created, then the file is uploaded
-      let file = this.getFirstFile("file-upload"); // Retrieves and returns the first file selected by the user
-      // formData.append("jobName", this.jobName); // Appends a new key-value pair to the formData object
-      // await this.uploadFile(file, formData); // Calls the uploadFile method with the file obtained from the first line as an argument
-
-    }catch(e) {
-
+      if (response) {
+        let file = this.getFirstFile("file-upload"); // Retrieves and returns the first file selected by the user
+        let jobName = record.Name; // Use Job name field to rename the file that's going to be uploaded
+        await this.uploadFile(file, jobName); // Calls the uploadFile method with the file obtained from the first line as an argument
+      }
+      this.message = "The record was saved.";
     }
-    this.message = "The record was saved.";
   }
-
-
 
   // ---- CRUD methods ------
   async createRecord(record) {
     delete record.Id;
-    record.OpenUntilFilled__c = record.OpenUntilFilled__c == "on" ? true : false;
+    record.OpenUntilFilled__c =
+      record.OpenUntilFilled__c == "on" ? true : false;
     let resp = await this.api.create("Job__c", record);
     return resp;
   }
 
-
-
   async updateRecord(record) {
-    record.OpenUntilFilled__c = record.OpenUntilFilled__c == "on" ? true : false;
+    record.OpenUntilFilled__c =
+      record.OpenUntilFilled__c == "on" ? true : false;
     let resp = await this.api.update("Job__c", record);
     return resp;
   }
-
-  
 
   validateSubmission() {
     // 'use strict'
 
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    let forms = document.querySelectorAll('.needs-validation');
+    let forms = document.querySelectorAll(".needs-validation");
 
     // Loop over them and prevent submission
     for (let i = 0; i < forms.length; i++) {
-        let form = forms[i];
-        let validity = form.checkValidity();
-        form.classList.add('was-validated');
+      let form = forms[i];
+      let validity = form.checkValidity();
+      form.classList.add("was-validated");
 
-        return validity;
+      return validity;
     }
   }
-
 
   render() {
     let job = this.record;
 
     return (
       <div class="form-container">
-        <form id="record-form" method="post" class="needs-validation" novalidate>
-        
+        <form
+          id="record-form"
+          method="post"
+          class="needs-validation"
+          novalidate
+        >
           <input name="id" type="hidden" value={job.id} />
           <input name="ownerId" type="hidden" value={job.ownerId} />
 
@@ -251,9 +242,12 @@ export default class JobForm extends Component {
               class="form-control"
               aria-describedby="employer-help"
               placeholder="Enter the Employer"
-              value={job.employer} 
-              required />
-            <div id="employer-help" class="form-text fs-6">The name of the Employer (insert data constraints here).</div>
+              value={job.employer}
+              required
+            />
+            <div id="employer-help" class="form-text fs-6">
+              The name of the Employer (insert data constraints here).
+            </div>
             <div class="invalid-feedback form-text fs-6"></div>
           </div>
 
@@ -267,9 +261,13 @@ export default class JobForm extends Component {
               class="form-control"
               aria-describedby="salary-help"
               placeholder="Enter the Salary"
-              value={job.salary} 
-              required />
-            <div id="salary-help" class="form-text fs-6">The compensation information for the position (insert data constraints here).</div>
+              value={job.salary}
+              required
+            />
+            <div id="salary-help" class="form-text fs-6">
+              The compensation information for the position (insert data
+              constraints here).
+            </div>
             <div class="invalid-feedback form-text fs-6"></div>
           </div>
 
@@ -283,28 +281,53 @@ export default class JobForm extends Component {
               class="form-control"
               aria-describedby="location-help"
               placeholder="Enter the Location"
-              value={job.location} 
-              required />
-            <div id="location-help" class="form-text fs-6">The location where the job will take place (insert data constraints here).</div>
+              value={job.location}
+              required
+            />
+            <div id="location-help" class="form-text fs-6">
+              The location where the job will take place (insert data
+              constraints here).
+            </div>
             <div class="invalid-feedback form-text fs-6"></div>
           </div>
 
           <div class="item-container">
-            <label for="posting-date" class="form-label">Date Posted</label>
-            <input id="posting-date" name="posting-date" class="form-control" type="date" aria-describedby="posting-date-help"
+            <label for="posting-date" class="form-label">
+              Date Posted
+            </label>
+            <input
+              id="posting-date"
+              name="posting-date"
+              class="form-control"
+              type="date"
+              aria-describedby="posting-date-help"
               placeholder="Enter today's date."
-              value={job.postingDate} />
-            <div id="posting-date-help" class="form-text fs-6">The date job was posted (this will be automatic eventually).</div>
+              value={job.postingDate}
+            />
+            <div id="posting-date-help" class="form-text fs-6">
+              The date job was posted (this will be automatic eventually).
+            </div>
             <div class="invalid-feedback form-text fs-6"></div>
           </div>
 
           <div class="item-container">
-            <label for="closing-date" class="form-label">Date Closing</label>
-            <input id="closing-date" name="closing-date" class="form-control" type="date" aria-describedby="closing-date-help"
+            <label for="closing-date" class="form-label">
+              Date Closing
+            </label>
+            <input
+              id="closing-date"
+              name="closing-date"
+              class="form-control"
+              type="date"
+              aria-describedby="closing-date-help"
               placeholder="Enter the closing date, we suggest 30 days from today."
-              value={job.closingDate} 
-              required />
-            <div id="closing-date-help" class="form-text fs-6">The date that the job posting will close, if any (enter data constraints here).</div>
+              value={job.closingDate}
+              required
+            />
+            <div id="closing-date-help" class="form-text fs-6">
+              The date that the job posting will close, if any (enter data
+              constraints here).
+            </div>
             <div class="invalid-feedback form-text fs-6"></div>
           </div>
 
@@ -333,12 +356,24 @@ export default class JobForm extends Component {
                 />
               )}
             </div>
-            <div id="checkbox-help" name="open-until-filled" class="form-text fs-6">Whether or not the job posting closes once it is filled.</div>
+            <div
+              id="checkbox-help"
+              name="open-until-filled"
+              class="form-text fs-6"
+            >
+              Whether or not the job posting closes once it is filled.
+            </div>
             <div class="invalid-feedback form-text fs-6"></div>
           </div>
 
-          <button type="submit" data-action="save" value="Save">Save</button>
-          {job.id == "" || job.id == undefined ? ("") : (<input type="submit" data-action="delete" value="Delete" />)}
+          <button type="submit" data-action="save" value="Save">
+            Save
+          </button>
+          {job.id == "" || job.id == undefined ? (
+            ""
+          ) : (
+            <input type="submit" data-action="delete" value="Delete" />
+          )}
           <button type="button" value="Cancel" data-action="cancel">
             Cancel
           </button>
