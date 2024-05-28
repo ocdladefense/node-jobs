@@ -42,7 +42,13 @@ export default class SalesforceJobMock extends HttpMock {
 
       this.addRecord(this.list.size + 1, job);
 
-      return Response.json({ status: 201 });
+      let record = {
+        "id" : (this.list.size + 1) + '',
+        "errors" : [ ],
+        "success" : true
+      };
+
+      return Response.json(record, { status: 201 });
     }
     else if (req.method == "PATCH") {
       let recordId = url.getLastPathSegment();
