@@ -41,22 +41,57 @@ export default class SalesforceJobMock extends HttpMock {
     }
   }
 
+  async getResponse(req) {
+
+    let url = new Url(req.url);
+
+    if (req.method === "GET") {
+      return Response.json({ "records": Array.from(this.list.values()) });
+    }
+    else if (req.method == "DELETE") {
+      let recordId = url.getLastPathSegment();
+      this.deleteRecord(recordId);
+
+      return new Response(null, { status: 204 });
+    }
+    else if (req.method == "POST") {
+
+      const reqBody = await readRequestBody(req);
+      const job = JSON.parse(reqBody);
+
+      this.addRecord(this.list.size + 1, job);
+
+      return Response.json({ status: 201 });
+    }
+    else if (req.method == "PATCH") {
+      let recordId = url.getLastPathSegment();
+      
+
+      const reqBody = await readRequestBody(req);
+      const job = JSON.parse(reqBody);
+      this.updateRecord(recordId, job);
+
+      console.log(this.list);
+
+      return Response.json({ status: 201, "records": Array.from(this.list.values()) });
+    }
+  }
+
+
   deleteRecord(recordId) {
 
     this.list.delete(recordId);
   }
-  // these are f
-  addRecord(recordId, job) {
-    this.list.push(recordId,job);
+  addRecord(index, job) {
+    this.list.set(index, job);
   }
-  updateRecord(recordId,job) {
+  updateRecord(recordId, job) {
 
-    let record = this.list.find(recordId);
-    if(record) {
-      record.job = job;
-    }
-
+    this.list.set(recordId,job)
+    
   }
+
+
 
 
   static records = {
@@ -99,4 +134,18 @@ export default class SalesforceJobMock extends HttpMock {
       },
     ]
   };
+
+}
+async function readRequestBody(request) {
+  const reader = request.body.getReader();
+  const decoder = new TextDecoder("utf-8");
+  let result = "";
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) {
+      break;
+    }
+    result += decoder.decode(value, { stream: true });
+  }
+  return result;
 }
