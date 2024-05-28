@@ -71,7 +71,7 @@ export default class Component {
       await this[method](dataset);
       message = "The action was completed successfully.";
     }
-    catch(e) {
+    catch (e) {
       console.log(e, method);
       message = e.message;
       error = true;
@@ -80,7 +80,7 @@ export default class Component {
     window.alert(message);
 
     // For forms, don't move on to the next page if there was an error.
-    if(error) return false;
+    if (error) return false;
 
     // window.location.assign("#");
     return false;
@@ -90,7 +90,7 @@ export default class Component {
 // Don't worry about these.
 export function useState(initialValue) {
   console.log("useState called");
-  return [initialValue, () => {}];
+  return [initialValue, () => { }];
 }
 
 export function useEffect(callback, dependencies) {
@@ -104,7 +104,7 @@ export function urlHash(hash, params) {
   hash = hash || "#";
   // hash has to start with #
   if (!hash.startsWith("#")) {
-    hash = "#" + hash ;
+    hash = "#" + hash;
   }
   hash += "!";
   if (params != null) {
@@ -119,23 +119,41 @@ export function urlHash(hash, params) {
   //window.location.assign(hash);
 }
 
-export function separateHash(hash) { 
-    let request =  hash.substring(hash.indexOf('#'), hash.indexOf('!'));
-    let queryString = hash.substring(hash.indexOf('!') + 1);
-    let params = queryString.split(';');
-    let paramObj = [];
-    if (params != null || params !== "") {
-      params.forEach(param => {
-        const [key, value] = param.split('=');
-        paramObj[key] = value;
-      });
-    }
+export function parseHash(hash) {
+  let paramObj = {};
 
-    console.log(request, paramObj);
-    //if object is null that means request is equal to ""
-    if(paramObj != null){
-    return {request, paramObj};
-    }
-    return hash;
+
+
+  if (hash == null) {
+    hash = "#";
+  }
+  if (!hash.indexOf('#') === 0) {
+    hash = "#" + hash;
+  }
+
+
+  let route = hash.indexOf('!') === -1 ? hash : hash.substring(hash.indexOf('#'), hash.indexOf('!'));
+
+  if (hash.indexOf('!') === -1) {
+    return [route, paramObj];
+  }
+
+
+  let queryString = hash.substring(hash.indexOf('!') + 1);
+
+
+  if (queryString == "") {
+    return [route, paramObj];
+  }
+  let params = queryString.split(';');
+
+  params.forEach(param => {
+    const [key, value] = param.split('=');
+    paramObj[key] = value;
+  });
+
+
+  return [ route, paramObj ];
+
 }
 
