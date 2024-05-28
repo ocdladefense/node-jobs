@@ -66,8 +66,8 @@ export default class JobForm extends Component {
     if (dataset == null || action == null) {
       return false;
     }
-    // e.preventDefault();
-    // e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
 
     if (!this.actions.includes(action)) {
       return false;
@@ -83,7 +83,7 @@ export default class JobForm extends Component {
       this.message = "The action was completed successfully.";
     } catch (e) {
       console.log(e, method);
-      message = e.message;
+      this.message = e.message;
       error = true;
     }
 
