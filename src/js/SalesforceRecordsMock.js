@@ -38,7 +38,7 @@ export default class SalesforceJobMock extends HttpMock {
       const reqBody = await readRequestBody(req);
       const job = JSON.parse(reqBody);
 
-      this.addRecord(this.list.size + 1, job)
+      this.addRecord(this.list.size + 1, job);
 
       return Response.json({ status: 201 });
     }
@@ -48,9 +48,9 @@ export default class SalesforceJobMock extends HttpMock {
 
       const reqBody = await readRequestBody(req);
       const job = JSON.parse(reqBody);
-      this.updateRecord(recordId, job)
+      this.updateRecord(recordId, job);
 
-      console.log(this.list)
+      console.log(this.list);
 
       return Response.json({ status: 201, "records": Array.from(this.list.values()) });
     }
@@ -65,8 +65,7 @@ export default class SalesforceJobMock extends HttpMock {
     this.list.set(index, job);
   }
   updateRecord(recordId, job) {
-    let record = this.list.get(recordId);
-    
+
     this.list.set(recordId,job)
     
   }

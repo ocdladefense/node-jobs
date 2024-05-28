@@ -85,6 +85,7 @@ export default class JobList extends Component {
 
     return (
       <div class="full-container">
+        
         <div style="color:red;" class="error">
           {message}
         </div>
@@ -92,6 +93,8 @@ export default class JobList extends Component {
         <a href="#new" style="margin-bottom: 15px; display: block;" id="button">
           Create a Job Posting
         </a>
+
+        {jobs.length > 0 ? ("") : ("There are no jobs posted")}
         <div class="list-group">
           {jobs.map((job) => (
             <JobCard job={job} isOwner={job.isOwner(userId)} />
