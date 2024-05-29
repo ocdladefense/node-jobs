@@ -1,5 +1,4 @@
 import HttpMock from "@ocdla/lib-http/HttpMock";
-import SObjectList from "@ocdla/salesforce/SObjectList";
 import Url from "@ocdla/lib-http/Url";
 
 export default class SalesforceJobMock extends HttpMock {
@@ -23,26 +22,31 @@ export default class SalesforceJobMock extends HttpMock {
 
 
   async getResponse(req) {
+    let url, job, recordId, success;
+    url = new Url(req.url);
 
-    let url = new Url(req.url);
-
-    if (req.method === "GET") {
+    if (req.method === "GET")
+    {
       return Response.json({ "records": Array.from(this.list.values()) });
     }
-    else if (req.method == "DELETE") {
-      let recordId = url.getLastPathSegment();
-      this.deleteRecord(recordId);
 
-      return new Response(null, { status: 204 });
+    else if(req.method == "DELETE")
+    {
+  
+      recordId = url.getLastPathSegment();
+      success = this.deleteRecord(recordId);
+
+      return new Response(null, { status: (success ? 204 : 403) });
     }
-    else if (req.method == "POST") {
 
-      const reqBody = await readRequestBody(req);
-      const job = JSON.parse(reqBody);
+    else if(req.method == "POST")
+    {
 
-      this.addRecord(this.list.size + 1, job);
+      job = await req.json();
 
-      let record = {
+      this.addRecord(job);
+
+      let body = {
         "id" : (this.list.size + 1) + '',
         "errors" : [ ],
         "success" : true
@@ -50,32 +54,38 @@ export default class SalesforceJobMock extends HttpMock {
 
       return Response.json(record, { status: 201 });
     }
-    else if (req.method == "PATCH") {
-      let recordId = url.getLastPathSegment();
+    
+    else if(req.method == "PATCH")
+    {
+      recordId = url.getLastPathSegment();
       
 
-      const reqBody = await readRequestBody(req);
-      const job = JSON.parse(reqBody);
+      job = await req.json();
       this.updateRecord(recordId, job);
 
       console.log(this.list);
 
-      return Response.json({ status: 201, "records": Array.from(this.list.values()) });
+      return Response.json({"records": Array.from(this.list.values())}, {status: 201} );
     }
   }
 
 
   deleteRecord(recordId) {
 
-    this.list.delete(recordId);
+    return this.list.delete(recordId);
   }
-  addRecord(index, job) {
-    this.list.set(index, job);
+
+
+  addRecord(job) {
+    let key = (this.list.size + 1)+"";
+
+    return this.list.set(key, job);
   }
+
+
   updateRecord(recordId, job) {
 
-    this.list.set(recordId,job)
-    
+    return this.list.set(recordId,job);
   }
 
 
@@ -123,6 +133,10 @@ export default class SalesforceJobMock extends HttpMock {
   };
 
 }
+
+
+
+
 async function readRequestBody(request) {
   const reader = request.body.getReader();
   const decoder = new TextDecoder("utf-8");
