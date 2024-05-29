@@ -3,7 +3,7 @@ import { vNode, View } from "@ocdla/view";
 import JobForm from "../components/JobForm.js";
 import JobList from "../components/JobList.js";
 import JobDetails from "../components/JobDetails.js";
-import { separateHash } from "../components/Component.js";
+import { parseHash } from "../components/Component.js";
 import JobSearch from "../components/JobSearch.js";
 
 export default class Router {
@@ -64,10 +64,14 @@ export default class Router {
     }
     
     getRecordId() {
+        let route;
+        let params;
+
+
         let hash = window.location.hash;
-        let jobId = separateHash(hash);
+        [route, params] = parseHash(hash);
     
-        return jobId.paramObj.id;
+        return params.id;
     }
 
     listenTo(event) {
