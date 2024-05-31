@@ -42,6 +42,7 @@ export default class SalesforceJobMock extends HttpMock {
       job = await req.json();
 
       let listSize = this.list.size + 1;
+      job.Id = listSize.toString();
       this.addRecord(listSize.toString(), job);
       let body = {
         "id": listSize.toString(),
