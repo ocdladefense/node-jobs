@@ -25,47 +25,43 @@ export default class SalesforceJobMock extends HttpMock {
     let url, job, recordId, success;
     url = new Url(req.url);
 
-    if (req.method === "GET")
-    {
+    if (req.method === "GET") {
       return Response.json({ "records": Array.from(this.list.values()) });
     }
 
-    else if(req.method == "DELETE")
-    {
-  
+    else if (req.method == "DELETE") {
+
       recordId = url.getLastPathSegment();
       success = this.deleteRecord(recordId);
 
       return new Response(null, { status: (success ? 204 : 403) });
     }
 
-    else if(req.method == "POST")
-    {
+    else if (req.method == "POST") {
 
       job = await req.json();
 
-      this.addRecord(job);
-
+      let listSize = this.list.size + 1;
+      this.addRecord(listSize.toString(), job);
       let body = {
-        "id" : (this.list.size + 1) + '',
-        "errors" : [ ],
-        "success" : true
-      };
+        "id": listSize.toString(),
+        "errors": [],
+        "success": true
+      }
 
-      return Response.json(record, { status: 201 });
+      return Response.json(body, { status: 201 });
     }
-    
-    else if(req.method == "PATCH")
-    {
+
+    else if (req.method == "PATCH") {
       recordId = url.getLastPathSegment();
-      
+
 
       job = await req.json();
       this.updateRecord(recordId, job);
 
       console.log(this.list);
 
-      return Response.json({"records": Array.from(this.list.values())}, {status: 201} );
+      return Response.json(null, { status: 201 });
     }
   }
 
@@ -76,16 +72,14 @@ export default class SalesforceJobMock extends HttpMock {
   }
 
 
-  addRecord(job) {
-    let key = (this.list.size + 1)+"";
-
+  addRecord(key, job) {
     return this.list.set(key, job);
   }
 
 
   updateRecord(recordId, job) {
 
-    return this.list.set(recordId,job);
+    return this.list.set(recordId, job);
   }
 
 
