@@ -1,5 +1,6 @@
 import "../css/text-design.css";
 import "../css/card-design.css";
+import "../css/form-design.css";
 import Router from "./Router.js";
 import HttpClient from "@ocdla/lib-http/HttpClient.js";
 import SalesforceRecordsMock from "./SalesforceRecordsMock.js";
