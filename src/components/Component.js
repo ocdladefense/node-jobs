@@ -115,8 +115,8 @@ export function urlHash(hash, params) {
       }
     });
   }
-  return hash;
-  //window.location.assign(hash);
+
+  window.location.assign(hash);
 }
 
 export function parseHash(hash) {

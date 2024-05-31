@@ -20,7 +20,9 @@ export default class Router {
     }
 
     async render() {        
-        let hash = window.location.hash;
+        let hash;
+        let params;
+        [hash, params] = parseHash(window.location.hash);
         let tree;
         let c;
 
