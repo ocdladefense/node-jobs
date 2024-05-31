@@ -269,3 +269,24 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/dist/index.html');
 });
 ```
+
+## Edit
+* Delete a file - but doesn't want the job to be delete/removed
+* User tries to edit the form, but changes their mind
+* User tries to change/add file
+* User can edit a file - succeeds
+* User tries to edit a job - but fails
+* User tries to edit a file - don't have credentials
+
+## Delete
+* User tries to delete a file - but it fails
+* User accidently removes file - didn't want to remove file
+* User tries to delete a file - succeeds
+* User wants to delete the file but not the job
+* User tries to delete a file - don't have credentials
+
+## Create
+* Users can create a file for a new job posting
+* Users do not need to create a file
+* Users try to upload a new file - but it fails
+* Users try to upload a new file - but don't want the file associated the form/job
