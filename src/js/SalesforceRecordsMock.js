@@ -42,10 +42,11 @@ export default class SalesforceJobMock extends HttpMock {
       job = await req.json();
 
       let listSize = this.list.size + 1;
-      job.Id = listSize.toString();
-      this.addRecord(listSize.toString(), job);
+      let id = listSize.toString();
+      job.Id = id;
+      this.addRecord(id, job);
       let body = {
-        "id": listSize.toString(),
+        "id": id,
         "errors": [],
         "success": true
       }
@@ -60,9 +61,7 @@ export default class SalesforceJobMock extends HttpMock {
       job = await req.json();
       this.updateRecord(recordId, job);
 
-      console.log(this.list);
-
-      return Response.json(null, { status: 201 });
+      return Response.json(null, { status: 204 });
     }
   }
 
