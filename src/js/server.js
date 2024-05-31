@@ -18,25 +18,17 @@ app.use(cors({ origin: 'http://localhost:8080' }));
 
 const storage = multer.diskStorage({
     destination: function(req, file, callback) {
-        // Set the default upload directory
-        let uploadDir = __dirname + "/uploads/";
-
-        // Check if jobName is provided and append it to the upload directory
+        let uploadDir = __dirname + "/../../uploads/";
         const jobName = req.body.jobName;
         if (jobName) {
             uploadDir += jobName + "/";
         }
-
-        // Create the directory if it doesn't exist
-        fs.mkdirSync(uploadDir, { recursive: true }, (err) => {
-            if (err) throw err;
-        });
-
+        fs.mkdirSync(uploadDir, { recursive: true });
         callback(null, uploadDir);
     },
     filename: function(req, file, callback) {
-        // Use the original file name or a new name
-        const newFileName = 'renamedFile.pdf'; // Change this to use a dynamic naming strategy if needed
+        const jobName = req.body.jobName; // Access jobName from req.body
+        const newFileName = jobName //|| file.originalname; // Use jobName if provided, otherwise use original file name
         callback(null, newFileName);
     }
 });

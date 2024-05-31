@@ -96,25 +96,21 @@ export default class JobForm extends Component {
   }
 
   async uploadFile(file, jobName) {
-    // Create a new FormData instance
     const formData = new FormData();
-
-    // Append the file and job name to the FormData instance
     formData.append("files", file);
     formData.append("jobName", jobName);
 
-    // Send a POST request to the server
-    const response = await fetch('http://localhost:5500/uploads', {
-        method: 'POST',
-        body: formData,
-    });
-
-    // Parse the JSON response
-    const data = await response.json();
-
-    // Log the response data
-    console.log(data);
-  }
+    try {
+        const response = await fetch('http://localhost:5500/uploads', {
+            method: 'POST',
+            body: formData,
+        });
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error uploading file:', error);
+    }
+}
 
   async onRequestCancel() {
     if (
