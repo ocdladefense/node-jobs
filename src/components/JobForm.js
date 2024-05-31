@@ -5,6 +5,7 @@ import Job from "@ocdla/employment/Job.js";
 import { RecordList } from "@ocdla/employment/Job.js";
 import FileUpload from "./FileUpload.js";
 import Component from "./Component.js";
+import { urlHash } from "./Component.js";
 // import "../css/form-design.css";
 
 export default class JobForm extends Component {
@@ -63,6 +64,8 @@ export default class JobForm extends Component {
     let error = false;
     let type = e.type; // click or submit
 
+    let message;
+
     if (dataset == null || action == null) {
       return false;
     }
@@ -80,19 +83,19 @@ export default class JobForm extends Component {
 
     try {
       await this[method](record);
-      this.message = "The action was completed successfully.";
+      message = "The action was completed successfully.";
     } catch (e) {
       console.log(e, method);
-      this.message = e.message;
+      message = e.message;
       error = true;
     }
 
-    window.alert(this.message);
+    window.alert(message);
 
     // For forms, don't move on to the next page if there was an error.
     if (error) return false;
 
-    window.location.assign("#");
+    urlHash('#');
   }
 
   async uploadFile(file, jobName) {
@@ -100,17 +103,13 @@ export default class JobForm extends Component {
     formData.append("files", file);
     formData.append("jobName", jobName);
 
-    try {
-        const response = await fetch('http://localhost:5500/uploads', {
+    const response = await fetch('http://localhost:5500/uploads', {
             method: 'POST',
             body: formData,
         });
         const data = await response.json();
         console.log(data);
-    } catch (error) {
-        console.error('Error uploading file:', error);
-    }
-}
+  }
 
   async onRequestCancel() {
     if (
@@ -158,6 +157,7 @@ export default class JobForm extends Component {
 
   async onRequestSave(dataset) {
     let isValid = this.validateSubmission();
+
     if (!isValid) {
       throw new Error("There are errors in your form.");
     }
@@ -167,17 +167,15 @@ export default class JobForm extends Component {
     if (!!record.Id) {
       await this.updateRecord(record);
     } else {
-      // If record does not have an ID, create record
-      // Save the form data
-      let response = await this.createRecord(record);
+      
+      let file = this.getFirstFile("file-upload"); // Retrieves and returns the first file selected by the user
 
-      // If the job was successfully created, then the file is uploaded
-      if (response) {
-        let file = this.getFirstFile("file-upload"); // Retrieves and returns the first file selected by the user
+      if(file != null) {
         let jobName = record.Name; // Use Job name field to rename the file that's going to be uploaded
         await this.uploadFile(file, jobName); // Calls the uploadFile method with the file obtained from the first line as an argument
       }
-      this.message = "The record was saved.";
+
+      let response = await this.createRecord(record);
     }
   }
 
