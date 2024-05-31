@@ -1,6 +1,7 @@
 const express = require('express'); // Web app framework for Node.js
 const multer = require('multer'); // Middleware for handling multipart/form-data
 const cors = require('cors'); // A package for providing Connect/Express middleware that can be used to enable CORS with various options
+const fs = require('fs');
 
 const app = express();
 //app.use(cors());
@@ -17,15 +18,31 @@ app.use(cors({ origin: 'http://localhost:8080' }));
 
 const storage = multer.diskStorage({
     destination: function(req, file, callback) {
+        // Set the default upload directory
+        let uploadDir = __dirname + "/uploads/";
+
+        // Check if jobName is provided and append it to the upload directory
         const jobName = req.body.jobName;
-        callback(null, __dirname + "/uploads/" + jobName);
+        if (jobName) {
+            uploadDir += jobName + "/";
+        }
+
+        // Create the directory if it doesn't exist
+        fs.mkdirSync(uploadDir, { recursive: true }, (err) => {
+            if (err) throw err;
+        });
+
+        callback(null, uploadDir);
     },
     filename: function(req, file, callback) {
-        callback(null, 'renamedFile.pdf')
+        // Use the original file name or a new name
+        const newFileName = 'renamedFile.pdf'; // Change this to use a dynamic naming strategy if needed
+        callback(null, newFileName);
     }
-})
+});
 
-const uploads = multer({storage: storage});
+const uploads = multer({ storage: storage });
+
 //const uploads = multer({dest: __dirname + "/uploads"});
 
 // Change to 'dist'

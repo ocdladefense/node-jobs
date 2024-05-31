@@ -95,7 +95,6 @@ export default class JobForm extends Component {
     window.location.assign("#");
   }
 
-  // File Upload method
   async uploadFile(file, jobName) {
     // Create a new FormData instance
     const formData = new FormData();
@@ -105,9 +104,9 @@ export default class JobForm extends Component {
     formData.append("jobName", jobName);
 
     // Send a POST request to the server
-    const response = await fetch("http://localhost:5500/uploads", {
-      method: "POST",
-      body: formData,
+    const response = await fetch('http://localhost:5500/uploads', {
+        method: 'POST',
+        body: formData,
     });
 
     // Parse the JSON response
