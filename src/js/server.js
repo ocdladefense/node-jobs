@@ -28,7 +28,7 @@ const storage = multer.diskStorage({
     },
     filename: function(req, file, callback) {
         const jobName = req.body.jobName; // Access jobName from req.body
-        const newFileName = jobName //|| file.originalname; // Use jobName if provided, otherwise use original file name
+        const newFileName = jobName ? jobName + path.extname(file.originalname) : file.originalname;// Use jobName if provided, otherwise use original file name
         callback(null, newFileName);
     }
 });
