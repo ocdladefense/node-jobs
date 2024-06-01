@@ -1,4 +1,5 @@
-import DateConvert from "@ocdla/lib-date/DateConvert.js";
+import {DateConvert} from "@ocdla/lib-date/DateConvert.js";
+
 
 /**
  * @module Job

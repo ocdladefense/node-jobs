@@ -1,9 +1,8 @@
-
 /**
  * @module DateConvert
  * @classdesc This class helps normalize data into job objects. 
  */
-class DateConvert {
+export class DateConvert {
   /**
    * @constructor
    */
@@ -43,5 +42,30 @@ class DateConvert {
   }
 }
 
-export default DateConvert;
+export default function colloquial(theDate) {
+  let now = new Date();
+  now.setHours(0, 0, 1, 0)
 
+  let date = new Date(theDate);
+  date.setHours(0, 0, 1, 0)
+  // This line of code is to offset the fact that the date is parsed in a different time zone?
+  date = new Date(date.getTime() + 86400000);
+
+  let colloquial = "";
+
+  let isFuture = date > now ? true : false;
+
+  let diffInMil = isFuture ? date.getTime() - now.getTime() : now.getTime() - date.getTime();
+  let differenceDays = Math.round(diffInMil / (1000 * 3600 * 24))
+
+  if (differenceDays == 0) {
+    colloquial = "today";
+  } else if (differenceDays == 1) {
+    colloquial = isFuture ? "tomorrow" : "yesterday";
+  } else {
+    colloquial = isFuture ? "in " + (differenceDays) + " days" : differenceDays + " days ago";
+  }
+
+  return colloquial;
+
+}
