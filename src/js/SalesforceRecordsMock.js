@@ -72,17 +72,32 @@ export default class SalesforceJobMock extends HttpMock {
   }
 
 
+  /**
+   * Deletes the record from the list.
+   * @param {string} recordId - The Id of the record to be deleted.
+   * @returns {boolean} - True if the record was deleted.
+   */
   deleteRecord(recordId) {
 
     return this.list.delete(recordId);
   }
 
-
+  /**
+   * Adds a new record to the list.
+   * @param {string} key - The key of the record 
+   * @param {Object} job - The job to be added.
+   * @returns {Map} - The updated list after adding the record.
+   */
   addRecord(key, job) {
     return this.list.set(key, job);
   }
 
-
+  /**
+   * Updates a record in the list.
+   * @param {string} recordId - The Id of the to be updated. 
+   * @param {Object} job - The updated Job object.
+   * @returns {Map} - The updated list after the update.
+   */
   updateRecord(recordId, job) {
 
     return this.list.set(recordId, job);
