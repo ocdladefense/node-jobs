@@ -1,6 +1,8 @@
 import HttpMock from "@ocdla/lib-http/HttpMock";
 import Url from "@ocdla/lib-http/Url";
-
+/**
+ * Can be registred with HttpClint to handle out bound requests sent by the website, from the user
+ */
 export default class SalesforceJobMock extends HttpMock {
 
   #list;
@@ -20,7 +22,11 @@ export default class SalesforceJobMock extends HttpMock {
 
 
 
-
+  /**
+   * based on the request.method it will modify this.list, then returns a reponse of based on the example Salesforce documentation
+   * @param {Request} req - The Request object sent  to the server.
+   * @returns Response object;
+   */
   async getResponse(req) {
     let url, job, recordId, success;
     url = new Url(req.url);

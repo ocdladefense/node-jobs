@@ -5,7 +5,9 @@ import JobList from "../components/JobList.js";
 import JobDetails from "../components/JobDetails.js";
 import { parseHash } from "../components/Component.js";
 import JobSearch from "../components/JobSearch.js";
-
+/**
+ * Represents a router class that manages the rendering of components based on the URL hash.
+ */
 export default class Router {
 
     static validHashes = [];
@@ -13,12 +15,22 @@ export default class Router {
     currentComponent;
 
 
-
+    /**
+     * Creates an instance of Router.
+     * @constructor
+     * @param {string} selector - The selector to create the root view.
+     */
     constructor(selector) {
         this.selector = selector;
         this.view = View.createRoot(this.selector);
     }
 
+    /**
+     * Renders the appropriate component based on the current hash in the URL.
+     * @async
+     * @function render
+     * @returns void
+    */
     async render() {        
         let hash;
         let params;
@@ -32,7 +44,7 @@ export default class Router {
            elem.removeEventListener("click", this.currentComponent);
         }
 
-        let recordId = this.getRecordId();
+        let recordId = params.id;
 
         if (hash == "" || hash == "#") {
             c = new JobList();
@@ -51,10 +63,6 @@ export default class Router {
         }
 
         c.listenTo("click", "#job-container");
-        /*
-        Listen for submit events
-        c.listenTo("submit", "#record-form");
-        */
 
         if (c.loadData) {
             await c.loadData();
@@ -64,26 +72,18 @@ export default class Router {
         this.view.render(tree);
         this.currentComponent = c;
     }
-    
-    getRecordId() {
-        let route;
-        let params;
-
-
-        let hash = window.location.hash;
-        [route, params] = parseHash(hash);
-    
-        return params.id;
-    }
-
+   
     listenTo(event) {
         window.addEventListener(event, this);
         document.addEventListener("rerender", this);    
     }
 
-
+    /**
+     * Handles events and triggers a rerender of the router.
+     * @async
+     * @param {event} e 
+     */
     async handleEvent(e) {
-        //console.log("hash has changed");
         await this.render();
     }
 
