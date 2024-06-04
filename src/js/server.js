@@ -9,27 +9,36 @@ app.use(cors({ origin: 'http://localhost:8080' }));
 
 // const storage = multer.diskStorage({
 //     destination: function(req, file, callback) {
-//         callback(null, __dirname + "/uploads");
-//     }, 
+//         let uploadDir = __dirname + "/../../uploads/";
+//         const jobName = req.body.jobName;
+//         if (jobName) {
+//             uploadDir += jobName + "/";
+//         }
+//         fs.mkdirSync(uploadDir, { recursive: true });
+//         callback(null, uploadDir);
+//     },
 //     filename: function(req, file, callback) {
-//         callback(null, file.originalname);
+//         const jobName = req.body.jobName; // Access jobName from req.body
+//         const newFileName = jobName ? jobName + path.extname(file.originalname) : file.originalname;// Use jobName if provided, otherwise use original file name
+//         callback(null, newFileName);
 //     }
 // });
 
 const storage = multer.diskStorage({
     destination: function(req, file, callback) {
-        let uploadDir = __dirname + "/../../uploads/";
-        const jobName = req.body.jobName;
-        if (jobName) {
-            uploadDir += jobName + "/";
+        const jobID = req.body.jobID; // Access jobID from req.body
+        let uploadDir = __dirname + "/uploads/";
+
+        if (jobID) {
+            uploadDir += jobID + "/"; // Create a new folder with the jobID
         }
-        fs.mkdirSync(uploadDir, { recursive: true });
+
+        fs.mkdirSync(uploadDir, { recursive: true }); // Ensure the directory exists
         callback(null, uploadDir);
     },
     filename: function(req, file, callback) {
-        const jobName = req.body.jobName; // Access jobName from req.body
-        const newFileName = jobName ? jobName + path.extname(file.originalname) : file.originalname;// Use jobName if provided, otherwise use original file name
-        callback(null, newFileName);
+        // You can keep the filename logic as is or adjust it as needed
+        callback(null, file.originalname);
     }
 });
 
