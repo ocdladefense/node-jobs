@@ -102,7 +102,7 @@ export default class JobForm extends Component {
     const formData = new FormData();
     formData.append("files", file);
     formData.append("jobID", jobID);
-    formData.append("jobName", jobName);
+    //formData.append("jobName", jobName);
 
     const response = await fetch('http://localhost:5500/uploads', {
             method: 'POST',
@@ -167,16 +167,16 @@ export default class JobForm extends Component {
     record = record.toSObject();
     if (!!record.Id) {
       await this.updateRecord(record);
+      jobID = record.Id;
     } else {
-      
+      let response = await this.createRecord(record);      
+      jobID = response.id;
       let file = this.getFirstFile("file-upload"); // Retrieves and returns the first file selected by the user
 
       if(file != null) {
-        let jobID = this.record.Id; // Use JobID 
+        //let jobID = this.record.Id; // Use JobID 
         await this.uploadFile(file, jobID); // Calls the uploadFile method with the file obtained from the first line as an argument
       }
-
-      let response = await this.createRecord(record);
     }
   }
 
