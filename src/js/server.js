@@ -27,7 +27,7 @@ app.use(cors({ origin: 'http://localhost:8080' }));
 const storage = multer.diskStorage({
     destination: function(req, file, callback) {
         const jobID = req.body.jobID; // Access jobID from req.body
-        let uploadDir = __dirname + "/uploads/";
+        let uploadDir = __dirname + "/../../uploads/" + jobID + "/";
 
         if (jobID) {
             uploadDir += jobID + "/"; // Create a new folder with the jobID
@@ -41,6 +41,7 @@ const storage = multer.diskStorage({
         callback(null, file.originalname);
     }
 });
+
 
 const uploads = multer({ storage: storage });
 
