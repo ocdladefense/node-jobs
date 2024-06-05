@@ -290,3 +290,17 @@ app.get('/', (req, res) => {
 * Users do not need to create a file
 * Users try to upload a new file - but it fails
 * Users try to upload a new file - but don't want the file associated the form/job
+
+
+
+
+
+
+
+
+
+
+
+# Description
+
+I created a SPA that allows users to view, create, edit, delete and upload files to job postings at ocdla. I utilized node server to upload the files, and salesforce to save job data. I used JSX components and bootstrap to make our code more modular and to implement user-friendly styles. I utilized github to organize code and collaborate with a team of programmers. I used npm to create and manage our own library modules. I used slack, discord, zoom, and emails to communicate with my team. During team meetings we utilized the time to debug and plan for next steps on the project and how to complete them. This project benefited the organization by bringing an easier user experience, as well as adding more features. In the future I would like to see the ability to search for jobs by keywords, location, organization, title, salary range, and date posted. Mock data helped us work on front end and back end simulutaneously before they were connected.
