@@ -26,29 +26,29 @@ app.use(cors({ origin: 'http://localhost:8080' }));
 
 const storage = multer.diskStorage({
     destination: function(req, file, callback) {
+        console.log("Hello, Debugging some");
+        
         const jobID = req.body.jobID; // Access jobID from req.body
-        let uploadDir = __dirname + "/../../uploads/" + jobID + "/";
-
-        if (jobID) {
-            uploadDir += jobID + "/"; // Create a new folder with the jobID
+        console.log(req);
+        let uploadDir = __dirname + "/../../uploads/";
+        if(jobID) {
+            uploadDir += jobID + "/";
         }
 
         fs.mkdirSync(uploadDir, { recursive: true }); // Ensure the directory exists
         callback(null, uploadDir);
     },
     filename: function(req, file, callback) {
-        // You can keep the filename logic as is or adjust it as needed
         callback(null, file.originalname);
     }
 });
 
-
 const uploads = multer({ storage: storage });
-
-//const uploads = multer({dest: __dirname + "/uploads"});
 
 // Change to 'dist'
 app.use(express.static('public'));
+
+app.use(express.urlencoded({extended: true}));
 
 app.get('/foobar', (req, res) => {
     res.send("GET Request Called")
@@ -59,6 +59,7 @@ app.get('/', (req, res) => {
 });
 
 app.post("/uploads", uploads.array("files"), (req, res) => {
+    console.log("Experimenting Some");
     console.log(req.body);
     console.log(req.files);
     res.json({status: "files received"});

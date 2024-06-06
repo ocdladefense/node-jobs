@@ -95,15 +95,14 @@ export default class JobForm extends Component {
     // For forms, don't move on to the next page if there was an error.
     if (error) return false;
 
-    urlHash('#');
+    //urlHash('#');
   }
 
   async uploadFile(file, jobID) {
     const formData = new FormData();
     formData.append("files", file);
     formData.append("jobID", jobID);
-    //formData.append("jobName", jobName);
-
+    console.log(formData);
     const response = await fetch('http://localhost:5500/uploads', {
             method: 'POST',
             body: formData,
@@ -165,18 +164,22 @@ export default class JobForm extends Component {
 
     let record = this.getFormData();
     record = record.toSObject();
+    let jobID;
+
     if (!!record.Id) {
       await this.updateRecord(record);
-      let jobID = record.Id;
+      jobID = record.Id;
     } else {
-      let response = await this.createRecord(record);      
-      let jobID = response.id;
       let file = this.getFirstFile("file-upload"); // Retrieves and returns the first file selected by the user
 
-      if(file != null) {
-        let jobID = this.record.Id; // Use JobID 
+      let response = await this.createRecord(record);
+      jobID = response.id;
+
+      if(file != null ) {
+        // jobID = this.record.Id; // Use JobID 
         await this.uploadFile(file, jobID); // Calls the uploadFile method with the file obtained from the first line as an argument
       }
+
     }
   }
 
