@@ -34,9 +34,9 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@ocdla/salesforce":  "file:./dev_modules/@ocdla/salesforce",
-    "@ocdla/employment": "file:./dev_modules/@ocdla/employment",
-    "@ocdla/lib-date": "file:./dev_modules/@ocdla/lib-date",
+    "@ocdla/salesforce":  "^0.4.1",
+    "@ocdla/employment": "^0.1.0",
+    "@ocdla/lib-date": "^0.1.0",
     "@ocdla/view": "~2.3.0",
     "axios": "^1.6.8",
     "babel-loader": "^8.2.5",
