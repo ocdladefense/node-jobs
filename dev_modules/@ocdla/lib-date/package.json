@@ -13,5 +13,9 @@
     },
     "devDependencies": {
       "jsdoc": "^3.6.10"
-    }
+    },
+    "contributors": [
+        {"name": "Zaelin Bull", "email": "zaelin.bull3501@gmail.com", "url": "https://github.com/Straven35"},
+        {"name": "Isaac Lewis", "email": "isaaccl98@gmail.com", "url": "https://github.com/Lewisic"}
+    ]
   }
