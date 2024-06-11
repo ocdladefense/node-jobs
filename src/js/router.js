@@ -47,7 +47,7 @@ export default class Router {
             c = new JobSearch(recordId);
         }
         else if (hash.startsWith("#details")) {
-            c = new JobDetails(recordId);
+            c = new JobSearch(recordId);
         }
 
         c.listenTo("click", "#job-container");

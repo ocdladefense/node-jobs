@@ -4,8 +4,7 @@ import Component from "./Component.js";
 import { RecordList } from "@ocdla/employment/Job.js";
 import Job from "@ocdla/employment/Job.js";
 import SalesforceRestApi from "@ocdla/salesforce/SalesforceRestApi.js";
-
-
+import "../css/job-search-design.css";
 
 export default class JobDetails extends Component {
 
@@ -23,10 +22,10 @@ export default class JobDetails extends Component {
 
   render() {
     let job = this.record;
-    job.fileUrl = ""; // THIS IS A TEMPORARY SOLUTION
+    // job.fileUrl = ""; // THIS IS A TEMPORARY SOLUTION
 
     return (
-      <div class="container mt-5">
+      <div class="container mt-5 stickyexample">
         <div class="card">
           <div class="card-header">
             <h2 class="card-title">Job Title: {job.title}</h2>
