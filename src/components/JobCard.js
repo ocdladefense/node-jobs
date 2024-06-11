@@ -2,6 +2,7 @@
 
 import {vNode, View} from "@ocdla/view";
 import { urlHash } from "../components/Component.js";
+import colloquial from "@ocdla/lib-date/DateConvert.js";
 
 const JobCard = function(props) {
     let job = props.job;
@@ -16,8 +17,8 @@ const JobCard = function(props) {
                 <strong>Employer:</strong> {job.employer} <br />
                 <strong>Salary:</strong> {job.salary} <br />
                 <strong>Location:</strong> {job.location} <br />
-                <strong>Date Posted:</strong> {job.postingDate} <br />
-                <strong>Date Closing:</strong> {job.closingDate} <br />
+                <strong>Date Posted:</strong> {colloquial(job.postingDate)} <br />
+                <strong>Date Closing:</strong> {colloquial(job.closingDate)} <br />
                 <strong>Open until filled:</strong> {job.openUntilFilled ? 'Yes' : 'No'}<br />
             </p>
             <div class="footer">

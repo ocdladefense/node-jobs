@@ -5,6 +5,7 @@ import { RecordList } from "@ocdla/employment/Job.js";
 import Job from "@ocdla/employment/Job.js";
 import SalesforceRestApi from "@ocdla/salesforce/SalesforceRestApi.js";
 import "../css/job-search-design.css";
+import colloquial from "@ocdla/lib-date/DateConvert.js";
 
 export default class JobDetails extends Component {
 
@@ -41,7 +42,7 @@ export default class JobDetails extends Component {
 
           </div>
           <div class="card-footer text-muted">
-            Posted on: {job.postingDate}
+            Posted on: {colloquial(job.postingDate)}
           </div>
         </div>
       </div>
