@@ -28,7 +28,7 @@ const JobCard = function(props) {
         
                 {admin && (
                     <div class="validation">
-                        <a href={`#edit!id=${job.id}`} class="button">Edit</a>
+                        <a href={`#edit!id=${job.id}`} class="btn btn-secondary">Edit</a>
                         <a href="#" class="btn btn-secondary" data-id={job.id} data-action="delete">Delete</a>
                     </div>
                 )}
