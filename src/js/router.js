@@ -42,11 +42,8 @@ export default class Router {
         else if (hash.startsWith("#edit")){
             c = new JobForm(params.id);
         } 
-        else if (hash.startsWith("#search")) {
-            c = new JobSearch(params.id);
-        }
         else if (hash.startsWith("#details")) {
-            c = new JobDetails(params.id);
+            c = new JobSearch(recordId);
         }
 
         c.listenTo("click", "#job-container");

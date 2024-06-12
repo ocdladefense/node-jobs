@@ -26,25 +26,22 @@ body {
 }
 
 .grid-container {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    row-gap: 1%;
-    /* column-gap: 2%; */
-    /* column-gap: 5%; */
-    /* margin: 5%; */
-    /* margin-left: 5%; */
+    display:block;
 }
 
 .grid-item {
     background-color:white;
     box-sizing: border-box;
-    width: 25vw;
+    width: 90vw;
     border: solid;
     border-radius: 5px;
     padding: 5%;
     margin: 1vw;
     font-size: large;
+    display:block;
 }
+
+
 
 /* .footer {
     text-align: center;
@@ -98,4 +95,27 @@ a:hover {
     color: white;
     background-color:black;
     border-color: black;
+}
+
+
+.btn-secondary {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+
+/**
+ For larger screen sizes display cards as a grid.
+*/
+@media screen and (min-width: 800px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        row-gap: 1%;
+    }
+
+    .grid-item {
+        width: 25vw;
+    }
+
 }

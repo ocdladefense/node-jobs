@@ -22,6 +22,7 @@ export default class JobList extends Component {
     super();
     this.actions = ["delete"];
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
+    this.fullWidth = true;
   }
 
   getRecords() {
@@ -82,9 +83,12 @@ export default class JobList extends Component {
     let userId = USER_ID;
     //let message = props.error || props.message || "";
     let message = "";
+    let fullWidth = this.fullWidth;
 
     return (
-      <div class="full-container">
+      <div {
+        ...fullWidth ? ({class: "full-container"}) : ("")
+      }>
         <div style="color:red;" class="error">
           {message}
         </div>
@@ -92,11 +96,20 @@ export default class JobList extends Component {
         <a href="#new" style="margin-bottom: 15px; display: block;" id="button">
           Create a Job Posting
         </a>
-        <div class="grid-container">
-          {jobs.map((job) => (
-            <JobCard job={job} isOwner={job.isOwner(userId)} />
-          ))}
-        </div>
+
+        {fullWidth ? (
+          <div class="grid-container">
+            {jobs.map((job) => (
+              <JobCard job={job} isOwner={job.isOwner(userId)} />
+            ))}
+          </div>
+        ) : (
+          <div class="container">
+            {jobs.map((job) => (
+              <JobCard job={job} isOwner={job.isOwner(userId)} />
+            ))}
+          </div>
+        )}
       </div>
     );
   }
