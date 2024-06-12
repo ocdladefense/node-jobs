@@ -17,7 +17,10 @@ console.log(colloquial("2024-06-02")); //returns "in 2 days";
 console.log(colloquial("2024-06-03")); //returns "in 3 days";
 
 
-HttpClient.register(INSTANCE_URL, new SalesforceRecordsMock());
+if(USE_MOCK_RECORDS) {
+    HttpClient.register(INSTANCE_URL, new SalesforceRecordsMock());
+}
+
 let router = new Router("#job-container");
 router.listenTo("hashchange");
 router.render();
