@@ -32,7 +32,6 @@ export default class Router {
            elem.removeEventListener("click", this.currentComponent);
         }
 
-        let recordId = this.getRecordId();
 
         if (hash == "" || hash == "#") {
             c = new JobList();
@@ -41,13 +40,13 @@ export default class Router {
             c = new JobForm();
         } 
         else if (hash.startsWith("#edit")){
-            c = new JobForm(recordId);
+            c = new JobForm(params.id);
         } 
         else if (hash.startsWith("#search")) {
-            c = new JobSearch(recordId);
+            c = new JobSearch(params.id);
         }
         else if (hash.startsWith("#details")) {
-            c = new JobDetails(recordId);
+            c = new JobDetails(params.id);
         }
 
         c.listenTo("click", "#job-container");
@@ -65,17 +64,6 @@ export default class Router {
         this.currentComponent = c;
     }
     
-    getRecordId() {
-        let route;
-        let params;
-
-
-        let hash = window.location.hash;
-        [route, params] = parseHash(hash);
-    
-        return params.id;
-    }
-
     listenTo(event) {
         window.addEventListener(event, this);
         document.addEventListener("rerender", this);    
