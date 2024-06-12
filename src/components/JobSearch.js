@@ -23,7 +23,7 @@ export default class JobSearch extends Component {
   render() {
   
     return (
-      <div class="container-fluid">
+      <div class="container-fluid record-search">
         <div class="row">
           <div class="col-4">
             {this.jobList.render()}
