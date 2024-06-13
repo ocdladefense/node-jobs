@@ -8,3 +8,12 @@
   .record-search .grid-container {
     /* make css changes */
   }
+
+  @media screen and (min-width: 800px) {
+    .record-search .grid-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 10px;
+    }
+    
+  }
