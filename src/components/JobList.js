@@ -4,6 +4,8 @@ import SalesforceRestApi from "@ocdla/salesforce/SalesforceRestApi.js";
 import Job from "@ocdla/employment/Job.js";
 import Component from "./Component.js";
 import JobCard from "./JobCard.js";
+import Intro from "./Intro.js";
+
 
 
 
@@ -84,11 +86,16 @@ export default class JobList extends Component {
     //let message = props.error || props.message || "";
     let message = "";
     let fullWidth = this.fullWidth;
+    let intro = Intro();
 
     return (
       <div {
         ...fullWidth ? ({class: "full-container"}) : ("")
       }>
+        <div class="intro hiddenIntro">
+          {intro}
+        </div>
+
         <div style="color:red;" class="error">
           {message}
         </div>
