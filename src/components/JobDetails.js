@@ -31,21 +31,19 @@ export default class JobDetails extends Component {
           <div class="card-header">
             <h2 class="card-title">
               <a href="#" class="btn btn-secondary">Exit Page</a>
-              <div>Job Title: {job.title}</div>
+              <div>Job Title: {job.title}</div> <br/>
+              <h5 class="card-subtitle mb-2 text-muted">{job.employer} - {job.location}</h5>
             </h2>
           </div>
           <div class="card-body">
+            <h5 class="card-subtitle mb-2 text-muted">Date Closing: {colloquial(job.closingDate)}</h5>
             <h5 class="card-subtitle mb-2 text-muted">Open Until Filled? {job.openUntilFilled ? ("Yes") : ("No")}</h5>
-            <h5 class="card-subtitle mb-2 text-muted">Company: {job.employer}</h5>
-            <p class="card-text"><strong>Location:</strong> {job.location}</p>
             <p class="card-text"><strong>Salary:</strong> {job.salary}</p>
-            <p class="card-text"><strong>Attachments: {job.fileUrl}</strong></p>
-            <p class="card-text"><strong>Description:</strong></p>
             <p class="card-text">{job.description}</p>
-
+            <p class="card-text">{job.fileUrl}</p>
           </div>
           <div class="card-footer text-muted">
-            Posted on: {colloquial(job.postingDate)}
+            Posted: {colloquial(job.postingDate)}
           </div>
         </div>
       </div>
