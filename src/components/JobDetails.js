@@ -29,7 +29,10 @@ export default class JobDetails extends Component {
       <div class="container mt-5 stickyexample">
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">Job Title: {job.title}</h2>
+            <h2 class="card-title">
+              <span style="margin: auto">Job Title: {job.title}</span>
+              <a href="#" style="float: right; margin-top: 0" class="btn btn-secondary">Exit Page</a>
+            </h2>
           </div>
           <div class="card-body">
             <h5 class="card-subtitle mb-2 text-muted">Open Until Filled? {job.openUntilFilled ? ("Yes") : ("No")}</h5>
