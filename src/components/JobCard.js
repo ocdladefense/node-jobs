@@ -14,12 +14,9 @@ const JobCard = function(props) {
                 <h1>{job.title}</h1>
             </div>
             <p>
-                <strong>Employer:</strong> {job.employer} <br />
-                <strong>Salary:</strong> {job.salary} <br />
-                <strong>Location:</strong> {job.location} <br />
-                <strong>Date Posted:</strong> {colloquial(job.postingDate)} <br />
-                <strong>Date Closing:</strong> {colloquial(job.closingDate)} <br />
-                <strong>Open until filled:</strong> {job.openUntilFilled ? 'Yes' : 'No'}<br />
+                <span class="text-secondary">{job.employer} - {job.location}</span> <br />
+                <strong>Salary:</strong> {job.salary} <br /> <hr />
+                <div class="text">{job.description}</div>
             </p>
             <div class="footer">
                 
@@ -31,6 +28,8 @@ const JobCard = function(props) {
                         <a href="#" class="btn btn-secondary" data-id={job.id} data-action="delete">Delete</a>
                     </span>
                 )}
+            <br /> 
+            <span class="text-secondary">Posted {colloquial(job.postingDate)} (Closed {colloquial(job.closingDate)}) </span>
             </div>
         </div>
     );
