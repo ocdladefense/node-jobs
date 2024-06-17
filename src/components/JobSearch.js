@@ -25,10 +25,10 @@ export default class JobSearch extends Component {
     return (
       <div class="container-fluid">
         <div class="row">
-          <div class="col-4">
+          <div class="col-4 hidden">
             {this.jobList.render()}
           </div>
-          <div class="col-8">
+          <div class="col-8 biggen">
             {this.jobDetails.render()}
           </div>
         </div>

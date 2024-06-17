@@ -26,12 +26,12 @@ export default class JobDetails extends Component {
     // job.fileUrl = ""; // THIS IS A TEMPORARY SOLUTION
 
     return (
-      <div class="container mt-5 stickyexample">
+      <div class="container sticky">
         <div class="card">
           <div class="card-header">
             <h2 class="card-title">
-              <span style="margin: auto">Job Title: {job.title}</span>
-              <a href="#" style="float: right; margin-top: 0" class="btn btn-secondary">Exit Page</a>
+              <a href="#" class="btn btn-secondary">Exit Page</a>
+              <div>Job Title: {job.title}</div>
             </h2>
           </div>
           <div class="card-body">

@@ -219,7 +219,6 @@ export default class JobForm extends Component {
     let job = this.record;
 
     return (
-      <div class="">
         <form
           id="record-form"
           method="post"
@@ -409,7 +408,6 @@ export default class JobForm extends Component {
             Cancel
           </button>
         </form>
-      </div>
     );
   }
 }

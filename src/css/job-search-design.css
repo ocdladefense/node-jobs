@@ -1,5 +1,58 @@
-.stickyexample {
+@media screen and (max-width: 800px) {
+  .hidden {
+    display: none;
+  }
+
+  .biggen {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sticky {
+    padding: 0;
+    margin: 0;
     position: -webkit-sticky; /* for browser compatibility */
     position: sticky;
     top: 0px;
   }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  h2 {
+    margin: 0px;
+    padding: 0;
+  }
+  h2 > div {
+    margin: 0px;
+    padding: 0;
+    width: 50%;
+    word-wrap: break-word;
+  }
+
+  h2 > a {
+    float: right; 
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@media screen and (min-width: 801px) {
+  .sticky {
+    position: -webkit-sticky; /* for browser compatibility */
+    position: sticky;
+    top: 50px;
+  }
+
+  h2 > span {
+    margin: auto
+  }
+
+  h2 > a {
+    float: right; 
+    margin-top: 0
+  }
+}
