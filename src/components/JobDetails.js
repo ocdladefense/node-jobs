@@ -52,9 +52,7 @@ export default class JobDetails extends Component {
 
   async loadData() {
     let resp = await this.api.query(
-      "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c, Description__c FROM Job__c WHERE Id = '" +
-      this.recordId +
-      "'"
+      `${QUERY} WHERE Id='${this.recordId}'`
     );
     let list = new RecordList(resp.records);
     this.record = list.getRecord(this.recordId);
