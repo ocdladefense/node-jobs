@@ -39,8 +39,9 @@ export default class JobList extends Component {
   async onRequestDelete(dataset) {
     let id = dataset.id;
     let resp = await this.api.delete("Job__c", id);
+    console.log(resp);
 
-    if(resp.ok) {
+    if(resp.ok || resp == true) {
       const e = new CustomEvent("rerender", { detail: this });
       document.dispatchEvent(e);
     }
