@@ -7,7 +7,9 @@
     "webpack": "webpack",
     "start": "react-scripts start",
     "build": "webpack --config webpack.config.js",
-    "watch": "webpack serve --open"
+    "watch": "webpack serve --open",
+    "sf-upsert": "sf data upsert bulk --sobject Job__c --file test-data/jobs.json --external-id Id",
+    "sf-import-tree": "sf data import tree --files test-data/jobs.json"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
