@@ -5,7 +5,7 @@ import Router from "./Router.js";
 import HttpClient from "@ocdla/lib-http/HttpClient.js";
 import SalesforceRecordsMock from "./SalesforceRecordsMock.js";
 import colloquial from "@ocdla/lib-date/DateConvert.js";
-import jsonData from '../test-data/jobs.json';
+import jsonData from '../../test-data/jobs.json';
 
 if(USE_MOCK_RECORDS) {
     HttpClient.register(INSTANCE_URL, new SalesforceRecordsMock(jsonData));
