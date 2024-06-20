@@ -1,0 +1,244 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef1"
+            },
+            "Name": "Attorney",
+            "Description__c": null,
+            "PostingDate__c": "2023-11-06",
+            "ClosingDate__c": null,
+            "Salary__c": "$80k + DOE",
+            "OpenUntilFilled__c": true
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef2"
+            },
+            "Name": "Legal Assistant",
+            "Description__c": null,
+            "PostingDate__c": "2021-05-04",
+            "ClosingDate__c": null,
+            "Salary__c": "DOE",
+            "OpenUntilFilled__c": true
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef3"
+            },
+            "Name": "Investigator",
+            "Description__c": null,
+            "PostingDate__c": "2021-05-04",
+            "ClosingDate__c": "2021-08-09",
+            "Salary__c": "DOE",
+            "OpenUntilFilled__c": false
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef4"
+            },
+            "Name": "Staff Attorney",
+            "Description__c": null,
+            "PostingDate__c": "2021-06-14",
+            "ClosingDate__c": "2021-06-30",
+            "Salary__c": "DOE",
+            "OpenUntilFilled__c": true
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef5"
+            },
+            "Name": "Office of Public Defense Services Interim Director",
+            "Description__c": null,
+            "PostingDate__c": "2021-05-12",
+            "ClosingDate__c": "2021-05-19",
+            "Salary__c": "commensurate w/experience, consistent w/PDSC/OPDS policy & state guidelines",
+            "OpenUntilFilled__c": false
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef6"
+            },
+            "Name": "Defense Attorney",
+            "Description__c": null,
+            "PostingDate__c": "2021-05-14",
+            "ClosingDate__c": null,
+            "Salary__c": "$99,000.00 to $198,000.00 annually",
+            "OpenUntilFilled__c": true
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef7"
+            },
+            "Name": "Bulletin Editor",
+            "Description__c": null,
+            "PostingDate__c": "2021-05-14",
+            "ClosingDate__c": "2021-05-31",
+            "Salary__c": "$6,500 per month",
+            "OpenUntilFilled__c": false
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef8"
+            },
+            "Name": "Legal Assistant",
+            "Description__c": null,
+            "PostingDate__c": "2021-05-19",
+            "ClosingDate__c": "2021-06-09",
+            "Salary__c": "$17.45 - $20.94 per hour DOE",
+            "OpenUntilFilled__c": false
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef9"
+            },
+            "Name": "Diversity & Inclusion Specialist",
+            "Description__c": null,
+            "PostingDate__c": "2021-05-19",
+            "ClosingDate__c": "2021-06-11",
+            "Salary__c": "$30 per hour",
+            "OpenUntilFilled__c": false
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef10"
+            },
+            "Name": "Criminal Defense Attorney with Linn Defenders, Inc.",
+            "Description__c": null,
+            "PostingDate__c": "2021-06-02",
+            "ClosingDate__c": null,
+            "Salary__c": "15,833.00",
+            "OpenUntilFilled__c": true
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef11"
+            },
+            "Name": "Oregon Law Foundation Executive Director and Chief Access to Justice Officer",
+            "Description__c": null,
+            "PostingDate__c": "2021-06-11",
+            "ClosingDate__c": null,
+            "Salary__c": "$11,600 per month",
+            "OpenUntilFilled__c": true
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef12"
+            },
+            "Name": "Attorney",
+            "Description__c": null,
+            "PostingDate__c": "2021-06-14",
+            "ClosingDate__c": null,
+            "Salary__c": "$65,287 DOE&Q",
+            "OpenUntilFilled__c": true
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef13"
+            },
+            "Name": "Lawyer",
+            "Description__c": null,
+            "PostingDate__c": "2020-11-23",
+            "ClosingDate__c": null,
+            "Salary__c": "TBD",
+            "OpenUntilFilled__c": true
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef14"
+            },
+            "Name": "MDI Executive Director",
+            "Description__c": null,
+            "PostingDate__c": "2020-11-23",
+            "ClosingDate__c": "2020-12-18",
+            "Salary__c": "$125,000-140,000",
+            "OpenUntilFilled__c": false
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef15"
+            },
+            "Name": "Part-Time U.S. Magistrate Judge",
+            "Description__c": null,
+            "PostingDate__c": "2020-11-18",
+            "ClosingDate__c": "2021-01-15",
+            "Salary__c": "$79,635 annually",
+            "OpenUntilFilled__c": false
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef16"
+            },
+            "Name": "Program Coordinator",
+            "Description__c": null,
+            "PostingDate__c": "2020-11-10",
+            "ClosingDate__c": null,
+            "Salary__c": "$30/hour",
+            "OpenUntilFilled__c": true
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef17"
+            },
+            "Name": "Lawyer",
+            "Description__c": null,
+            "PostingDate__c": "2020-11-04",
+            "ClosingDate__c": "2020-12-30",
+            "Salary__c": "DOE",
+            "OpenUntilFilled__c": false
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef18"
+            },
+            "Name": "Judicial Clerk to Honorable Steffan Alexander",
+            "Description__c": null,
+            "PostingDate__c": "2020-11-03",
+            "ClosingDate__c": null,
+            "Salary__c": "$38,388-$66,804",
+            "OpenUntilFilled__c": true
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef19"
+            },
+            "Name": "Entry level trial attorney",
+            "Description__c": null,
+            "PostingDate__c": "2020-10-19",
+            "ClosingDate__c": null,
+            "Salary__c": "TBD",
+            "OpenUntilFilled__c": true
+        },
+        {
+            "attributes": {
+                "type": "Job__c",
+                "referenceId": "Job__cRef20"
+            },
+            "Name": "PDMC Trial Attorney, Major Felonies",
+            "Description__c": null,
+            "PostingDate__c": "2021-02-24",
+            "ClosingDate__c": "2021-03-10",
+            "Salary__c": "Commensurate with qualifications and experience",
+            "OpenUntilFilled__c": false
+        }
+    ]
+}

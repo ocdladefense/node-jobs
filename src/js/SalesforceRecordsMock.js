@@ -12,14 +12,18 @@ Fusce et lectus et mauris ultricies ullamcorper non id purus. Curabitur dapibus 
 export default class SalesforceJobMock extends HttpMock {
   #list;
 
-  constructor() {
+  constructor(records) {
     super();
-
+    console.log(records);
     let tmp = [];
 
-    SalesforceJobMock.records.records.forEach((record) => {
+    let tmpIndex = 1;
+    records.forEach((record) => {
+      let id = record.Id || tmpIndex++;
+      record.Id = id;
       tmp.push([record.Id, record]);
     });
+    
 
     this.list = new Map(tmp);
   }

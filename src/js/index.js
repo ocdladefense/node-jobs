@@ -1,6 +1,7 @@
 import "../css/text-design.css";
 import "../css/card-design.css";
 import "../css/form-design.css";
+import mockData from "../data/Job__c.json";
 import Router from "./Router.js";
 import HttpClient from "@ocdla/lib-http/HttpClient.js";
 import SalesforceRecordsMock from "./SalesforceRecordsMock.js";
@@ -18,7 +19,7 @@ console.log(colloquial("2024-06-03")); //returns "in 3 days";
 
 
 if(USE_MOCK_RECORDS) {
-    HttpClient.register(INSTANCE_URL, new SalesforceRecordsMock());
+    HttpClient.register(INSTANCE_URL, new SalesforceRecordsMock(mockData.records));
 }
 
 let router = new Router("#job-container");
