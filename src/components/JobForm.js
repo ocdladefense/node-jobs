@@ -125,6 +125,7 @@ export default class JobForm extends Component {
 
   async onRequestDelete(recordId) {
     let resp = await this.api.delete("Job__c", recordId);
+    urlHash("#");
     return resp;
   }
 
@@ -179,8 +180,8 @@ export default class JobForm extends Component {
         // jobID = this.record.Id; // Use JobID 
         await this.uploadFile(file, jobID); // Calls the uploadFile method with the file obtained from the first line as an argument
       }
-
     }
+    urlHash("#");
   }
 
   // ---- CRUD methods ------
