@@ -9,7 +9,8 @@
     "build": "webpack --config webpack.config.js",
     "watch": "webpack serve --open",
     "sf-upsert": "sf data upsert bulk --sobject Job__c --file test-data/jobs.json --external-id Id",
-    "sf-import-tree": "sf data import tree --files test-data/jobs.json"
+    "sf-import-tree": "sf data import tree --files test-data/jobs.json",
+    "sf-login": "sf org login web && sf org display --target-org interns@ocdla.org.muchmore"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
