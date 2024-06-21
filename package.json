@@ -8,8 +8,8 @@
     "start": "react-scripts start",
     "build": "webpack --config webpack.config.js",
     "watch": "webpack serve --open",
-    "sf-upsert": "sf data upsert bulk --sobject Job__c --file test-data/jobs.json --external-id Id",
-    "sf-import-tree": "sf data import tree --files test-data/jobs.json",
+    "sf-import-tree": "sf data import tree --files data/Job__c.json",
+    "sf-export-tree": "sf data export tree --query \"SELECT Name, Id, PostingDate__c, ClosingDate__c, Description__c, Location__c, Employer__c, AttachmentUrl__c, Salary__c  FROM Job__c\" --output-dir data",
     "sf-login": "sf org login web && sf org display --target-org interns@ocdla.org.muchmore"
   },
   "devDependencies": {

@@ -18,7 +18,10 @@ export default class SalesforceJobMock extends HttpMock {
 
     let tmp = [];
 
+    let i = 1;
     this.records.records.forEach((record) => {
+      let id = i++;
+      record.Id = id.toString();
       tmp.push([record.Id, record]);
     });
 
