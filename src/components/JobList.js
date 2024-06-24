@@ -38,18 +38,22 @@ export default class JobList extends Component {
 
   async onRequestDelete(dataset) {
     let id = dataset.id;
-    let resp = await this.api.delete("Job__c", id);
-    console.log(resp);
+    let resp;
+    if (window.confirm("Are you sure you want to delete this?")) {
+      resp = await this.api.delete("Job__c", id);
+    } else {
+      return false;
+    }
 
-    if(resp.ok || resp == true) {
+    if(resp === true) {
       const e = new CustomEvent("rerender", { detail: this });
       document.dispatchEvent(e);
+      return true;
     }
     else
     {
-      window.alert("An error occurred while deleting the record.");
+      throw new Error("An error occurred while deleting the record.");
     }
-
   }
 
 
