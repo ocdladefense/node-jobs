@@ -67,20 +67,27 @@ export default class Component {
 
     method = "onRequest" + this.toTitleCase(action);
 
+    // can I conditionally execute this code in a context where we need to get form data?
+    // record = this.getFormData();
+    // record = record.toSObject();
+
+    let result;
+
     try {
-      await this[method](dataset);
+      //result = await this[method](dataset, record);
+      result = await this[method](dataset);
       message = "The action was completed successfully.";
     }
     catch (e) {
       console.log(e, method);
-      message = e.message;
-      error = true;
+      window.alert(e.message);
+      return false;
     }
 
-    window.alert(message);
+    // if result is false, nothing needs to be done
+    if (!result) return;
 
-    // For forms, don't move on to the next page if there was an error.
-    if (error) return false;
+    window.alert(message);
 
     // window.location.assign("#");
     return false;
