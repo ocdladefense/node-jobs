@@ -40,7 +40,7 @@
   "dependencies": {
     "@ocdla/employment": "^0.1.0",
     "@ocdla/lib-date": "^0.1.0",
-    "@ocdla/salesforce": "^0.4.1",
+    "@ocdla/salesforce": "~0.4.1",
     "@ocdla/view": "~2.3.0",
     "axios": "^1.6.8",
     "babel-loader": "^8.2.5",
