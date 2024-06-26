@@ -5,6 +5,8 @@
 
 /** @jsx vNode */
 import { vNode, View } from "@ocdla/view";
+import Job from "@ocdla/employment/Job.js";
+
 
 export default class Component {
   root;
@@ -54,6 +56,8 @@ export default class Component {
     let message = "";
     let method;
     let error = false;
+    let record;
+    let type = e.type; // click or submit
 
     if (dataset == null || action == null) {
       return false;
@@ -67,16 +71,21 @@ export default class Component {
 
     method = "onRequest" + this.toTitleCase(action);
 
-    // can I conditionally execute this code in a context where we need to get form data?
-    // record = this.getFormData();
-    // record = record.toSObject();
+    // Getting form data if needed
+    if (action == "save") {
+      record = this.getFormData();
+      record = record.toSObject();
+      dataset = record;
+    }
 
     let result;
 
     try {
-      //result = await this[method](dataset, record);
       result = await this[method](dataset);
       message = "The action was completed successfully.";
+      if (result.status >= 200 && result.status <= 299) {
+        return true;
+      }
     }
     catch (e) {
       console.log(e, method);
@@ -89,10 +98,24 @@ export default class Component {
 
     window.alert(message);
 
-    // window.location.assign("#");
+    // For forms, don't move on to the next page if there was an error.
+    if (error) return false;
+
+    //urlHash("#");
     return false;
   }
+
+  getFormData() {
+    let formEl = document.getElementById("record-form");
+    let formData = new FormData(formEl);
+  
+    return Job.fromFormData(formData);
+  }
+
 }
+
+
+
 // For future use.
 // Don't worry about these.
 export function useState(initialValue) {
