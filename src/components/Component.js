@@ -7,7 +7,6 @@
 import { vNode, View } from "@ocdla/view";
 import Job from "@ocdla/employment/Job.js";
 
-
 export default class Component {
   root;
   actions = [];
@@ -81,9 +80,12 @@ export default class Component {
 
     try {
       result = await this[method](dataset);
-      message = "The action was completed successfully.";
       if (result.status >= 200 && result.status <= 299 || result == true) {
+        message = "The action was completed successfully.";
         return true;
+      } else if (result.status >= 400 && result.status <= 499 || result == false) {
+        message = "The action was not completed successfully.";
+        return false;
       }
     }
     catch (e) {

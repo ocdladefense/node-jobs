@@ -29,7 +29,7 @@ export default class JobForm extends Component {
     }
 
     let resp = await this.api.query(
-      "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c FROM Job__c WHERE Id = '" +
+      "SELECT OwnerId, Id, Name, Description__c, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c FROM Job__c WHERE Id = '" +
         this.recordId +
         "'"
     );
@@ -130,6 +130,7 @@ export default class JobForm extends Component {
       }
     }
     urlHash("#");
+    console.log(response);
     return response;
   }
 
