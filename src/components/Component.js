@@ -111,6 +111,26 @@ export default class Component {
     return Job.fromFormData(formData);
   }
 
+  async onRequestDelete(dataset) {
+    let id = dataset.id;
+    let resp;
+    if (window.confirm("Are you sure you want to delete this?")) {
+      resp = await this.api.delete("Job__c", id);
+    } else {
+      return false;
+    }
+
+    if(resp === true) {
+      const e = new CustomEvent("rerender", { detail: this });
+      document.dispatchEvent(e);
+      return true;
+    }
+    else
+    {
+      throw new Error("An error occurred while deleting the record.");
+    }
+  }
+
 }
 
 

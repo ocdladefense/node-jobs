@@ -121,12 +121,6 @@ export default class JobForm extends Component {
     }
   }
 
-  async onRequestDelete(recordId) {
-    let resp = await this.api.delete("Job__c", recordId);
-    urlHash("#");
-    return resp;
-  }
-
   getFileInput(id) {
     // Get the file input element by its ID
     let elem = document.getElementById(id);
@@ -401,7 +395,7 @@ export default class JobForm extends Component {
           {job.id == "" || job.id == undefined ? (
             ""
           ) : (
-            <input class="btn btn-danger" type="submit" data-action="delete" value="Delete" />
+            <input class="btn btn-danger" type="submit" data-action="delete" data-id={job.id} value="Delete" />
           )}
           <button class="btn btn-secondary" type="button" value="Cancel" data-action="cancel">
             Cancel

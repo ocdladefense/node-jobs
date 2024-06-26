@@ -23,21 +23,6 @@ export default class JobSearch extends Component {
     this.api = new SalesforceRestApi(INSTANCE_URL, ACCESS_TOKEN);
   }
 
-  async onRequestDelete(dataset) {
-    let id = dataset.id;
-    let resp = await this.api.delete("Job__c", id);
-    console.log(resp);
-
-    if(resp.ok || resp == true) {
-      const e = new CustomEvent("rerender", { detail: this });
-      document.dispatchEvent(e);
-    }
-    else
-    {
-      window.alert("An error occurred while deleting the record.");
-    }
-  }
-
   render() {
   
     return (
