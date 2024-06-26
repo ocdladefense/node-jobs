@@ -35,7 +35,9 @@ export default class JobForm extends Component {
     );
     let list = new RecordList(resp.records);
     let record = list.getRecord(this.recordId);
-    this.record = Job.fromSObject(record);
+    if (record) { // if record is falsy (null) then this line will be skipped, avoiding an error
+      this.record = Job.fromSObject(record);
+    }
   }
 
   // --- end of crud -----
@@ -50,51 +52,6 @@ export default class JobForm extends Component {
 
     return Job.fromFormData(formData);
   }
-
-  // async handleEvent(e) {
-  //   // When an error occurs, the message will be displayed to the user.
-  //   // But then, what do we want to happen?  Do go back to the list if there an error?
-  //   // Or do we stay on the page and display the error message?
-  //   // Also validations errors - we obbserved that the error message is displayed, but the form is still submitted.
-  //   let target = e.target;
-  //   let dataset = target.dataset;
-  //   let action = target.dataset.action;
-  //   let record;
-  //   let method;
-  //   let error = false;
-  //   let type = e.type; // click or submit
-
-  //   let message;
-
-  //   if (dataset == null || action == null) {
-  //     return false;
-  //   }
-  //   e.preventDefault();
-  //   e.stopPropagation();
-
-  //   if (!this.actions.includes(action)) {
-  //     return false;
-  //   }
-
-  //   method = "onRequest" + this.toTitleCase(action);
-
-  //   record = this.getFormData();
-  //   record = record.toSObject();
-
-  //   try {
-  //     await this[method](record);
-  //     message = "The action was completed successfully.";
-  //   } catch (e) {
-  //     console.log(e, method);
-  //     message = e.message;
-  //     error = true;
-  //   }
-
-  //   window.alert(message);
-
-  //   // For forms, don't move on to the next page if there was an error.
-  //   if (error) return false;
-  // }
 
   async uploadFile(file, jobID) {
     const formData = new FormData();

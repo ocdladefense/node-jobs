@@ -82,7 +82,7 @@ export default class Component {
     try {
       result = await this[method](dataset);
       message = "The action was completed successfully.";
-      if (result.status >= 200 && result.status <= 299) {
+      if (result.status >= 200 && result.status <= 299 || result == true) {
         return true;
       }
     }
@@ -121,8 +121,16 @@ export default class Component {
     }
 
     if(resp === true) {
-      const e = new CustomEvent("rerender", { detail: this });
-      document.dispatchEvent(e);
+      //using the existance of a recordId to determine if this was a delete that needs to rerender self, or go back to #
+      if (!this.recordId) // no recordId: we are on # and should rerender self
+      { 
+        const e = new CustomEvent("rerender", { detail: this });
+        document.dispatchEvent(e);
+      } 
+      else //there is recordId, go back to #
+      {
+        urlHash("#");
+      }
       return true;
     }
     else
