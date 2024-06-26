@@ -56,30 +56,6 @@ export default class JobList extends Component {
     }
   }
 
-
-  // async onRequestDelete(job) {
-  //   let message;
-  //   let userId = USER_ID;
-
-  //   if (!job.isOwner(userId)) {
-  //     throw new Error("You don't have permission to perform this action.");
-  //   }
-
-  //   try {
-  //     await this.deleteJob(job.id);
-  //     message = "The record was deleted.";
-  //   } catch (e) {
-  //     message = e.message;
-  //   }
-
-  //   await this.loadData(this.records);
-
-  //   return;
-  // }
-
- 
-
-
   async loadData() {
       let resp = await this.api.query(QUERY);
       this.records = resp.records.map((record) => Job.fromSObject(record));

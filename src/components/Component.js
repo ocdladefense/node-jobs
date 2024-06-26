@@ -57,7 +57,6 @@ export default class Component {
     let method;
     let error = false;
     let record;
-    let type = e.type; // click or submit
 
     if (dataset == null || action == null) {
       return false;
