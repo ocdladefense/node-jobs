@@ -72,6 +72,7 @@ export default class SalesforceJobMock extends HttpMock {
   }
 
   updateRecord(recordId, job) {
+    job.Id = recordId;
     return this.list.set(recordId, job);
   }
 
