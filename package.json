@@ -8,6 +8,7 @@
     "start": "react-scripts start",
     "build": "webpack --config webpack.config.js",
     "watch": "webpack serve --open",
+    "update": "package-json-merge package.json package-overrides.json > package.json",
     "sf-import-tree": "sf data import tree --files data/Job__c.json",
     "sf-export-tree": "sf data export tree --query \"SELECT Name, Id, PostingDate__c, ClosingDate__c, Description__c, Location__c, Employer__c, AttachmentUrl__c, Salary__c  FROM Job__c\" --output-dir data",
     "sf-login": "sf org login web && sf org display --target-org interns@ocdla.org.muchmore"
