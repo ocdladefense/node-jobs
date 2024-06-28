@@ -3,6 +3,8 @@
 
 /my-notes.md
 
+package-overrides.json
+
 /uploads/*
 !/uploads/.gitkeep
 
