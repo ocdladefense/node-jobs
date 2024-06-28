@@ -1,18 +1,26 @@
-# Installation
-Add installation instructions here...
+# ocdladefense/node-jobs
+A job posting board written in JavaScript/JSX to facilitate user interactions with Job records in Salesforce.
 
 
-# Dependencies (if any)
-
-
-# Known bugs
-* Delete from list is not working.
-* Toggle between details and list views.
+## Installation
+Clone this repository.  Run <code>npm update</code> and <code>npm run build</code>.  Enjoy.
 
 
 
+## Build features
+This repo supports a <code>npm run update</code> command to merge <code>package-overrides.json</code> into <code>package.json</code>.  The <code>package-json-merge</code> package is required for this command.
 
-### Setup (done)
+
+## Dependencies (if any)
+* <code>Babel</code> and <code>@ocdla/view</code> for front-end rendering and components.
+* <code>@ocdla/lib-http</code> to facilitate caching and outbound <code>fetch()</code> requests and responses.
+* <code>@ocdla/salesforce</code> to connect to OCDLA's Salesforce instance.
+
+## Known bugs
+
+
+
+## Setup (done)
 * create a git repository 
 * create a project in that repository
 * add webpack and npm to the project 
