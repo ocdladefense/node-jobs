@@ -29,13 +29,15 @@ export default class JobForm extends Component {
     }
 
     let resp = await this.api.query(
-      "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c FROM Job__c WHERE Id = '" +
+      "SELECT OwnerId, Id, Name, Description__c, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c FROM Job__c WHERE Id = '" +
         this.recordId +
         "'"
     );
     let list = new RecordList(resp.records);
     let record = list.getRecord(this.recordId);
-    this.record = Job.fromSObject(record);
+    if (record) { // if record is falsy (null) then this line will be skipped, avoiding an error
+      this.record = Job.fromSObject(record);
+    }
   }
 
   // --- end of crud -----
@@ -49,53 +51,6 @@ export default class JobForm extends Component {
     let formData = new FormData(formEl);
 
     return Job.fromFormData(formData);
-  }
-
-  async handleEvent(e) {
-    // When an error occurs, the message will be displayed to the user.
-    // But then, what do we want to happen?  Do go back to the list if there an error?
-    // Or do we stay on the page and display the error message?
-    // Also validations errors - we obbserved that the error message is displayed, but the form is still submitted.
-    let target = e.target;
-    let dataset = target.dataset;
-    let action = target.dataset.action;
-    let record;
-    let method;
-    let error = false;
-    let type = e.type; // click or submit
-
-    let message;
-
-    if (dataset == null || action == null) {
-      return false;
-    }
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!this.actions.includes(action)) {
-      return false;
-    }
-
-    method = "onRequest" + this.toTitleCase(action);
-
-    record = this.getFormData();
-    record = record.toSObject();
-
-    try {
-      await this[method](record);
-      message = "The action was completed successfully.";
-    } catch (e) {
-      console.log(e, method);
-      message = e.message;
-      error = true;
-    }
-
-    window.alert(message);
-
-    // For forms, don't move on to the next page if there was an error.
-    if (error) return false;
-
-    //urlHash('#');
   }
 
   async uploadFile(file, jobID) {
@@ -121,11 +76,6 @@ export default class JobForm extends Component {
     } else {
       return false;
     }
-  }
-
-  async onRequestDelete(recordId) {
-    let resp = await this.api.delete("Job__c", recordId);
-    return resp;
   }
 
   getFileInput(id) {
@@ -155,32 +105,33 @@ export default class JobForm extends Component {
 
   // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
 
-  async onRequestSave(dataset) {
+  async onRequestSave(record) {
     let isValid = this.validateSubmission();
 
     if (!isValid) {
       throw new Error("There are errors in your form.");
     }
 
-    let record = this.getFormData();
-    record = record.toSObject();
     let jobID;
+    let response;
 
     if (!!record.Id) {
-      await this.updateRecord(record);
+      response = await this.updateRecord(record);
       jobID = record.Id;
     } else {
       let file = this.getFirstFile("file-upload"); // Retrieves and returns the first file selected by the user
 
-      let response = await this.createRecord(record);
+      response = await this.createRecord(record);
       jobID = response.id;
 
       if(file != null ) {
         // jobID = this.record.Id; // Use JobID 
         await this.uploadFile(file, jobID); // Calls the uploadFile method with the file obtained from the first line as an argument
       }
-
     }
+    urlHash("#");
+    console.log(response);
+    return response;
   }
 
   // ---- CRUD methods ------
@@ -219,7 +170,6 @@ export default class JobForm extends Component {
     let job = this.record;
 
     return (
-      <div class="form-container">
         <form
           id="record-form"
           method="post"
@@ -397,19 +347,18 @@ export default class JobForm extends Component {
             <div class="invalid-feedback form-text fs-6"></div>
           </div>
 
-          <button type="submit" data-action="save" value="Save">
+          <submit class="btn btn-primary" type="submit" data-action="save" value="Save">
             Save
-          </button>
+          </submit>
           {job.id == "" || job.id == undefined ? (
             ""
           ) : (
-            <input type="submit" data-action="delete" value="Delete" />
+            <input class="btn btn-danger" type="submit" data-action="delete" data-id={job.id} value="Delete" />
           )}
-          <button type="button" value="Cancel" data-action="cancel">
+          <button class="btn btn-secondary" type="button" value="Cancel" data-action="cancel">
             Cancel
           </button>
         </form>
-      </div>
     );
   }
 }

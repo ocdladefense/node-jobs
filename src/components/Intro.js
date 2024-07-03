@@ -1,7 +1,9 @@
+/** @jsx vNode */
+import { vNode, View } from "@ocdla/view";
 
 const Intro = function() {
     return (
-        <div class="intro">
+        <div>
             <h1>OCDLA Jobs</h1>
 
             <p>
@@ -18,3 +20,5 @@ const Intro = function() {
         </div>
     );
 };
+
+export default Intro;

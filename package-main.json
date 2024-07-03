@@ -18,7 +18,7 @@
     "@babel/core": "^7.19.1",
     "@babel/preset-env": "^7.19.1",
     "@babel/preset-react": "^7.14.5",
-    "@ocdla/view": "file:./dev_modules/@ocdla/view",
+    "@ocdla/view": "~2.3.0",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
@@ -42,7 +42,7 @@
     "@ocdla/employment": "^0.1.0",
     "@ocdla/lib-date": "^0.1.0",
     "@ocdla/salesforce": "~0.4.1",
-    "@ocdla/view": "file:./dev_modules/@ocdla/view",
+    "@ocdla/view": "~2.3.0",
     "axios": "^1.6.8",
     "babel-loader": "^8.2.5",
     "bootstrap": "^5.2.1",
@@ -54,9 +54,5 @@
     "multer": "^1.4.5-lts.1",
     "regenerator-runtime": "^0.13.9",
     "toastr": "^2.1.4"
-  },
-  "overrides": {
-    "@ocdla/lib-http": "file:../../../dev_modules/@ocdla/lib-http",
-    "@ocdla/view": "file:./dev_modules/@ocdla/view"
   }
 }

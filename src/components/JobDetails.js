@@ -26,23 +26,24 @@ export default class JobDetails extends Component {
     // job.fileUrl = ""; // THIS IS A TEMPORARY SOLUTION
 
     return (
-      <div class="container mt-5 stickyexample">
+      <div class="container sticky">
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">Job Title: {job.title}</h2>
+            <h2 class="card-title">
+              <a href="#" class="btn btn-secondary">Exit Page</a>
+              <div>Job Title: {job.title}</div> <br/>
+              <h5 class="card-subtitle mb-2 text-muted">{job.employer} - {job.location}</h5>
+            </h2>
           </div>
           <div class="card-body">
+            <h5 class="card-subtitle mb-2 text-muted">Date Closing: {colloquial(job.closingDate)}</h5>
             <h5 class="card-subtitle mb-2 text-muted">Open Until Filled? {job.openUntilFilled ? ("Yes") : ("No")}</h5>
-            <h5 class="card-subtitle mb-2 text-muted">Company: {job.employer}</h5>
-            <p class="card-text"><strong>Location:</strong> {job.location}</p>
             <p class="card-text"><strong>Salary:</strong> {job.salary}</p>
-            <p class="card-text"><strong>Attachments: {job.fileUrl}</strong></p>
-            <p class="card-text"><strong>Description:</strong></p>
             <p class="card-text">{job.description}</p>
-
+            <p class="card-text">{job.fileUrl}</p>
           </div>
           <div class="card-footer text-muted">
-            Posted on: {colloquial(job.postingDate)}
+            Posted: {colloquial(job.postingDate)}
           </div>
         </div>
       </div>
@@ -51,9 +52,7 @@ export default class JobDetails extends Component {
 
   async loadData() {
     let resp = await this.api.query(
-      "SELECT OwnerId, Id, Name, Salary__c, PostingDate__c, ClosingDate__c, AttachmentUrl__c, Employer__c, Location__c, OpenUntilFilled__c, Description__c FROM Job__c WHERE Id = '" +
-      this.recordId +
-      "'"
+      `${QUERY} WHERE Id='${this.recordId}'`
     );
     let list = new RecordList(resp.records);
     this.record = list.getRecord(this.recordId);

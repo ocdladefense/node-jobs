@@ -26,3 +26,7 @@
     border: solid;
     border-width: 1px;
 }
+
+form {
+    margin: 5px;
+}

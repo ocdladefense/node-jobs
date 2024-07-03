@@ -5,6 +5,7 @@
 
 /** @jsx vNode */
 import { vNode, View } from "@ocdla/view";
+import Job from "@ocdla/employment/Job.js";
 
 export default class Component {
   root;
@@ -54,6 +55,7 @@ export default class Component {
     let message = "";
     let method;
     let error = false;
+    let record;
 
     if (dataset == null || action == null) {
       return false;
@@ -67,25 +69,82 @@ export default class Component {
 
     method = "onRequest" + this.toTitleCase(action);
 
+    // Getting form data if needed
+    if (action == "save") {
+      record = this.getFormData();
+      record = record.toSObject();
+      dataset = record;
+    }
+
+    let result;
+
     try {
-      await this[method](dataset);
-      message = "The action was completed successfully.";
+      result = await this[method](dataset);
+      if (result.status >= 200 && result.status <= 299 || result == true) {
+        message = "The action was completed successfully.";
+        return true;
+      } else if (result.status >= 400 && result.status <= 499 || result == false) {
+        message = "The action was not completed successfully.";
+        return false;
+      }
     }
     catch (e) {
       console.log(e, method);
-      message = e.message;
-      error = true;
+      window.alert(e.message);
+      return false;
     }
+
+    // if result is false, nothing needs to be done
+    if (!result) return;
 
     window.alert(message);
 
     // For forms, don't move on to the next page if there was an error.
     if (error) return false;
 
-    // window.location.assign("#");
+    //urlHash("#");
     return false;
   }
+
+  getFormData() {
+    let formEl = document.getElementById("record-form");
+    let formData = new FormData(formEl);
+  
+    return Job.fromFormData(formData);
+  }
+
+  async onRequestDelete(dataset) {
+    let id = dataset.id;
+    let resp;
+    if (window.confirm("Are you sure you want to delete this?")) {
+      resp = await this.api.delete("Job__c", id);
+    } else {
+      return false;
+    }
+
+    if(resp === true) {
+      //using the existance of a recordId to determine if this was a delete that needs to rerender self, or go back to #
+      if (!this.recordId) // no recordId: we are on # and should rerender self
+      { 
+        const e = new CustomEvent("rerender", { detail: this });
+        document.dispatchEvent(e);
+      } 
+      else //there is recordId, go back to #
+      {
+        urlHash("#");
+      }
+      return true;
+    }
+    else
+    {
+      throw new Error("An error occurred while deleting the record.");
+    }
+  }
+
 }
+
+
+
 // For future use.
 // Don't worry about these.
 export function useState(initialValue) {
